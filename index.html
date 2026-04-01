@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UML Master Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f7f2;
+      --card: #ffffff;
+      --ink: #14213d;
+      --muted: #4b5563;
+      --brand: #0f766e;
+      --brand-2: #2563eb;
+      --ring: #d1d5db;
+      --shadow: 0 12px 36px rgba(15, 23, 42, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, #d1fae5 0%, transparent 35%),
+        radial-gradient(circle at 100% 0%, #dbeafe 0%, transparent 35%),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    .hero {
+      padding: 2.5rem 1rem 1.25rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.8rem);
+      letter-spacing: 0.3px;
+    }
+
+    .hero p {
+      margin: 0.75rem auto 0;
+      max-width: 980px;
+      color: var(--muted);
+      font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+    }
+
+    .wrap {
+      width: min(1400px, calc(100% - 1.25rem));
+      margin: 0 auto 1.25rem;
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: linear-gradient(90deg, #f8fafc, #ecfeff);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .tab-btn {
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #0f172a;
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      font: 600 0.9rem "Space Grotesk", sans-serif;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn:hover { transform: translateY(-1px); }
+
+    .tab-btn.active {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    .frame-shell {
+      padding: 0.75rem;
+      background: #f8fafc;
+    }
+
+    iframe {
+      width: 100%;
+      height: 82vh;
+      border: 1px solid var(--ring);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .note {
+      padding: 0 1rem 1rem;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      iframe { height: 78vh; }
+      .tabs { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>UML Practice Mega Website</h1>
+    <p>Everything is combined in one responsive hub: the full 40 Class Diagram questions and the full 5 Use Case + Class Diagram systems.</p>
+  </header>
+
+  <main class="wrap">
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="class40">Class Diagram — 40 Questions</button>
+      <button class="tab-btn" data-tab="usecase5">Use Case + Class — 5 Systems</button>
+    </nav>
+
+    <section class="pane active" id="class40">
+      <div class="frame-shell">
+        <iframe src="class-diagram-40.html" title="Class Diagram 40 Questions"></iframe>
+      </div>
+    </section>
+
+    <section class="pane" id="usecase5">
+      <div class="frame-shell">
+        <iframe src="usecase-class-5.html" title="Use Case and Class 5 Questions"></iframe>
+      </div>
+    </section>
+
+    <p class="note">Tip: open this `index.html` file directly in your browser. Both full documents are preserved and viewable in mobile/desktop.</p>
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panes = document.querySelectorAll('.pane');
+    const frames = document.querySelectorAll('iframe');
+
+    function resizeFrame(frame) {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (!doc) return;
+        const h = Math.max(
+          doc.body.scrollHeight,
+          doc.documentElement.scrollHeight,
+          700
+        );
+        frame.style.height = `${h + 8}px`;
+      } catch (_) {
+        // Same-origin local files should work; ignore if blocked.
+      }
+    }
+
+    frames.forEach((frame) => {
+      frame.addEventListener('load', () => resizeFrame(frame));
+    });
+
+    window.addEventListener('resize', () => {
+      frames.forEach((frame) => resizeFrame(frame));
+    });
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('active'));
+        panes.forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+        const activeFrame = document.querySelector(`#${btn.dataset.tab} iframe`);
+        if (activeFrame) resizeFrame(activeFrame);
+      });
+    });
+  </script>
+</body>
+</html>

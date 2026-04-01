@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Diagram — 40 Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:radial-gradient(circle at 0% 0%,#dcfce7 0,transparent 30%),radial-gradient(circle at 100% 0%,#dbeafe 0,transparent 28%),#f5f5ef}
+.page-header{background:linear-gradient(135deg,#1e1e2e,#0c4a6e);color:white;padding:28px 36px}
+.page-header h1{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;letter-spacing:.2px}
+.page-header p{font-size:14px;color:#7dd3fc}
+.legend-bar{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 28px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.legend-bar span{font-size:12px;font-weight:500}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px 20px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.qcard{background:white;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden;margin-bottom:4px}
+.qcard-header{padding:12px 16px 8px;border-bottom:1px solid #f3f4f6}
+.qtag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.t-assoc{background:#dbeafe;color:#1e40af}
+.t-agg{background:#dcfce7;color:#15803d}
+.t-comp{background:#fce7f3;color:#9d174d}
+.t-inh{background:#ede9fe;color:#6d28d9}
+.t-dep{background:#ffedd5;color:#c2410c}
+.t-real{background:#ccfbf1;color:#0f766e}
+.t-mix{background:#fef3c7;color:#92400e}
+.qscene{font-size:13px;color:#374151;line-height:1.6;margin-bottom:6px}
+.qtrick{font-size:11px;padding:5px 10px;border-radius:6px;margin-top:4px}
+.tr-assoc{background:#eff6ff;color:#1e40af;border-left:3px solid #3b82f6}
+.tr-agg{background:#f0fdf4;color:#15803d;border-left:3px solid #22c55e}
+.tr-comp{background:#fdf2f8;color:#9d174d;border-left:3px solid #ec4899}
+.tr-inh{background:#f5f3ff;color:#6d28d9;border-left:3px solid #8b5cf6}
+.tr-dep{background:#fff7ed;color:#c2410c;border-left:3px solid #f97316}
+.tr-real{background:#f0fdfa;color:#0f766e;border-left:3px solid #14b8a6}
+.tr-mix{background:#fffbeb;color:#92400e;border-left:3px solid #f59e0b}
+.diagram-area{padding:10px 14px 14px;background:#fafafa;overflow-x:auto}
+svg{font-family:'Source Sans 3',sans-serif;display:block;min-width:460px}
+/* class box */
+.cb{fill:#f8fafc;stroke:#374151;stroke-width:1.5}
+.ch-b{fill:#1e3a8a}.ch-g{fill:#14532d}.ch-p{fill:#4c1d95}
+.ch-o{fill:#7c2d12}.ch-t{fill:#134e4a}.ch-pk{fill:#831843}
+.ch-r{fill:#7f1d1d}.ch-gr{fill:#374151}.ch-cy{fill:#0c4a6e}
+.cn{fill:white;font-size:13px;font-weight:700;text-anchor:middle}
+.cst{fill:white;font-size:10px;font-style:italic;text-anchor:middle}
+.ca{fill:#1e1e1e;font-size:11px}
+.cm{fill:#1d4ed8;font-size:11px}
+.cd{stroke:#e5e7eb;stroke-width:1;fill:none}
+/* relationship lines */
+.rl-assoc{stroke:#374151;stroke-width:1.8;fill:none}
+.rl-agg{stroke:#15803d;stroke-width:1.8;fill:none}
+.rl-comp{stroke:#9d174d;stroke-width:1.8;fill:none}
+.rl-inh{stroke:#6d28d9;stroke-width:1.8;fill:none}
+.rl-dep{stroke:#c2410c;stroke-width:1.8;stroke-dasharray:6 3;fill:none}
+.rl-real{stroke:#0f766e;stroke-width:1.8;stroke-dasharray:6 3;fill:none}
+.rm{fill:#374151;font-size:10px;text-anchor:middle}
+.rn{fill:#1e1e1e;font-size:10px;font-style:italic;text-anchor:middle}
+.rmult{fill:#374151;font-size:10px}
+.section-title{padding:16px 20px 6px;font-size:13px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase}
+.footer{background:#1e1e2e;color:white;padding:20px 32px;margin-top:24px;text-align:center;font-size:13px}
+/* relation legend items */
+.rel-legend{display:flex;align-items:center;gap:6px}
+@media(max-width:760px){
+  .page-header{padding:20px 14px}
+  .legend-bar{padding:10px 12px}
+  .grid{padding:12px 10px 0;gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>Class Diagram — 40 Practice Questions</h1>
+  <p>Every question has a scenario + complete class diagram focused on relationships: Association, Aggregation, Composition, Inheritance, Dependency, Realization</p>
+</div>
+
+<div class="legend-bar">
+  <div class="rel-legend"><svg width="36" height="14"><line x1="0" y1="7" x2="30" y2="7" stroke="#374151" stroke-width="2"/><polygon points="30,3 36,7 30,11" fill="#374151"/></svg><span>Association</span></div>
+  <div class="rel-legend"><svg width="44" height="14"><line x1="12" y1="7" x2="38" y2="7" stroke="#15803d" stroke-width="2"/><polygon points="38,3 44,7 38,11" fill="#15803d"/><polygon points="0,7 6,3 12,7 6,11" fill="white" stroke="#15803d" stroke-width="1.5"/></svg><span>Aggregation (hollow ◇)</span></div>
+  <div class="rel-legend"><svg width="44" height="14"><line x1="12" y1="7" x2="38" y2="7" stroke="#9d174d" stroke-width="2"/><polygon points="38,3 44,7 38,11" fill="#9d174d"/><polygon points="0,7 6,3 12,7 6,11" fill="#9d174d" stroke="#9d174d" stroke-width="1.5"/></svg><span>Composition (filled ◆)</span></div>
+  <div class="rel-legend"><svg width="44" height="14"><line x1="0" y1="7" x2="32" y2="7" stroke="#6d28d9" stroke-width="2"/><polygon points="32,3 44,7 32,11" fill="white" stroke="#6d28d9" stroke-width="1.5"/></svg><span>Inheritance (hollow △)</span></div>
+  <div class="rel-legend"><svg width="44" height="14"><line x1="0" y1="7" x2="30" y2="7" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 3"/><polygon points="30,3 44,7 30,11" fill="#c2410c"/></svg><span>Dependency (dashed)</span></div>
+  <div class="rel-legend"><svg width="44" height="14"><line x1="0" y1="7" x2="30" y2="7" stroke="#0f766e" stroke-width="2" stroke-dasharray="5 3"/><polygon points="30,3 44,7 30,11" fill="white" stroke="#0f766e" stroke-width="1.5"/></svg><span>Realization (dashed △)</span></div>
+</div>
+
+<!-- SVG DEFS -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <marker id="arr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#374151"/></marker>
+  <marker id="arr-g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="arr-pk" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#9d174d"/></marker>
+  <marker id="arr-inh" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#6d28d9" stroke-width="1.5"/></marker>
+  <marker id="arr-dep" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#c2410c"/></marker>
+  <marker id="arr-real" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#0f766e" stroke-width="1.5"/></marker>
+  <marker id="diam-agg" markerWidth="14" markerHeight="9" refX="0" refY="4.5" orient="auto"><polygon points="0,4.5 7,0 14,4.5 7,9" fill="white" stroke="#15803d" stroke-width="1.5"/></marker>
+  <marker id="diam-comp" markerWidth="14" markerHeight="9" refX="0" refY="4.5" orient="auto"><polygon points="0,4.5 7,0 14,4.5 7,9" fill="#9d174d" stroke="#9d174d" stroke-width="1"/></marker>
+</defs>
+</svg>
+
+<!-- ═══ SECTION 1: ASSOCIATION ═══ -->
+<div class="section-title">Questions 1–8 — Association Relationships</div>
+<div class="grid">
+
+<!-- Q1 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q1 — Association (One-to-Many)</div>
+  <div class="qscene">A <strong>Customer</strong> can place many <strong>Orders</strong>. Each Order belongs to exactly one Customer. Orders have an orderID, orderDate, and totalAmount.</div>
+  <div class="qtrick tr-assoc">TRICK: Association = simple relationship. Arrow → from the class that "uses" or "knows about" the other. Multiplicity: 1 on Customer side, * on Order side.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="200" viewBox="0 0 460 200">
+  <!-- Customer -->
+  <rect x="20" y="30" width="160" height="140" rx="4" class="cb"/>
+  <rect x="20" y="30" width="160" height="32" rx="4" class="ch-b"/>
+  <text x="100" y="51" class="cn">Customer</text>
+  <line x1="20" y1="62" x2="180" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- customerID: String</text>
+  <text x="28" y="92" class="ca">- name: String</text>
+  <text x="28" y="106" class="ca">- email: String</text>
+  <line x1="20" y1="114" x2="180" y2="114" class="cd"/>
+  <text x="28" y="130" class="cm">+ placeOrder(): Order</text>
+  <text x="28" y="144" class="cm">+ viewOrders(): List</text>
+  <text x="28" y="158" class="cm">+ cancelOrder(): void</text>
+  <!-- Order -->
+  <rect x="280" y="30" width="160" height="140" rx="4" class="cb"/>
+  <rect x="280" y="30" width="160" height="32" rx="4" class="ch-g"/>
+  <text x="360" y="51" class="cn">Order</text>
+  <line x1="280" y1="62" x2="440" y2="62" class="cd"/>
+  <text x="288" y="78" class="ca">- orderID: String</text>
+  <text x="288" y="92" class="ca">- orderDate: Date</text>
+  <text x="288" y="106" class="ca">- totalAmount: Double</text>
+  <line x1="280" y1="114" x2="440" y2="114" class="cd"/>
+  <text x="288" y="130" class="cm">+ calculateTotal(): Double</text>
+  <text x="288" y="144" class="cm">+ updateStatus(): void</text>
+  <!-- Association line -->
+  <line x1="180" y1="100" x2="278" y2="100" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="229" y="90" class="rm">places</text>
+  <text x="172" y="115" class="rmult">1</text>
+  <text x="268" y="115" class="rmult">*</text>
+  <!-- multiplicity label -->
+  <text x="20" y="192" style="fill:#6b7280;font-size:10px">1 Customer places many Orders</text>
+</svg>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q2 — Association (Many-to-Many)</div>
+  <div class="qscene">A <strong>Student</strong> can enroll in many <strong>Courses</strong>. A Course can have many Students enrolled. This is a many-to-many relationship requiring an association class <strong>Enrollment</strong>.</div>
+  <div class="qtrick tr-assoc">TRICK: Many-to-many (*..*) → always needs an association class in the middle to store extra data (enrollmentDate, grade, etc.)</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="220" viewBox="0 0 460 220">
+  <!-- Student -->
+  <rect x="10" y="20" width="140" height="120" rx="4" class="cb"/>
+  <rect x="10" y="20" width="140" height="32" rx="4" class="ch-b"/>
+  <text x="80" y="41" class="cn">Student</text>
+  <line x1="10" y1="52" x2="150" y2="52" class="cd"/>
+  <text x="18" y="68" class="ca">- studentID: String</text>
+  <text x="18" y="82" class="ca">- name: String</text>
+  <text x="18" y="96" class="ca">- gpa: Double</text>
+  <line x1="10" y1="104" x2="150" y2="104" class="cd"/>
+  <text x="18" y="120" class="cm">+ enroll(): void</text>
+  <text x="18" y="134" class="cm">+ getCourses(): List</text>
+  <!-- Course -->
+  <rect x="310" y="20" width="140" height="120" rx="4" class="cb"/>
+  <rect x="310" y="20" width="140" height="32" rx="4" class="ch-p"/>
+  <text x="380" y="41" class="cn">Course</text>
+  <line x1="310" y1="52" x2="450" y2="52" class="cd"/>
+  <text x="318" y="68" class="ca">- courseID: String</text>
+  <text x="318" y="82" class="ca">- courseName: String</text>
+  <text x="318" y="96" class="ca">- creditHours: int</text>
+  <line x1="310" y1="104" x2="450" y2="104" class="cd"/>
+  <text x="318" y="120" class="cm">+ addStudent(): void</text>
+  <text x="318" y="134" class="cm">+ getStudents(): List</text>
+  <!-- Enrollment (association class) -->
+  <rect x="160" y="155" width="140" height="58" rx="4" class="cb" style="stroke:#374151;stroke-dasharray:4 2"/>
+  <rect x="160" y="155" width="140" height="24" rx="4" class="ch-gr"/>
+  <text x="230" y="171" class="cn" style="font-size:11px">«association»</text>
+  <text x="230" y="183" style="fill:white;font-size:10px;text-anchor:middle">Enrollment</text>
+  <line x1="160" y1="179" x2="300" y2="179" class="cd"/>
+  <text x="168" y="193" class="ca">- enrollDate: Date</text>
+  <text x="168" y="207" class="ca">- grade: String</text>
+  <!-- lines -->
+  <line x1="150" y1="80" x2="308" y2="80" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="229" y="70" class="rm">enrolls in</text>
+  <text x="142" y="96" class="rmult">*</text><text x="298" y="96" class="rmult">*</text>
+  <!-- association class connector (dashed) -->
+  <line x1="230" y1="80" x2="230" y2="153" stroke="#374151" stroke-width="1" stroke-dasharray="3 2"/>
+</svg>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q3 — Association (One-to-One)</div>
+  <div class="qscene">Each <strong>Employee</strong> is assigned exactly one <strong>WorkStation</strong>. A WorkStation is assigned to exactly one Employee. Neither can exist in this relationship without the other.</div>
+  <div class="qtrick tr-assoc">TRICK: One-to-One (1..1 — 1..1) is rare. Both sides have multiplicity 1. Arrow is bidirectional or shown as plain line. Different from composition because both exist independently.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="180" viewBox="0 0 460 180">
+  <rect x="20" y="30" width="160" height="120" rx="4" class="cb"/>
+  <rect x="20" y="30" width="160" height="32" rx="4" class="ch-t"/>
+  <text x="100" y="51" class="cn">Employee</text>
+  <line x1="20" y1="62" x2="180" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- employeeID: String</text>
+  <text x="28" y="92" class="ca">- name: String</text>
+  <text x="28" y="106" class="ca">- department: String</text>
+  <line x1="20" y1="114" x2="180" y2="114" class="cd"/>
+  <text x="28" y="130" class="cm">+ getWorkstation(): WS</text>
+  <text x="28" y="144" class="cm">+ login(): boolean</text>
+  <rect x="280" y="30" width="160" height="120" rx="4" class="cb"/>
+  <rect x="280" y="30" width="160" height="32" rx="4" class="ch-o"/>
+  <text x="360" y="51" class="cn">WorkStation</text>
+  <line x1="280" y1="62" x2="440" y2="62" class="cd"/>
+  <text x="288" y="78" class="ca">- wsID: String</text>
+  <text x="288" y="92" class="ca">- location: String</text>
+  <text x="288" y="106" class="ca">- osType: String</text>
+  <line x1="280" y1="114" x2="440" y2="114" class="cd"/>
+  <text x="288" y="130" class="cm">+ getEmployee(): Emp</text>
+  <text x="288" y="144" class="cm">+ checkStatus(): String</text>
+  <!-- Association line bidirectional -->
+  <line x1="180" y1="100" x2="278" y2="100" class="rl-assoc"/>
+  <text x="229" y="88" class="rm">assigned to</text>
+  <text x="170" y="116" class="rmult">1</text><text x="268" y="116" class="rmult">1</text>
+  <!-- arrows both sides -->
+  <polygon points="178,96 180,100 178,104" fill="#374151"/>
+  <polygon points="282,96 280,100 282,104" fill="#374151"/>
+  <text x="20" y="172" style="fill:#6b7280;font-size:10px">1 Employee ↔ exactly 1 WorkStation</text>
+</svg>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q4 — Association with Navigability</div>
+  <div class="qscene">A <strong>Doctor</strong> treats many <strong>Patients</strong>. The Doctor class needs to know about patients (navigable). But a Patient does NOT directly access Doctor information — they go through Appointments.</div>
+  <div class="qtrick tr-assoc">TRICK: Navigability = arrowhead shows direction of knowledge. Arrow on one side only = one-way navigation. No arrowhead = both can access each other (bidirectional).</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="190" viewBox="0 0 460 190">
+  <rect x="20" y="30" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="30" width="155" height="32" rx="4" class="ch-t"/>
+  <text x="97" y="51" class="cn">Doctor</text>
+  <line x1="20" y1="62" x2="175" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- doctorID: String</text>
+  <text x="28" y="92" class="ca">- specialization: String</text>
+  <text x="28" y="106" class="ca">- contactInfo: String</text>
+  <line x1="20" y1="114" x2="175" y2="114" class="cd"/>
+  <text x="28" y="130" class="cm">+ getPatients(): List</text>
+  <text x="28" y="144" class="cm">+ writePresciption(): void</text>
+  <text x="28" y="158" class="cm">+ viewSchedule(): List</text>
+  <rect x="285" y="30" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="30" width="155" height="32" rx="4" class="ch-pk"/>
+  <text x="362" y="51" class="cn">Patient</text>
+  <line x1="285" y1="62" x2="440" y2="62" class="cd"/>
+  <text x="293" y="78" class="ca">- patientID: String</text>
+  <text x="293" y="92" class="ca">- name: String</text>
+  <text x="293" y="106" class="ca">- age: int</text>
+  <line x1="285" y1="114" x2="440" y2="114" class="cd"/>
+  <text x="293" y="130" class="cm">+ bookAppointment(): void</text>
+  <text x="293" y="144" class="cm">+ viewHistory(): List</text>
+  <!-- ONE-WAY navigable arrow (Doctor knows Patient, not vice versa) -->
+  <line x1="175" y1="100" x2="283" y2="100" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="229" y="88" class="rm">treats →</text>
+  <text x="168" y="116" class="rmult">1</text><text x="274" y="116" class="rmult">*</text>
+  <!-- X on patient end showing non-navigable -->
+  <text x="180" y="177" style="fill:#c2410c;font-size:10px">→ one-way: Doctor knows Patients, not reverse</text>
+</svg>
+</div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q5 — Association (Zero or more)</div>
+  <div class="qscene">A <strong>Librarian</strong> manages zero or more <strong>Books</strong>. A Book is managed by exactly one Librarian. Multiplicity on Book side is 0..* (a newly added librarian may not yet manage any books).</div>
+  <div class="qtrick tr-assoc">TRICK: 0..* means zero to many — the relationship is optional on that side. Compare with 1..* (at least one is required). Always write multiplicity near the class it describes.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-t"/>
+  <text x="97" y="46" class="cn">Librarian</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- librarianID: String</text>
+  <text x="28" y="87" class="ca">- name: String</text>
+  <text x="28" y="101" class="ca">- shiftTime: String</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ addBook(): void</text>
+  <text x="28" y="139" class="cm">+ removeBook(): void</text>
+  <text x="28" y="153" class="cm">+ updateBook(): void</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-g"/>
+  <text x="362" y="46" class="cn">Book</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- bookID: String</text>
+  <text x="293" y="87" class="ca">- title: String</text>
+  <text x="293" y="101" class="ca">- availabilityStatus: bool</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ checkAvailability(): bool</text>
+  <text x="293" y="139" class="cm">+ borrow(): void</text>
+  <text x="293" y="153" class="cm">+ reserve(): void</text>
+  <line x1="175" y1="90" x2="283" y2="90" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="229" y="79" class="rm">manages</text>
+  <text x="168" y="106" class="rmult">1</text><text x="274" y="106" class="rmult">0..*</text>
+  <text x="20" y="178" style="fill:#6b7280;font-size:10px">1 Librarian manages 0 or more Books (0..* = optional many)</text>
+</svg>
+</div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q6 — Association (Reflexive / Self-association)</div>
+  <div class="qscene">An <strong>Employee</strong> can manage other Employees. Each Employee has one manager (another Employee) and can manage zero or more subordinate Employees. This is a self-referencing association.</div>
+  <div class="qtrick tr-assoc">TRICK: Reflexive association = a class associated with itself. Draw an arrow from the class back to itself. Label both ends differently (manager / subordinate). Common in organizational hierarchy models.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="200" viewBox="0 0 460 200">
+  <rect x="140" y="20" width="180" height="150" rx="4" class="cb"/>
+  <rect x="140" y="20" width="180" height="32" rx="4" class="ch-gr"/>
+  <text x="230" y="41" class="cn">Employee</text>
+  <line x1="140" y1="52" x2="320" y2="52" class="cd"/>
+  <text x="148" y="68" class="ca">- employeeID: String</text>
+  <text x="148" y="82" class="ca">- name: String</text>
+  <text x="148" y="96" class="ca">- role: String</text>
+  <text x="148" y="110" class="ca">- salary: Double</text>
+  <line x1="140" y1="118" x2="320" y2="118" class="cd"/>
+  <text x="148" y="134" class="cm">+ getSubordinates(): List</text>
+  <text x="148" y="148" class="cm">+ getManager(): Employee</text>
+  <text x="148" y="162" class="cm">+ promote(): void</text>
+  <!-- Reflexive association loop -->
+  <path d="M 320 70 Q 420 70 420 130 Q 420 185 320 150" class="rl-assoc" fill="none" marker-end="url(#arr)"/>
+  <text x="370" y="65" class="rm">manages</text>
+  <text x="322" y="75" class="rmult">0..* sub</text>
+  <text x="322" y="148" class="rmult">0..1 mgr</text>
+  <text x="20" y="192" style="fill:#6b7280;font-size:10px">Self-association: Employee manages Employees (hierarchy)</text>
+</svg>
+</div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q7 — Association (with role names)</div>
+  <div class="qscene">A <strong>Bank Account</strong> is associated with a <strong>Person</strong>. The Person plays the role of "accountHolder" on one side. The Account plays the role of "ownedAccount" on the other side. One person can own multiple accounts.</div>
+  <div class="qtrick tr-assoc">TRICK: Role names go NEAR the class they describe, on the association line. They clarify the role each class plays in the relationship — different from multiplicity which is a number.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="30" width="155" height="120" rx="4" class="cb"/>
+  <rect x="20" y="30" width="155" height="32" rx="4" class="ch-b"/>
+  <text x="97" y="51" class="cn">Person</text>
+  <line x1="20" y1="62" x2="175" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- personID: String</text>
+  <text x="28" y="92" class="ca">- name: String</text>
+  <text x="28" y="106" class="ca">- dateOfBirth: Date</text>
+  <line x1="20" y1="114" x2="175" y2="114" class="cd"/>
+  <text x="28" y="130" class="cm">+ openAccount(): Account</text>
+  <text x="28" y="144" class="cm">+ getAccounts(): List</text>
+  <rect x="285" y="30" width="155" height="120" rx="4" class="cb"/>
+  <rect x="285" y="30" width="155" height="32" rx="4" class="ch-cy"/>
+  <text x="362" y="51" class="cn">BankAccount</text>
+  <line x1="285" y1="62" x2="440" y2="62" class="cd"/>
+  <text x="293" y="78" class="ca">- accountID: String</text>
+  <text x="293" y="92" class="ca">- balance: Double</text>
+  <text x="293" y="106" class="ca">- accountType: String</text>
+  <line x1="285" y1="114" x2="440" y2="114" class="cd"/>
+  <text x="293" y="130" class="cm">+ deposit(): void</text>
+  <text x="293" y="144" class="cm">+ withdraw(): void</text>
+  <line x1="175" y1="90" x2="283" y2="90" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="229" y="80" class="rm">owns</text>
+  <!-- role names -->
+  <text x="176" y="88" style="fill:#1d4ed8;font-size:9px;font-style:italic">accountHolder</text>
+  <text x="214" y="105" style="fill:#1d4ed8;font-size:9px;font-style:italic">ownedAccount</text>
+  <text x="168" y="110" class="rmult">1</text><text x="274" y="110" class="rmult">1..*</text>
+  <text x="20" y="178" style="fill:#6b7280;font-size:10px">Role names clarify what each class represents in the relationship</text>
+</svg>
+</div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-assoc">Q8 — Association (Ternary)</div>
+  <div class="qscene">A <strong>Teacher</strong> teaches a <strong>Course</strong> in a specific <strong>Classroom</strong>. This three-way relationship cannot be split into two binary associations without losing meaning — it is a ternary association.</div>
+  <div class="qtrick tr-assoc">TRICK: Ternary association = 3 classes connected to a diamond shape in the middle. Rare but used when the relationship only makes sense with all 3 parties together.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="220" viewBox="0 0 460 220">
+  <!-- Teacher -->
+  <rect x="10" y="10" width="130" height="90" rx="4" class="cb"/>
+  <rect x="10" y="10" width="130" height="28" rx="4" class="ch-t"/>
+  <text x="75" y="29" class="cn">Teacher</text>
+  <line x1="10" y1="38" x2="140" y2="38" class="cd"/>
+  <text x="18" y="52" class="ca">- teacherID: String</text>
+  <text x="18" y="66" class="ca">- name: String</text>
+  <line x1="10" y1="74" x2="140" y2="74" class="cd"/>
+  <text x="18" y="88" class="cm">+ getCourses(): List</text>
+  <!-- Course -->
+  <rect x="320" y="10" width="130" height="90" rx="4" class="cb"/>
+  <rect x="320" y="10" width="130" height="28" rx="4" class="ch-p"/>
+  <text x="385" y="29" class="cn">Course</text>
+  <line x1="320" y1="38" x2="450" y2="38" class="cd"/>
+  <text x="328" y="52" class="ca">- courseID: String</text>
+  <text x="328" y="66" class="ca">- courseName: String</text>
+  <line x1="320" y1="74" x2="450" y2="74" class="cd"/>
+  <text x="328" y="88" class="cm">+ getTeachers(): List</text>
+  <!-- Classroom -->
+  <rect x="160" y="140" width="140" height="70" rx="4" class="cb"/>
+  <rect x="160" y="140" width="140" height="28" rx="4" class="ch-o"/>
+  <text x="230" y="159" class="cn">Classroom</text>
+  <line x1="160" y1="168" x2="300" y2="168" class="cd"/>
+  <text x="168" y="182" class="ca">- roomID: String</text>
+  <text x="168" y="196" class="ca">- capacity: int</text>
+  <!-- Diamond (ternary) -->
+  <polygon points="230,75 260,90 230,105 200,90" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="230" y="94" style="fill:#92400e;font-size:9px;text-anchor:middle">teaches</text>
+  <!-- Lines to diamond -->
+  <line x1="140" y1="55" x2="200" y2="88" class="rl-assoc"/>
+  <line x1="320" y1="55" x2="260" y2="88" class="rl-assoc"/>
+  <line x1="230" y1="105" x2="230" y2="138" class="rl-assoc"/>
+  <text x="20" y="215" style="fill:#6b7280;font-size:10px">Ternary: Teacher teaches Course in Classroom (all 3 needed)</text>
+</svg>
+</div>
+</div>
+
+</div><!-- end grid -->
+
+<!-- ═══ SECTION 2: AGGREGATION ═══ -->
+<div class="section-title">Questions 9–16 — Aggregation &amp; Composition</div>
+<div class="grid">
+
+<!-- Q9 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-agg">Q9 — Aggregation (Weak "Has-a")</div>
+  <div class="qscene">A <strong>Team</strong> has many <strong>Players</strong>. If the Team is dissolved, the Players still exist — they can join other teams. The Player is independent of the Team's lifecycle.</div>
+  <div class="qtrick tr-agg">TRICK: Aggregation = hollow diamond ◇ on the OWNER side. Parts survive independently if owner is destroyed. Ask: "Can the part exist without the whole?" YES → Aggregation.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-g"/>
+  <text x="97" y="46" class="cn">Team</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- teamID: String</text>
+  <text x="28" y="87" class="ca">- teamName: String</text>
+  <text x="28" y="101" class="ca">- sport: String</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ addPlayer(): void</text>
+  <text x="28" y="139" class="cm">+ removePlayer(): void</text>
+  <text x="28" y="153" class="cm">+ getPlayers(): List</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-b"/>
+  <text x="362" y="46" class="cn">Player</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- playerID: String</text>
+  <text x="293" y="87" class="ca">- name: String</text>
+  <text x="293" y="101" class="ca">- position: String</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ getTeam(): Team</text>
+  <text x="293" y="139" class="cm">+ getStats(): String</text>
+  <text x="293" y="153" class="cm">+ joinTeam(): void</text>
+  <!-- Aggregation line: hollow diamond on Team side -->
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-agg" marker-end="url(#arr-g)" marker-start="url(#diam-agg)"/>
+  <text x="236" y="79" class="rm">has</text>
+  <text x="175" y="106" class="rmult" style="fill:#15803d">1</text><text x="274" y="106" class="rmult" style="fill:#15803d">1..*</text>
+  <text x="20" y="178" style="fill:#15803d;font-size:10px">◇ Hollow diamond: Players exist independently of Team</text>
+</svg>
+</div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-comp">Q10 — Composition (Strong "Part-of")</div>
+  <div class="qscene">A <strong>House</strong> is composed of <strong>Rooms</strong>. If the House is demolished, the Rooms cease to exist — they have no meaning without the House. Rooms cannot be moved to another House in this model.</div>
+  <div class="qtrick tr-comp">TRICK: Composition = filled diamond ◆ on the OWNER side. Parts CANNOT exist without the whole. Ask: "Can the part exist without the whole?" NO → Composition. Lifecycle is shared.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-pk"/>
+  <text x="97" y="46" class="cn">House</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- houseID: String</text>
+  <text x="28" y="87" class="ca">- address: String</text>
+  <text x="28" y="101" class="ca">- totalArea: Double</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ getRooms(): List</text>
+  <text x="28" y="139" class="cm">+ addRoom(): void</text>
+  <text x="28" y="153" class="cm">+ getTotalArea(): Double</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-o"/>
+  <text x="362" y="46" class="cn">Room</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- roomID: String</text>
+  <text x="293" y="87" class="ca">- roomType: String</text>
+  <text x="293" y="101" class="ca">- area: Double</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ getArea(): Double</text>
+  <text x="293" y="139" class="cm">+ getType(): String</text>
+  <text x="293" y="153" class="cm">+ getRoomID(): String</text>
+  <!-- Composition: filled diamond on House side -->
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="236" y="79" class="rm">composed of</text>
+  <text x="175" y="106" class="rmult" style="fill:#9d174d">1</text><text x="274" y="106" class="rmult" style="fill:#9d174d">1..*</text>
+  <text x="20" y="178" style="fill:#9d174d;font-size:10px">◆ Filled diamond: Rooms destroyed when House is destroyed</text>
+</svg>
+</div>
+</div>
+
+<!-- Q11 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-comp">Q11 — Composition (Order contains OrderItems)</div>
+  <div class="qscene">An <strong>Order</strong> contains one or more <strong>OrderItems</strong>. If the Order is deleted, all its OrderItems are also deleted — they have no meaning outside an Order.</div>
+  <div class="qtrick tr-comp">TRICK: OrderItem is a "part" of Order. You never have a free-floating OrderItem without an Order. This is classic composition. The whole controls the lifecycle of the parts.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-g"/>
+  <text x="97" y="46" class="cn">Order</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- orderID: String</text>
+  <text x="28" y="87" class="ca">- orderDate: Date</text>
+  <text x="28" y="101" class="ca">- totalAmount: Double</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ addItem(): void</text>
+  <text x="28" y="139" class="cm">+ removeItem(): void</text>
+  <text x="28" y="153" class="cm">+ calculateTotal(): Double</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-p"/>
+  <text x="362" y="46" class="cn">OrderItem</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- itemID: String</text>
+  <text x="293" y="87" class="ca">- productName: String</text>
+  <text x="293" y="101" class="ca">- quantity: int</text>
+  <text x="293" y="115" class="ca">- unitPrice: Double</text>
+  <line x1="285" y1="123" x2="440" y2="123" class="cd"/>
+  <text x="293" y="139" class="cm">+ getSubtotal(): Double</text>
+  <text x="293" y="153" class="cm">+ updateQty(): void</text>
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="236" y="78" class="rm">contains</text>
+  <text x="175" y="106" class="rmult" style="fill:#9d174d">1</text><text x="274" y="106" class="rmult" style="fill:#9d174d">1..*</text>
+</svg>
+</div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-agg">Q12 — Aggregation (Department has Employees)</div>
+  <div class="qscene">A <strong>Department</strong> aggregates many <strong>Employees</strong>. If the Department is closed, the Employees are not deleted — they can be reassigned to another department or become unemployed.</div>
+  <div class="qtrick tr-agg">TRICK: HR systems almost always use Aggregation (not Composition) for Department-Employee because employees exist independently. If you fire an employee, the department still exists and vice versa.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-o"/>
+  <text x="97" y="46" class="cn">Department</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- deptID: String</text>
+  <text x="28" y="87" class="ca">- deptName: String</text>
+  <text x="28" y="101" class="ca">- budget: Double</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ addEmployee(): void</text>
+  <text x="28" y="139" class="cm">+ getEmployees(): List</text>
+  <text x="28" y="153" class="cm">+ generateReport(): void</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-gr"/>
+  <text x="362" y="46" class="cn">Employee</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- employeeID: String</text>
+  <text x="293" y="87" class="ca">- name: String</text>
+  <text x="293" y="101" class="ca">- salary: Double</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ getSalary(): Double</text>
+  <text x="293" y="139" class="cm">+ getDept(): Department</text>
+  <text x="293" y="153" class="cm">+ performTask(): void</text>
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-agg" marker-end="url(#arr-g)" marker-start="url(#diam-agg)"/>
+  <text x="236" y="78" class="rm">has</text>
+  <text x="175" y="106" class="rmult" style="fill:#15803d">1</text><text x="274" y="106" class="rmult" style="fill:#15803d">1..*</text>
+  <text x="20" y="178" style="fill:#15803d;font-size:10px">◇ Aggregation: Employees survive if Department is closed</text>
+</svg>
+</div>
+</div>
+
+<!-- Q13 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-comp">Q13 — Composition (Car has Engine)</div>
+  <div class="qscene">A <strong>Car</strong> is composed of an <strong>Engine</strong>. The Engine exists only as part of this specific Car — it is designed and built for it. If the Car is scrapped, the Engine is scrapped too in this model.</div>
+  <div class="qtrick tr-comp">TRICK: In software modelling, Engine is always created inside Car and deleted with it. This differs from real life where you can swap engines — the model depends on the domain rules, not physical reality.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-b"/>
+  <text x="97" y="46" class="cn">Car</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- carID: String</text>
+  <text x="28" y="87" class="ca">- make: String</text>
+  <text x="28" y="101" class="ca">- model: String</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ start(): void</text>
+  <text x="28" y="139" class="cm">+ getEngine(): Engine</text>
+  <text x="28" y="153" class="cm">+ getSpecs(): String</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-r"/>
+  <text x="362" y="46" class="cn">Engine</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- engineID: String</text>
+  <text x="293" y="87" class="ca">- horsepower: int</text>
+  <text x="293" y="101" class="ca">- fuelType: String</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ start(): void</text>
+  <text x="293" y="139" class="cm">+ getHP(): int</text>
+  <text x="293" y="153" class="cm">+ checkStatus(): String</text>
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="236" y="78" class="rm">composed of</text>
+  <text x="175" y="106" class="rmult" style="fill:#9d174d">1</text><text x="274" y="106" class="rmult" style="fill:#9d174d">1</text>
+</svg>
+</div>
+</div>
+
+<!-- Q14 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-agg">Q14 — Aggregation vs Composition Decision</div>
+  <div class="qscene">A <strong>Playlist</strong> contains many <strong>Songs</strong>. If the Playlist is deleted, the Songs still exist in the music library. A <strong>MusicAlbum</strong> however contains <strong>Tracks</strong> that are deleted when the Album is deleted. Show both.</div>
+  <div class="qtrick tr-agg">TRICK: Same physical concept, different rules. Playlist→Song = Aggregation (songs independent). Album→Track = Composition (tracks deleted with album). Always ask: does the PART exist independently?</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="200" viewBox="0 0 460 200">
+  <!-- Playlist - Song (Aggregation) -->
+  <rect x="10" y="10" width="100" height="70" rx="4" class="cb"/>
+  <rect x="10" y="10" width="100" height="24" rx="4" class="ch-g"/>
+  <text x="60" y="26" class="cn" style="font-size:11px">Playlist</text>
+  <line x1="10" y1="34" x2="110" y2="34" class="cd"/>
+  <text x="18" y="48" class="ca">- name: String</text>
+  <text x="18" y="62" class="ca">- songs: List</text>
+  <line x1="10" y1="70" x2="110" y2="70" class="cd"/>
+  <text x="18" y="84" class="cm" style="font-size:10px">+ addSong(): void</text>
+
+  <rect x="200" y="10" width="100" height="70" rx="4" class="cb"/>
+  <rect x="200" y="10" width="100" height="24" rx="4" class="ch-b"/>
+  <text x="250" y="26" class="cn" style="font-size:11px">Song</text>
+  <line x1="200" y1="34" x2="300" y2="34" class="cd"/>
+  <text x="208" y="48" class="ca">- title: String</text>
+  <text x="208" y="62" class="ca">- duration: int</text>
+  <line x1="200" y1="70" x2="300" y2="70" class="cd"/>
+  <text x="208" y="84" class="cm" style="font-size:10px">+ play(): void</text>
+
+  <!-- Agg arrow -->
+  <line x1="124" y1="45" x2="198" y2="45" class="rl-agg" marker-end="url(#arr-g)" marker-start="url(#diam-agg)"/>
+  <text x="160" y="38" class="rm" style="fill:#15803d">◇ Agg</text>
+
+  <!-- MusicAlbum - Track (Composition) -->
+  <rect x="10" y="120" width="110" height="70" rx="4" class="cb"/>
+  <rect x="10" y="120" width="110" height="24" rx="4" class="ch-pk"/>
+  <text x="65" y="136" class="cn" style="font-size:11px">MusicAlbum</text>
+  <line x1="10" y1="144" x2="120" y2="144" class="cd"/>
+  <text x="18" y="158" class="ca">- albumID: String</text>
+  <text x="18" y="172" class="ca">- title: String</text>
+  <line x1="10" y1="180" x2="120" y2="180" class="cd"/>
+  <text x="18" y="194" class="cm" style="font-size:10px">+ addTrack(): void</text>
+
+  <rect x="200" y="120" width="100" height="70" rx="4" class="cb"/>
+  <rect x="200" y="120" width="100" height="24" rx="4" class="ch-o"/>
+  <text x="250" y="136" class="cn" style="font-size:11px">Track</text>
+  <line x1="200" y1="144" x2="300" y2="144" class="cd"/>
+  <text x="208" y="158" class="ca">- trackNum: int</text>
+  <text x="208" y="172" class="ca">- duration: int</text>
+  <line x1="200" y1="180" x2="300" y2="180" class="cd"/>
+  <text x="208" y="194" class="cm" style="font-size:10px">+ play(): void</text>
+
+  <!-- Comp arrow -->
+  <line x1="134" y1="155" x2="198" y2="155" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="164" y="148" class="rm" style="fill:#9d174d">◆ Comp</text>
+
+  <!-- Labels -->
+  <text x="310" y="50" style="fill:#15803d;font-size:10px">Songs survive</text>
+  <text x="310" y="62" style="fill:#15803d;font-size:10px">playlist deletion</text>
+  <text x="310" y="160" style="fill:#9d174d;font-size:10px">Tracks deleted</text>
+  <text x="310" y="172" style="fill:#9d174d;font-size:10px">with Album</text>
+</svg>
+</div>
+</div>
+
+<!-- Q15 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-comp">Q15 — Composition (Form contains Fields)</div>
+  <div class="qscene">A <strong>RegistrationForm</strong> is composed of many <strong>FormFields</strong> (name field, email field, phone field, etc.). FormFields only exist as part of a specific form — they have no identity outside it.</div>
+  <div class="qtrick tr-comp">TRICK: UI components that are created as part of a parent container are almost always Composition. The form "owns" and "creates" all its fields. Without the form, the fields mean nothing.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="10" y="25" width="175" height="130" rx="4" class="cb"/>
+  <rect x="10" y="25" width="175" height="32" rx="4" class="ch-cy"/>
+  <text x="97" y="46" class="cn">RegistrationForm</text>
+  <line x1="10" y1="57" x2="185" y2="57" class="cd"/>
+  <text x="18" y="73" class="ca">- formID: String</text>
+  <text x="18" y="87" class="ca">- formTitle: String</text>
+  <text x="18" y="101" class="ca">- submissionDate: Date</text>
+  <line x1="10" y1="109" x2="185" y2="109" class="cd"/>
+  <text x="18" y="125" class="cm">+ submit(): boolean</text>
+  <text x="18" y="139" class="cm">+ validate(): boolean</text>
+  <text x="18" y="153" class="cm">+ getFields(): List</text>
+  <rect x="285" y="25" width="160" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="160" height="32" rx="4" class="ch-r"/>
+  <text x="365" y="46" class="cn">FormField</text>
+  <line x1="285" y1="57" x2="445" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- fieldID: String</text>
+  <text x="293" y="87" class="ca">- fieldLabel: String</text>
+  <text x="293" y="101" class="ca">- fieldType: String</text>
+  <text x="293" y="115" class="ca">- required: boolean</text>
+  <line x1="285" y1="123" x2="445" y2="123" class="cd"/>
+  <text x="293" y="139" class="cm">+ getValue(): String</text>
+  <text x="293" y="153" class="cm">+ validate(): boolean</text>
+  <line x1="199" y1="90" x2="283" y2="90" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="241" y="78" class="rm">has</text>
+  <text x="183" y="106" class="rmult" style="fill:#9d174d">1</text><text x="273" y="106" class="rmult" style="fill:#9d174d">1..*</text>
+</svg>
+</div>
+</div>
+
+<!-- Q16 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-agg">Q16 — Aggregation (University has Faculties)</div>
+  <div class="qscene">A <strong>University</strong> aggregates many <strong>Faculties</strong>. Faculties can exist as separate legal entities if the university restructures or merges. A Faculty may also join a different university.</div>
+  <div class="qtrick tr-agg">TRICK: University-Faculty is aggregation because faculties can theoretically exist independently (they have their own identity, staff, programs). Compare with Composition where the part has NO independent existence.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="20" y="25" width="155" height="32" rx="4" class="ch-b"/>
+  <text x="97" y="46" class="cn">University</text>
+  <line x1="20" y1="57" x2="175" y2="57" class="cd"/>
+  <text x="28" y="73" class="ca">- universityID: String</text>
+  <text x="28" y="87" class="ca">- name: String</text>
+  <text x="28" y="101" class="ca">- location: String</text>
+  <line x1="20" y1="109" x2="175" y2="109" class="cd"/>
+  <text x="28" y="125" class="cm">+ addFaculty(): void</text>
+  <text x="28" y="139" class="cm">+ getFaculties(): List</text>
+  <text x="28" y="153" class="cm">+ generateReport(): void</text>
+  <rect x="285" y="25" width="155" height="130" rx="4" class="cb"/>
+  <rect x="285" y="25" width="155" height="32" rx="4" class="ch-p"/>
+  <text x="362" y="46" class="cn">Faculty</text>
+  <line x1="285" y1="57" x2="440" y2="57" class="cd"/>
+  <text x="293" y="73" class="ca">- facultyID: String</text>
+  <text x="293" y="87" class="ca">- facultyName: String</text>
+  <text x="293" y="101" class="ca">- dean: String</text>
+  <line x1="285" y1="109" x2="440" y2="109" class="cd"/>
+  <text x="293" y="125" class="cm">+ getDepartments(): List</text>
+  <text x="293" y="139" class="cm">+ addDepartment(): void</text>
+  <text x="293" y="153" class="cm">+ getStudentCount(): int</text>
+  <line x1="189" y1="90" x2="283" y2="90" class="rl-agg" marker-end="url(#arr-g)" marker-start="url(#diam-agg)"/>
+  <text x="236" y="78" class="rm">has</text>
+  <text x="175" y="106" class="rmult" style="fill:#15803d">1</text><text x="274" y="106" class="rmult" style="fill:#15803d">1..*</text>
+</svg>
+</div>
+</div>
+
+</div><!-- end grid -->
+
+<!-- ═══ SECTION 3: INHERITANCE ═══ -->
+<div class="section-title">Questions 17–24 — Inheritance (Generalization)</div>
+<div class="grid">
+
+<!-- Q17 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q17 — Inheritance (Simple)</div>
+  <div class="qscene">A <strong>Person</strong> is the superclass. <strong>Student</strong> and <strong>Teacher</strong> are subclasses. Both inherit name, age, and contactInfo from Person, but each adds their own specific attributes.</div>
+  <div class="qtrick tr-inh">TRICK: Inheritance = hollow triangle arrow FROM child TO parent. Child "IS-A" parent. Child inherits all attributes and methods of parent. Only show EXTRA attributes in child boxes — don't repeat parent attributes.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <!-- Person (parent) -->
+  <rect x="140" y="10" width="180" height="120" rx="4" class="cb"/>
+  <rect x="140" y="10" width="180" height="32" rx="4" class="ch-gr"/>
+  <text x="230" y="31" class="cn">Person</text>
+  <text x="230" y="42" class="cst">«abstract»</text>
+  <line x1="140" y1="48" x2="320" y2="48" class="cd"/>
+  <text x="148" y="64" class="ca">- name: String</text>
+  <text x="148" y="78" class="ca">- age: int</text>
+  <text x="148" y="92" class="ca">- contactInfo: String</text>
+  <line x1="140" y1="100" x2="320" y2="100" class="cd"/>
+  <text x="148" y="116" class="cm">+ login(): boolean</text>
+  <text x="148" y="130" class="cm">+ getInfo(): String</text>
+  <!-- Student -->
+  <rect x="20" y="178" width="155" height="50" rx="4" class="cb"/>
+  <rect x="20" y="178" width="155" height="28" rx="4" class="ch-b"/>
+  <text x="97" y="196" class="cn">Student</text>
+  <line x1="20" y1="206" x2="175" y2="206" class="cd"/>
+  <text x="28" y="220" class="ca">- studentID: String  - gpa: Double</text>
+  <!-- Teacher -->
+  <rect x="285" y="178" width="155" height="50" rx="4" class="cb"/>
+  <rect x="285" y="178" width="155" height="28" rx="4" class="ch-t"/>
+  <text x="362" y="196" class="cn">Teacher</text>
+  <line x1="285" y1="206" x2="440" y2="206" class="cd"/>
+  <text x="293" y="220" class="ca">- teacherID: String  - salary: Double</text>
+  <!-- Inheritance arrows -->
+  <line x1="97" y1="178" x2="204" y2="130" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="362" y1="178" x2="258" y2="130" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <text x="230" y="165" style="fill:#6d28d9;font-size:10px;text-anchor:middle">Child ──▷ Parent (hollow triangle)</text>
+</svg>
+</div>
+</div>
+
+<!-- Q18 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q18 — Inheritance (Multi-level)</div>
+  <div class="qscene"><strong>Animal</strong> → <strong>Mammal</strong> → <strong>Dog</strong>. Dog inherits from Mammal which inherits from Animal. This is multi-level (3-tier) inheritance. Each level adds more specific attributes.</div>
+  <div class="qtrick tr-inh">TRICK: Multi-level inheritance = a chain of arrows going upward. Each subclass inherits from its immediate parent, which in turn inherited from its parent. Don't repeat inherited attributes at lower levels.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="240" viewBox="0 0 460 240">
+  <!-- Animal -->
+  <rect x="140" y="10" width="180" height="60" rx="4" class="cb"/>
+  <rect x="140" y="10" width="180" height="28" rx="4" class="ch-gr"/>
+  <text x="230" y="28" class="cn">Animal</text>
+  <line x1="140" y1="38" x2="320" y2="38" class="cd"/>
+  <text x="148" y="54" class="ca">- name: String  - age: int</text>
+  <text x="148" y="68" class="cm">+ eat(): void  + breathe(): void</text>
+  <!-- Mammal -->
+  <rect x="140" y="100" width="180" height="60" rx="4" class="cb"/>
+  <rect x="140" y="100" width="180" height="28" rx="4" class="ch-g"/>
+  <text x="230" y="118" class="cn">Mammal</text>
+  <line x1="140" y1="128" x2="320" y2="128" class="cd"/>
+  <text x="148" y="144" class="ca">- furColor: String</text>
+  <text x="148" y="158" class="cm">+ feedYoung(): void</text>
+  <!-- Dog -->
+  <rect x="140" y="190" width="180" height="50" rx="4" class="cb"/>
+  <rect x="140" y="190" width="180" height="28" rx="4" class="ch-b"/>
+  <text x="230" y="208" class="cn">Dog</text>
+  <line x1="140" y1="218" x2="320" y2="218" class="cd"/>
+  <text x="148" y="234" class="ca">- breed: String  + bark(): void</text>
+  <!-- Arrows -->
+  <line x1="230" y1="100" x2="230" y2="70" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="230" y1="190" x2="230" y2="160" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- annotations -->
+  <text x="334" y="50" style="fill:#374151;font-size:10px">Level 1</text>
+  <text x="334" y="140" style="fill:#15803d;font-size:10px">Level 2</text>
+  <text x="334" y="215" style="fill:#1d4ed8;font-size:10px">Level 3</text>
+</svg>
+</div>
+</div>
+
+<!-- Q19 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q19 — Inheritance (Multiple Subclasses)</div>
+  <div class="qscene">A <strong>Vehicle</strong> superclass has three subclasses: <strong>Car</strong>, <strong>Truck</strong>, and <strong>Motorcycle</strong>. All three inherit from Vehicle but each has unique attributes (numDoors, cargoCapacity, hasSidecar).</div>
+  <div class="qtrick tr-inh">TRICK: Multiple subclasses from one parent = fan of arrows all pointing up to the same parent. Each subclass gets its own box showing ONLY its extra attributes. This is horizontal inheritance breadth.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="225" viewBox="0 0 460 225">
+  <!-- Vehicle parent -->
+  <rect x="130" y="10" width="200" height="80" rx="4" class="cb"/>
+  <rect x="130" y="10" width="200" height="28" rx="4" class="ch-gr"/>
+  <text x="230" y="28" class="cn">Vehicle</text>
+  <line x1="130" y1="38" x2="330" y2="38" class="cd"/>
+  <text x="138" y="54" class="ca">- vehicleID: String</text>
+  <text x="138" y="68" class="ca">- make: String  - speed: int</text>
+  <line x1="130" y1="76" x2="330" y2="76" class="cd"/>
+  <text x="138" y="90" class="cm">+ start(): void  + stop(): void</text>
+  <!-- Car -->
+  <rect x="10" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="10" y="165" width="120" height="24" rx="4" class="ch-b"/>
+  <text x="70" y="181" class="cn">Car</text>
+  <line x1="10" y1="189" x2="130" y2="189" class="cd"/>
+  <text x="18" y="203" class="ca">- numDoors: int</text>
+  <text x="18" y="215" class="ca">+ openTrunk(): void</text>
+  <!-- Truck -->
+  <rect x="170" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="170" y="165" width="120" height="24" rx="4" class="ch-o"/>
+  <text x="230" y="181" class="cn">Truck</text>
+  <line x1="170" y1="189" x2="290" y2="189" class="cd"/>
+  <text x="178" y="203" class="ca">- cargoCapacity: int</text>
+  <text x="178" y="215" class="ca">+ loadCargo(): void</text>
+  <!-- Motorcycle -->
+  <rect x="330" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="330" y="165" width="120" height="24" rx="4" class="ch-pk"/>
+  <text x="390" y="181" class="cn">Motorcycle</text>
+  <line x1="330" y1="189" x2="450" y2="189" class="cd"/>
+  <text x="338" y="203" class="ca">- hasSidecar: bool</text>
+  <text x="338" y="215" class="ca">+ wheelie(): void</text>
+  <!-- Inheritance arrows -->
+  <line x1="70" y1="165" x2="193" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="230" y1="165" x2="230" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="390" y1="165" x2="272" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+</svg>
+</div>
+</div>
+
+<!-- Q20 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q20 — Inheritance (Abstract Class)</div>
+  <div class="qscene">A <strong>Shape</strong> abstract class cannot be instantiated directly. <strong>Circle</strong> and <strong>Rectangle</strong> are concrete subclasses. Shape defines an abstract method calculateArea() that both subclasses must override.</div>
+  <div class="qtrick tr-inh">TRICK: Abstract class = written in italics or with «abstract» stereotype. Abstract methods in italics inside the class box. Subclasses must implement all abstract methods or be abstract themselves.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <!-- Shape abstract -->
+  <rect x="130" y="10" width="200" height="90" rx="4" class="cb"/>
+  <rect x="130" y="10" width="200" height="28" rx="4" class="ch-p"/>
+  <text x="230" y="24" class="cst">«abstract»</text>
+  <text x="230" y="36" class="cn">Shape</text>
+  <line x1="130" y1="44" x2="330" y2="44" class="cd"/>
+  <text x="138" y="60" class="ca">- color: String</text>
+  <text x="138" y="74" class="ca">- borderWidth: Double</text>
+  <line x1="130" y1="82" x2="330" y2="82" class="cd"/>
+  <text x="138" y="96" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ calculateArea(): Double</text>
+  <text x="138" y="108" style="fill:#6b7280;font-size:10px">// abstract method</text>
+  <!-- Circle -->
+  <rect x="20" y="170" width="155" height="58" rx="4" class="cb"/>
+  <rect x="20" y="170" width="155" height="24" rx="4" class="ch-t"/>
+  <text x="97" y="186" class="cn">Circle</text>
+  <line x1="20" y1="194" x2="175" y2="194" class="cd"/>
+  <text x="28" y="208" class="ca">- radius: Double</text>
+  <text x="28" y="222" class="cm">+ calculateArea(): π*r²</text>
+  <!-- Rectangle -->
+  <rect x="285" y="170" width="165" height="58" rx="4" class="cb"/>
+  <rect x="285" y="170" width="165" height="24" rx="4" class="ch-r"/>
+  <text x="367" y="186" class="cn">Rectangle</text>
+  <line x1="285" y1="194" x2="450" y2="194" class="cd"/>
+  <text x="293" y="208" class="ca">- width: Double  - height: Double</text>
+  <text x="293" y="222" class="cm">+ calculateArea(): w*h</text>
+  <!-- Inheritance arrows -->
+  <line x1="97" y1="170" x2="196" y2="100" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="367" y1="170" x2="268" y2="100" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <text x="230" y="155" style="fill:#6d28d9;font-size:10px;text-anchor:middle">Both override calculateArea()</text>
+</svg>
+</div>
+</div>
+
+<!-- Q21 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q21 — Inheritance (Payment types)</div>
+  <div class="qscene">Abstract <strong>Payment</strong> class is the parent. <strong>CashPayment</strong>, <strong>VisaPayment</strong>, and <strong>OnlineTransfer</strong> are concrete children. Each implements processPayment() differently.</div>
+  <div class="qtrick tr-inh">TRICK: Payment type hierarchy is a classic exam scenario. All children share: paymentID, amount, date. Each adds unique fields. processPayment() is overridden (polymorphism). Very common in all system designs.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <rect x="120" y="10" width="220" height="85" rx="4" class="cb"/>
+  <rect x="120" y="10" width="220" height="28" rx="4" class="ch-p"/>
+  <text x="230" y="24" class="cst">«abstract»</text>
+  <text x="230" y="36" class="cn">Payment</text>
+  <line x1="120" y1="44" x2="340" y2="44" class="cd"/>
+  <text x="128" y="60" class="ca">- paymentID: String</text>
+  <text x="128" y="74" class="ca">- amount: Double  - date: Date</text>
+  <line x1="120" y1="82" x2="340" y2="82" class="cd"/>
+  <text x="128" y="96" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ processPayment(): bool</text>
+  <!-- CashPayment -->
+  <rect x="10" y="172" width="120" height="56" rx="4" class="cb"/>
+  <rect x="10" y="172" width="120" height="24" rx="4" class="ch-g"/>
+  <text x="70" y="188" class="cn" style="font-size:11px">CashPayment</text>
+  <line x1="10" y1="196" x2="130" y2="196" class="cd"/>
+  <text x="18" y="210" class="ca">- cashierID: String</text>
+  <text x="18" y="224" class="cm">+ processPayment()</text>
+  <!-- VisaPayment -->
+  <rect x="170" y="172" width="120" height="56" rx="4" class="cb"/>
+  <rect x="170" y="172" width="120" height="24" rx="4" class="ch-b"/>
+  <text x="230" y="188" class="cn" style="font-size:11px">VisaPayment</text>
+  <line x1="170" y1="196" x2="290" y2="196" class="cd"/>
+  <text x="178" y="210" class="ca">- cardNumber: String</text>
+  <text x="178" y="224" class="cm">+ processPayment()</text>
+  <!-- OnlineTransfer -->
+  <rect x="330" y="172" width="120" height="56" rx="4" class="cb"/>
+  <rect x="330" y="172" width="120" height="24" rx="4" class="ch-cy"/>
+  <text x="390" y="188" class="cn" style="font-size:11px">OnlineTransfer</text>
+  <line x1="330" y1="196" x2="450" y2="196" class="cd"/>
+  <text x="338" y="210" class="ca">- bankRef: String</text>
+  <text x="338" y="224" class="cm">+ processPayment()</text>
+  <!-- Inheritance arrows -->
+  <line x1="70" y1="172" x2="196" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="230" y1="172" x2="230" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="390" y1="172" x2="266" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+</svg>
+</div>
+</div>
+
+<!-- Q22 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q22 — Inheritance (User types)</div>
+  <div class="qscene">Abstract <strong>User</strong> has subclasses: <strong>Admin</strong>, <strong>Member</strong>, and <strong>Guest</strong>. All share login() and logout(). Admin adds manageSystem(), Member adds viewContent(), Guest can only browsePublic().</div>
+  <div class="qtrick tr-inh">TRICK: User hierarchy is the most common class diagram in exams. Always: abstract parent → concrete children with IS-A relationship. Check: "Is Admin a User?" YES → inheritance correct.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="225" viewBox="0 0 460 225">
+  <rect x="120" y="10" width="220" height="80" rx="4" class="cb"/>
+  <rect x="120" y="10" width="220" height="28" rx="4" class="ch-gr"/>
+  <text x="230" y="24" class="cst">«abstract»</text>
+  <text x="230" y="36" class="cn">User</text>
+  <line x1="120" y1="44" x2="340" y2="44" class="cd"/>
+  <text x="128" y="60" class="ca">- userID: String  - email: String</text>
+  <line x1="120" y1="68" x2="340" y2="68" class="cd"/>
+  <text x="128" y="82" class="cm">+ login(): bool  + logout(): void</text>
+  <!-- Admin -->
+  <rect x="10" y="165" width="125" height="58" rx="4" class="cb"/>
+  <rect x="10" y="165" width="125" height="24" rx="4" class="ch-pk"/>
+  <text x="72" y="181" class="cn">Admin</text>
+  <line x1="10" y1="189" x2="135" y2="189" class="cd"/>
+  <text x="18" y="203" class="ca">- adminLevel: int</text>
+  <text x="18" y="217" class="cm">+ manageSystem(): void</text>
+  <!-- Member -->
+  <rect x="167" y="165" width="125" height="58" rx="4" class="cb"/>
+  <rect x="167" y="165" width="125" height="24" rx="4" class="ch-b"/>
+  <text x="229" y="181" class="cn">Member</text>
+  <line x1="167" y1="189" x2="292" y2="189" class="cd"/>
+  <text x="175" y="203" class="ca">- membershipType: String</text>
+  <text x="175" y="217" class="cm">+ viewContent(): void</text>
+  <!-- Guest -->
+  <rect x="324" y="165" width="125" height="58" rx="4" class="cb"/>
+  <rect x="324" y="165" width="125" height="24" rx="4" class="ch-g"/>
+  <text x="386" y="181" class="cn">Guest</text>
+  <line x1="324" y1="189" x2="449" y2="189" class="cd"/>
+  <text x="332" y="203" class="ca">- sessionID: String</text>
+  <text x="332" y="217" class="cm">+ browsePublic(): void</text>
+  <!-- Arrows -->
+  <line x1="72" y1="165" x2="195" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="229" y1="165" x2="230" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="386" y1="165" x2="268" y2="90" class="rl-inh" marker-end="url(#arr-inh)"/>
+</svg>
+</div>
+</div>
+
+<!-- Q23 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q23 — Inheritance (Room types)</div>
+  <div class="qscene">Abstract <strong>Room</strong> class has subclasses: <strong>SingleRoom</strong>, <strong>DoubleRoom</strong>, and <strong>Suite</strong>. All share roomID, pricePerNight, and checkAvailability(). Each adds unique features.</div>
+  <div class="qtrick tr-inh">TRICK: Domain specialization — different room types share base behavior (pricing, availability) but differ in amenities. Show only the EXTRA attributes unique to each subclass inside the child boxes.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="225" viewBox="0 0 460 225">
+  <rect x="120" y="10" width="220" height="85" rx="4" class="cb"/>
+  <rect x="120" y="10" width="220" height="28" rx="4" class="ch-cy"/>
+  <text x="230" y="24" class="cst">«abstract»</text>
+  <text x="230" y="36" class="cn">Room</text>
+  <line x1="120" y1="44" x2="340" y2="44" class="cd"/>
+  <text x="128" y="60" class="ca">- roomID: String</text>
+  <text x="128" y="74" class="ca">- pricePerNight: Double</text>
+  <line x1="120" y1="82" x2="340" y2="82" class="cd"/>
+  <text x="128" y="96" class="cm">+ checkAvailability(): bool</text>
+  <!-- SingleRoom -->
+  <rect x="10" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="10" y="165" width="120" height="24" rx="4" class="ch-g"/>
+  <text x="70" y="181" class="cn" style="font-size:11px">SingleRoom</text>
+  <line x1="10" y1="189" x2="130" y2="189" class="cd"/>
+  <text x="18" y="203" class="ca">- bedType: String</text>
+  <text x="18" y="217" class="cm">+ getAmenities(): List</text>
+  <!-- DoubleRoom -->
+  <rect x="170" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="170" y="165" width="120" height="24" rx="4" class="ch-o"/>
+  <text x="230" y="181" class="cn" style="font-size:11px">DoubleRoom</text>
+  <line x1="170" y1="189" x2="290" y2="189" class="cd"/>
+  <text x="178" y="203" class="ca">- extraBed: boolean</text>
+  <text x="178" y="217" class="cm">+ addExtraBed(): void</text>
+  <!-- Suite -->
+  <rect x="330" y="165" width="120" height="58" rx="4" class="cb"/>
+  <rect x="330" y="165" width="120" height="24" rx="4" class="ch-pk"/>
+  <text x="390" y="181" class="cn">Suite</text>
+  <line x1="330" y1="189" x2="450" y2="189" class="cd"/>
+  <text x="338" y="203" class="ca">- hasJacuzzi: boolean</text>
+  <text x="338" y="217" class="cm">+ getSpecialServices()</text>
+  <!-- Arrows -->
+  <line x1="70" y1="165" x2="193" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="230" y1="165" x2="230" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="390" y1="165" x2="270" y2="95" class="rl-inh" marker-end="url(#arr-inh)"/>
+</svg>
+</div>
+</div>
+
+<!-- Q24 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-inh">Q24 — Inheritance (Employee roles)</div>
+  <div class="qscene">Abstract <strong>Employee</strong> is the superclass. <strong>FullTimeEmployee</strong> and <strong>PartTimeEmployee</strong> inherit from it. FullTime has annualSalary, PartTime has hourlyRate and hoursWorked.</div>
+  <div class="qtrick tr-inh">TRICK: Employment type hierarchy. calculatePay() is overridden differently: FullTime uses annualSalary/12, PartTime uses hourlyRate × hoursWorked. This is the power of polymorphism through inheritance.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <rect x="100" y="10" width="260" height="90" rx="4" class="cb"/>
+  <rect x="100" y="10" width="260" height="28" rx="4" class="ch-gr"/>
+  <text x="230" y="24" class="cst">«abstract»</text>
+  <text x="230" y="36" class="cn">Employee</text>
+  <line x1="100" y1="44" x2="360" y2="44" class="cd"/>
+  <text x="108" y="60" class="ca">- employeeID: String  - name: String</text>
+  <text x="108" y="74" class="ca">- department: String  - startDate: Date</text>
+  <line x1="100" y1="82" x2="360" y2="82" class="cd"/>
+  <text x="108" y="96" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ calculatePay(): Double</text>
+  <!-- FullTime -->
+  <rect x="20" y="168" width="180" height="60" rx="4" class="cb"/>
+  <rect x="20" y="168" width="180" height="24" rx="4" class="ch-b"/>
+  <text x="110" y="184" class="cn">FullTimeEmployee</text>
+  <line x1="20" y1="192" x2="200" y2="192" class="cd"/>
+  <text x="28" y="206" class="ca">- annualSalary: Double</text>
+  <text x="28" y="220" class="cm">+ calculatePay(): salary/12</text>
+  <!-- PartTime -->
+  <rect x="260" y="168" width="180" height="60" rx="4" class="cb"/>
+  <rect x="260" y="168" width="180" height="24" rx="4" class="ch-o"/>
+  <text x="350" y="184" class="cn">PartTimeEmployee</text>
+  <line x1="260" y1="192" x2="440" y2="192" class="cd"/>
+  <text x="268" y="206" class="ca">- hourlyRate: Double</text>
+  <text x="268" y="220" class="cm">+ calculatePay(): rate×hrs</text>
+  <!-- Arrows -->
+  <line x1="110" y1="168" x2="197" y2="100" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="350" y1="168" x2="265" y2="100" class="rl-inh" marker-end="url(#arr-inh)"/>
+</svg>
+</div>
+</div>
+
+</div><!-- end grid -->
+
+<!-- ═══ SECTION 4: DEPENDENCY & REALIZATION ═══ -->
+<div class="section-title">Questions 25–32 — Dependency &amp; Realization</div>
+<div class="grid">
+
+<!-- Q25 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-dep">Q25 — Dependency</div>
+  <div class="qscene">A <strong>ReportGenerator</strong> uses a <strong>DatabaseConnection</strong> temporarily to fetch data and produce a report. It does not store a permanent reference to the connection — it just uses it locally during execution.</div>
+  <div class="qtrick tr-dep">TRICK: Dependency = dashed arrow ---→. The WEAKEST relationship. A class uses another temporarily (method parameter, local variable, return type). NO permanent attribute reference. "Uses temporarily" = Dependency.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="30" width="175" height="120" rx="4" class="cb"/>
+  <rect x="20" y="30" width="175" height="32" rx="4" class="ch-b"/>
+  <text x="107" y="51" class="cn">ReportGenerator</text>
+  <line x1="20" y1="62" x2="195" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- reportTitle: String</text>
+  <text x="28" y="92" class="ca">- format: String</text>
+  <line x1="20" y1="100" x2="195" y2="100" class="cd"/>
+  <text x="28" y="116" class="cm">+ generate(db: DBConn)</text>
+  <text x="28" y="130" class="cm">+ exportPDF(): File</text>
+  <text x="28" y="144" class="cm">+ schedule(): void</text>
+  <rect x="285" y="30" width="160" height="120" rx="4" class="cb"/>
+  <rect x="285" y="30" width="160" height="32" rx="4" class="ch-cy"/>
+  <text x="365" y="51" class="cn">DatabaseConnection</text>
+  <line x1="285" y1="62" x2="445" y2="62" class="cd"/>
+  <text x="293" y="78" class="ca">- connectionString: String</text>
+  <text x="293" y="92" class="ca">- isConnected: boolean</text>
+  <line x1="285" y1="100" x2="445" y2="100" class="cd"/>
+  <text x="293" y="116" class="cm">+ connect(): void</text>
+  <text x="293" y="130" class="cm">+ query(): ResultSet</text>
+  <text x="293" y="144" class="cm">+ disconnect(): void</text>
+  <!-- Dependency: dashed arrow -->
+  <line x1="195" y1="90" x2="283" y2="90" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="239" y="78" class="rm" style="fill:#c2410c">«uses»</text>
+  <text x="20" y="178" style="fill:#c2410c;font-size:10px">- - → Dependency: temporary use (parameter/local variable)</text>
+</svg>
+</div>
+</div>
+
+<!-- Q26 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-real">Q26 — Realization (Interface Implementation)</div>
+  <div class="qscene"><strong>Printable</strong> is an interface with method print(). <strong>Invoice</strong> and <strong>Receipt</strong> both realize (implement) the Printable interface. They must each provide their own implementation of print().</div>
+  <div class="qtrick tr-real">TRICK: Realization = dashed arrow with HOLLOW triangle ---▷. Used when a class implements an interface. Interface name written in «guillemets». All interface methods must be implemented by the realizing class.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <!-- Printable interface -->
+  <rect x="140" y="10" width="180" height="70" rx="4" class="cb"/>
+  <rect x="140" y="10" width="180" height="28" rx="4" class="ch-t"/>
+  <text x="230" y="24" class="cst">«interface»</text>
+  <text x="230" y="36" class="cn">Printable</text>
+  <line x1="140" y1="44" x2="320" y2="44" class="cd"/>
+  <text x="148" y="60" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ print(): void</text>
+  <text x="148" y="74" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ getPreview(): String</text>
+  <!-- Invoice -->
+  <rect x="20" y="170" width="165" height="58" rx="4" class="cb"/>
+  <rect x="20" y="170" width="165" height="24" rx="4" class="ch-g"/>
+  <text x="102" y="186" class="cn">Invoice</text>
+  <line x1="20" y1="194" x2="185" y2="194" class="cd"/>
+  <text x="28" y="208" class="ca">- invoiceID: String  - total: Double</text>
+  <text x="28" y="222" class="cm">+ print(): void  // implemented</text>
+  <!-- Receipt -->
+  <rect x="275" y="170" width="165" height="58" rx="4" class="cb"/>
+  <rect x="275" y="170" width="165" height="24" rx="4" class="ch-o"/>
+  <text x="357" y="186" class="cn">Receipt</text>
+  <line x1="275" y1="194" x2="440" y2="194" class="cd"/>
+  <text x="283" y="208" class="ca">- receiptID: String  - date: Date</text>
+  <text x="283" y="222" class="cm">+ print(): void  // implemented</text>
+  <!-- Realization arrows -->
+  <line x1="102" y1="170" x2="196" y2="80" class="rl-real" marker-end="url(#arr-real)"/>
+  <line x1="357" y1="170" x2="268" y2="80" class="rl-real" marker-end="url(#arr-real)"/>
+  <text x="230" y="152" style="fill:#0f766e;font-size:10px;text-anchor:middle">- - ▷ Realization: implements interface</text>
+</svg>
+</div>
+</div>
+
+<!-- Q27 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-dep">Q27 — Dependency (Class uses Utility)</div>
+  <div class="qscene">A <strong>UserService</strong> class depends on an <strong>EmailSender</strong> utility class. When a user registers, UserService calls EmailSender.send() — but does not hold a permanent reference to it.</div>
+  <div class="qtrick tr-dep">TRICK: Service classes depending on utility/helper classes = Dependency. The utility is passed as a parameter or called statically. No attribute field stored. Compare: if UserService had "private EmailSender sender" = that would be Association.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="185" viewBox="0 0 460 185">
+  <rect x="20" y="30" width="175" height="120" rx="4" class="cb"/>
+  <rect x="20" y="30" width="175" height="32" rx="4" class="ch-b"/>
+  <text x="107" y="51" class="cn">UserService</text>
+  <line x1="20" y1="62" x2="195" y2="62" class="cd"/>
+  <text x="28" y="78" class="ca">- users: List&lt;User&gt;</text>
+  <text x="28" y="92" class="ca">- validator: Validator</text>
+  <line x1="20" y1="100" x2="195" y2="100" class="cd"/>
+  <text x="28" y="116" class="cm">+ register(u: User): void</text>
+  <text x="28" y="130" class="cm">+ login(): boolean</text>
+  <text x="28" y="144" class="cm">+ deleteUser(): void</text>
+  <rect x="285" y="30" width="155" height="120" rx="4" class="cb"/>
+  <rect x="285" y="30" width="155" height="32" rx="4" class="ch-o"/>
+  <text x="362" y="51" class="cn">EmailSender</text>
+  <line x1="285" y1="62" x2="440" y2="62" class="cd"/>
+  <text x="293" y="78" class="ca">- smtpServer: String</text>
+  <text x="293" y="92" class="ca">- port: int</text>
+  <line x1="285" y1="100" x2="440" y2="100" class="cd"/>
+  <text x="293" y="116" class="cm">+ send(to, msg): bool</text>
+  <text x="293" y="130" class="cm">+ sendBatch(): void</text>
+  <text x="293" y="144" class="cm">+ validateEmail(): bool</text>
+  <line x1="195" y1="90" x2="283" y2="90" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="239" y="78" class="rm" style="fill:#c2410c">«uses»</text>
+  <text x="20" y="178" style="fill:#c2410c;font-size:10px">register() calls EmailSender.send() — no permanent field</text>
+</svg>
+</div>
+</div>
+
+<!-- Q28 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-real">Q28 — Realization (Comparable Interface)</div>
+  <div class="qscene"><strong>Sortable</strong> is an interface requiring compareTo() and sort() methods. <strong>ProductList</strong> realizes this interface so that products can be sorted by price or name in the shopping system.</div>
+  <div class="qtrick tr-real">TRICK: Any class that "implements" an interface uses Realization. In code: class ProductList implements Sortable. In UML: dashed hollow triangle arrow FROM ProductList TO Sortable interface.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="210" viewBox="0 0 460 210">
+  <!-- Sortable interface -->
+  <rect x="140" y="10" width="180" height="75" rx="4" class="cb"/>
+  <rect x="140" y="10" width="180" height="28" rx="4" class="ch-t"/>
+  <text x="230" y="24" class="cst">«interface»</text>
+  <text x="230" y="36" class="cn">Sortable</text>
+  <line x1="140" y1="44" x2="320" y2="44" class="cd"/>
+  <text x="148" y="60" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ compareTo(obj): int</text>
+  <text x="148" y="74" style="fill:#1d4ed8;font-size:11px;font-style:italic">+ sort(criteria): List</text>
+  <text x="148" y="88" style="fill:#6b7280;font-size:10px">// all methods abstract</text>
+  <!-- ProductList -->
+  <rect x="100" y="155" width="260" height="53" rx="4" class="cb"/>
+  <rect x="100" y="155" width="260" height="24" rx="4" class="ch-g"/>
+  <text x="230" y="171" class="cn">ProductList</text>
+  <line x1="100" y1="179" x2="360" y2="179" class="cd"/>
+  <text x="108" y="193" class="ca">- products: List&lt;Product&gt;  - sortCriteria: String</text>
+  <text x="108" y="207" class="cm">+ compareTo(obj): int  + sort(criteria): List  // implements</text>
+  <!-- Realization arrow -->
+  <line x1="230" y1="155" x2="230" y2="85" class="rl-real" marker-end="url(#arr-real)"/>
+  <text x="245" y="124" style="fill:#0f766e;font-size:10px">realizes</text>
+</svg>
+</div>
+</div>
+
+<!-- Q29 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-dep">Q29 — Dependency (Factory Pattern)</div>
+  <div class="qscene">A <strong>NotificationFactory</strong> creates different notification objects. It depends on <strong>SMSNotification</strong> and <strong>EmailNotification</strong> classes — they are created and returned by the factory but not stored as fields.</div>
+  <div class="qtrick tr-dep">TRICK: Factory classes depend on the classes they create (return type dependency). The factory doesn't hold a permanent reference — it creates on demand. This is the most common Dependency pattern in OOP design.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="215" viewBox="0 0 460 215">
+  <!-- Factory -->
+  <rect x="140" y="10" width="190" height="75" rx="4" class="cb"/>
+  <rect x="140" y="10" width="190" height="28" rx="4" class="ch-p"/>
+  <text x="235" y="28" class="cn">NotificationFactory</text>
+  <line x1="140" y1="38" x2="330" y2="38" class="cd"/>
+  <text x="148" y="54" class="cm">+ createSMS(): SMSNotif</text>
+  <text x="148" y="68" class="cm">+ createEmail(): EmailNotif</text>
+  <text x="148" y="82" class="cm">+ send(type): void</text>
+  <!-- SMSNotification -->
+  <rect x="20" y="160" width="160" height="53" rx="4" class="cb"/>
+  <rect x="20" y="160" width="160" height="24" rx="4" class="ch-g"/>
+  <text x="100" y="176" class="cn">SMSNotification</text>
+  <line x1="20" y1="184" x2="180" y2="184" class="cd"/>
+  <text x="28" y="198" class="ca">- phoneNumber: String</text>
+  <text x="28" y="212" class="cm">+ send(): void</text>
+  <!-- EmailNotification -->
+  <rect x="290" y="160" width="160" height="53" rx="4" class="cb"/>
+  <rect x="290" y="160" width="160" height="24" rx="4" class="ch-o"/>
+  <text x="370" y="176" class="cn">EmailNotification</text>
+  <line x1="290" y1="184" x2="450" y2="184" class="cd"/>
+  <text x="298" y="198" class="ca">- emailAddress: String</text>
+  <text x="298" y="212" class="cm">+ send(): void</text>
+  <!-- Dependency arrows (creates) -->
+  <line x1="200" y1="82" x2="100" y2="158" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <line x1="278" y1="82" x2="370" y2="158" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="140" y="128" class="rm" style="fill:#c2410c">«creates»</text>
+  <text x="318" y="128" class="rm" style="fill:#c2410c">«creates»</text>
+</svg>
+</div>
+</div>
+
+<!-- Q30 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-real">Q30 — Realization (Multiple interfaces)</div>
+  <div class="qscene">A <strong>SmartDevice</strong> class realizes two interfaces: <strong>Connectable</strong> (for WiFi/Bluetooth) and <strong>Updatable</strong> (for software updates). A class can implement multiple interfaces in Java/OOP.</div>
+  <div class="qtrick tr-real">TRICK: One class can realize MULTIPLE interfaces — just draw separate dashed hollow triangle arrows to each interface. This is how OOP achieves "multiple interface inheritance" even without multiple class inheritance.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <!-- Connectable -->
+  <rect x="10" y="10" width="160" height="65" rx="4" class="cb"/>
+  <rect x="10" y="10" width="160" height="24" rx="4" class="ch-t"/>
+  <text x="90" y="24" class="cst" style="font-size:9px">«interface»</text>
+  <text x="90" y="34" class="cn" style="font-size:11px">Connectable</text>
+  <line x1="10" y1="42" x2="170" y2="42" class="cd"/>
+  <text x="18" y="56" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ connect(): void</text>
+  <text x="18" y="70" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ disconnect(): void</text>
+  <!-- Updatable -->
+  <rect x="290" y="10" width="160" height="65" rx="4" class="cb"/>
+  <rect x="290" y="10" width="160" height="24" rx="4" class="ch-cy"/>
+  <text x="370" y="24" class="cst" style="font-size:9px">«interface»</text>
+  <text x="370" y="34" class="cn" style="font-size:11px">Updatable</text>
+  <line x1="290" y1="42" x2="450" y2="42" class="cd"/>
+  <text x="298" y="56" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ checkUpdates(): bool</text>
+  <text x="298" y="70" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ installUpdate(): void</text>
+  <!-- SmartDevice -->
+  <rect x="100" y="160" width="260" height="68" rx="4" class="cb"/>
+  <rect x="100" y="160" width="260" height="24" rx="4" class="ch-p"/>
+  <text x="230" y="176" class="cn">SmartDevice</text>
+  <line x1="100" y1="184" x2="360" y2="184" class="cd"/>
+  <text x="108" y="198" class="ca">- deviceID: String  - OS: String</text>
+  <text x="108" y="212" class="cm">+ connect(): void  + installUpdate(): void</text>
+  <text x="108" y="226" class="cm">+ disconnect(): void  + checkUpdates(): bool</text>
+  <!-- Realization arrows -->
+  <line x1="165" y1="168" x2="118" y2="75" class="rl-real" marker-end="url(#arr-real)"/>
+  <line x1="295" y1="168" x2="348" y2="75" class="rl-real" marker-end="url(#arr-real)"/>
+  <text x="230" y="145" style="fill:#0f766e;font-size:10px;text-anchor:middle">realizes both interfaces</text>
+</svg>
+</div>
+</div>
+
+<!-- Q31 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-dep">Q31 — Dependency vs Association distinction</div>
+  <div class="qscene">Class A has a private field of type B → <strong>Association</strong>. Class C receives D as a method parameter → <strong>Dependency</strong>. Show both patterns side by side to understand the difference clearly.</div>
+  <div class="qtrick tr-dep">TRICK: The KEY difference — Association = stored as a field (permanent link). Dependency = only in method signature (temporary). If you can see it as an attribute in the class body → Association. If only in method → Dependency.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="215" viewBox="0 0 460 215">
+  <!-- Association example -->
+  <rect x="10" y="10" width="115" height="80" rx="4" class="cb"/>
+  <rect x="10" y="10" width="115" height="24" rx="4" class="ch-b"/>
+  <text x="67" y="26" class="cn" style="font-size:11px">ClassA</text>
+  <line x1="10" y1="34" x2="125" y2="34" class="cd"/>
+  <text x="18" y="48" class="ca">- id: String</text>
+  <text x="18" y="62" style="fill:#c2410c;font-size:11px;font-weight:700">- b: ClassB  ← field!</text>
+  <line x1="10" y1="70" x2="125" y2="70" class="cd"/>
+  <text x="18" y="84" class="cm" style="font-size:10px">+ doSomething()</text>
+  <rect x="170" y="10" width="100" height="58" rx="4" class="cb"/>
+  <rect x="170" y="10" width="100" height="24" rx="4" class="ch-g"/>
+  <text x="220" y="26" class="cn" style="font-size:11px">ClassB</text>
+  <line x1="170" y1="34" x2="270" y2="34" class="cd"/>
+  <text x="178" y="52" class="ca">- value: int</text>
+  <line x1="170" y1="60" x2="270" y2="60" class="cd"/>
+  <line x1="125" y1="40" x2="168" y2="40" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="145" y="33" style="fill:#374151;font-size:9px">Assoc →</text>
+  <!-- Dependency example -->
+  <rect x="10" y="140" width="130" height="73" rx="4" class="cb"/>
+  <rect x="10" y="140" width="130" height="24" rx="4" class="ch-p"/>
+  <text x="75" y="156" class="cn" style="font-size:11px">ClassC</text>
+  <line x1="10" y1="164" x2="140" y2="164" class="cd"/>
+  <text x="18" y="178" class="ca">- id: String  // no D field</text>
+  <line x1="10" y1="186" x2="140" y2="186" class="cd"/>
+  <text x="18" y="200" style="fill:#c2410c;font-size:10px">+ use(d: ClassD): void</text>
+  <text x="18" y="212" style="fill:#c2410c;font-size:9px">  ↑ parameter only</text>
+  <rect x="190" y="140" width="110" height="58" rx="4" class="cb"/>
+  <rect x="190" y="140" width="110" height="24" rx="4" class="ch-o"/>
+  <text x="245" y="156" class="cn" style="font-size:11px">ClassD</text>
+  <line x1="190" y1="164" x2="300" y2="164" class="cd"/>
+  <text x="198" y="182" class="ca">- data: String</text>
+  <line x1="190" y1="190" x2="300" y2="190" class="cd"/>
+  <line x1="140" y1="170" x2="188" y2="170" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="163" y="162" style="fill:#c2410c;font-size:9px">Dep ---→</text>
+  <!-- Legend -->
+  <text x="310" y="40" style="fill:#374151;font-size:10px">ASSOCIATION:</text>
+  <text x="310" y="52" style="fill:#374151;font-size:10px">Stored as a field</text>
+  <text x="310" y="64" style="fill:#374151;font-size:10px">private B b = ...;</text>
+  <text x="310" y="170" style="fill:#c2410c;font-size:10px">DEPENDENCY:</text>
+  <text x="310" y="182" style="fill:#c2410c;font-size:10px">Only as parameter</text>
+  <text x="310" y="194" style="fill:#c2410c;font-size:10px">void use(D d){...}</text>
+</svg>
+</div>
+</div>
+
+<!-- Q32 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-real">Q32 — Realization (Repository Pattern)</div>
+  <div class="qscene"><strong>UserRepository</strong> interface defines database operations. <strong>MySQLUserRepository</strong> and <strong>MongoUserRepository</strong> each realize this interface with their own implementations.</div>
+  <div class="qtrick tr-real">TRICK: Repository pattern = interface (what to do) + multiple concrete implementations (how to do it). Each concrete class realizes the interface differently. Allows swapping database without changing business logic.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="230" viewBox="0 0 460 230">
+  <rect x="110" y="10" width="240" height="75" rx="4" class="cb"/>
+  <rect x="110" y="10" width="240" height="28" rx="4" class="ch-t"/>
+  <text x="230" y="24" class="cst">«interface»</text>
+  <text x="230" y="36" class="cn">UserRepository</text>
+  <line x1="110" y1="44" x2="350" y2="44" class="cd"/>
+  <text x="118" y="58" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ findById(id): User</text>
+  <text x="118" y="70" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ save(user): void  + delete(id): void</text>
+  <text x="118" y="84" style="fill:#6b7280;font-size:9px">// contract — no implementation</text>
+  <!-- MySQL -->
+  <rect x="10" y="165" width="185" height="63" rx="4" class="cb"/>
+  <rect x="10" y="165" width="185" height="24" rx="4" class="ch-g"/>
+  <text x="102" y="181" class="cn" style="font-size:11px">MySQLUserRepository</text>
+  <line x1="10" y1="189" x2="195" y2="189" class="cd"/>
+  <text x="18" y="203" class="ca">- connection: MySQLConn</text>
+  <text x="18" y="217" class="cm">+ findById(): User  // SQL impl</text>
+  <text x="18" y="229" class="cm" style="font-size:10px">+ save(): void  + delete(): void</text>
+  <!-- Mongo -->
+  <rect x="265" y="165" width="185" height="63" rx="4" class="cb"/>
+  <rect x="265" y="165" width="185" height="24" rx="4" class="ch-o"/>
+  <text x="357" y="181" class="cn" style="font-size:11px">MongoUserRepository</text>
+  <line x1="265" y1="189" x2="450" y2="189" class="cd"/>
+  <text x="273" y="203" class="ca">- mongoClient: MongoClient</text>
+  <text x="273" y="217" class="cm">+ findById(): User  // NoSQL impl</text>
+  <text x="273" y="229" class="cm" style="font-size:10px">+ save(): void  + delete(): void</text>
+  <!-- Realization -->
+  <line x1="100" y1="165" x2="196" y2="85" class="rl-real" marker-end="url(#arr-real)"/>
+  <line x1="356" y1="165" x2="270" y2="85" class="rl-real" marker-end="url(#arr-real)"/>
+</svg>
+</div>
+</div>
+
+</div><!-- end grid -->
+
+<!-- ═══ SECTION 5: MIXED (Full Systems) ═══ -->
+<div class="section-title">Questions 33–40 — Mixed Relationships (Full System Diagrams)</div>
+<div class="grid">
+
+<!-- Q33 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q33 — Full System: ATM (mixed)</div>
+  <div class="qscene">ATM System: <strong>Customer</strong> has-a <strong>BankAccount</strong> (Association). <strong>Transaction</strong> is composed-of <strong>Receipt</strong> (Composition). <strong>WithdrawTransaction</strong> inherits from <strong>Transaction</strong> (Inheritance). Customer depends-on <strong>ATM</strong> (Dependency).</div>
+  <div class="qtrick tr-mix">TRICK: Map each sentence to a relationship type. "has-a" → Association. "composed-of" (receipt only exists in transaction) → Composition. "type-of" → Inheritance. "uses temporarily" → Dependency.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="290" viewBox="0 0 460 290">
+  <!-- Customer -->
+  <rect x="10" y="10" width="130" height="80" rx="4" class="cb"/>
+  <rect x="10" y="10" width="130" height="26" rx="4" class="ch-b"/>
+  <text x="75" y="27" class="cn" style="font-size:11px">Customer</text>
+  <line x1="10" y1="36" x2="140" y2="36" class="cd"/>
+  <text x="18" y="50" class="ca">- customerID: String</text>
+  <text x="18" y="64" class="ca">- name: String</text>
+  <line x1="10" y1="72" x2="140" y2="72" class="cd"/>
+  <text x="18" y="86" class="cm">+ insertCard(): void</text>
+  <!-- BankAccount -->
+  <rect x="200" y="10" width="145" height="80" rx="4" class="cb"/>
+  <rect x="200" y="10" width="145" height="26" rx="4" class="ch-cy"/>
+  <text x="272" y="27" class="cn" style="font-size:11px">BankAccount</text>
+  <line x1="200" y1="36" x2="345" y2="36" class="cd"/>
+  <text x="208" y="50" class="ca">- accountID: String</text>
+  <text x="208" y="64" class="ca">- balance: Double</text>
+  <line x1="200" y1="72" x2="345" y2="72" class="cd"/>
+  <text x="208" y="86" class="cm">+ withdraw(): void</text>
+  <!-- Association Customer → BankAccount -->
+  <line x1="140" y1="50" x2="198" y2="50" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="168" y="42" class="rm">owns</text>
+  <text x="142" y="62" class="rmult">1</text><text x="188" y="62" class="rmult">1..*</text>
+  <!-- Transaction -->
+  <rect x="110" y="145" width="145" height="70" rx="4" class="cb"/>
+  <rect x="110" y="145" width="145" height="26" rx="4" class="ch-gr"/>
+  <text x="182" y="158" class="cst" style="font-size:9px">«abstract»</text>
+  <text x="182" y="168" class="cn" style="font-size:11px">Transaction</text>
+  <line x1="110" y1="174" x2="255" y2="174" class="cd"/>
+  <text x="118" y="188" class="ca">- txnID: String</text>
+  <text x="118" y="202" class="ca">- amount: Double</text>
+  <line x1="110" y1="210" x2="255" y2="210" class="cd"/>
+  <text x="118" y="224" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ execute(): void</text>
+  <!-- Receipt (Composition inside Transaction) -->
+  <rect x="360" y="150" width="90" height="55" rx="4" class="cb"/>
+  <rect x="360" y="150" width="90" height="22" rx="4" class="ch-pk"/>
+  <text x="405" y="165" class="cn" style="font-size:10px">Receipt</text>
+  <line x1="360" y1="172" x2="450" y2="172" class="cd"/>
+  <text x="368" y="186" class="ca">- receiptID</text>
+  <text x="368" y="198" class="ca">- content: String</text>
+  <!-- Composition Transaction ◆→ Receipt -->
+  <line x1="269" y1="183" x2="358" y2="175" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="312" y="170" class="rm" style="fill:#9d174d;font-size:9px">◆ comp</text>
+  <!-- WithdrawTransaction (Inheritance) -->
+  <rect x="10" y="238" width="145" height="50" rx="4" class="cb"/>
+  <rect x="10" y="238" width="145" height="22" rx="4" class="ch-r"/>
+  <text x="82" y="253" class="cn" style="font-size:10px">WithdrawTransaction</text>
+  <line x1="10" y1="260" x2="155" y2="260" class="cd"/>
+  <text x="18" y="274" class="ca">- atmLocation: String</text>
+  <text x="18" y="286" class="cm" style="font-size:10px">+ execute(): withdraw</text>
+  <!-- Inheritance WithdrawTxn → Transaction -->
+  <line x1="82" y1="238" x2="155" y2="178" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- ATM (Customer depends on) -->
+  <rect x="360" y="238" width="90" height="50" rx="4" class="cb"/>
+  <rect x="360" y="238" width="90" height="22" rx="4" class="ch-g"/>
+  <text x="405" y="253" class="cn" style="font-size:10px">ATM</text>
+  <line x1="360" y1="260" x2="450" y2="260" class="cd"/>
+  <text x="368" y="274" class="ca">- atmID: String</text>
+  <text x="368" y="286" class="cm" style="font-size:10px">+ dispenseCash()</text>
+  <!-- Dependency Customer ---→ ATM -->
+  <line x1="75" y1="88" x2="390" y2="237" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="210" y="178" class="rm" style="fill:#c2410c;font-size:9px">«uses»</text>
+</svg>
+</div>
+</div>
+
+<!-- Q34 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q34 — Full System: Library (mixed)</div>
+  <div class="qscene">Library: <strong>Member</strong> associates with <strong>Book</strong> (borrows). <strong>BorrowRecord</strong> composed of <strong>Fine</strong>. <strong>Librarian</strong> inherits from <strong>Staff</strong>. <strong>Admin</strong> inherits from <strong>Staff</strong>. Staff depends-on <strong>LibrarySystem</strong>.</div>
+  <div class="qtrick tr-mix">TRICK: When multiple relationships exist — draw systematically. Start with inheritance (top), then composition (strong), then association (medium), then dependency (weak). Work top-down in relationship strength.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="285" viewBox="0 0 460 285">
+  <!-- Staff (abstract parent) -->
+  <rect x="145" y="10" width="170" height="65" rx="4" class="cb"/>
+  <rect x="145" y="10" width="170" height="24" rx="4" class="ch-gr"/>
+  <text x="230" y="24" class="cst" style="font-size:9px">«abstract»</text>
+  <text x="230" y="33" class="cn" style="font-size:11px">Staff</text>
+  <line x1="145" y1="40" x2="315" y2="40" class="cd"/>
+  <text x="153" y="54" class="ca">- staffID: String  - name: String</text>
+  <line x1="145" y1="62" x2="315" y2="62" class="cd"/>
+  <text x="153" y="76" class="cm" style="font-size:10px">+ login(): bool  + logout(): void</text>
+  <!-- Librarian & Admin (children) -->
+  <rect x="20" y="120" width="130" height="50" rx="4" class="cb"/>
+  <rect x="20" y="120" width="130" height="22" rx="4" class="ch-t"/>
+  <text x="85" y="135" class="cn" style="font-size:11px">Librarian</text>
+  <line x1="20" y1="142" x2="150" y2="142" class="cd"/>
+  <text x="28" y="156" class="ca">- shiftTime: String</text>
+  <text x="28" y="168" class="cm" style="font-size:10px">+ addBook(): void</text>
+  <rect x="310" y="120" width="130" height="50" rx="4" class="cb"/>
+  <rect x="310" y="120" width="130" height="22" rx="4" class="ch-pk"/>
+  <text x="375" y="135" class="cn" style="font-size:11px">Admin</text>
+  <line x1="310" y1="142" x2="440" y2="142" class="cd"/>
+  <text x="318" y="156" class="ca">- role: String</text>
+  <text x="318" y="168" class="cm" style="font-size:10px">+ generateReport(): void</text>
+  <!-- Inheritance -->
+  <line x1="85" y1="120" x2="197" y2="75" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="375" y1="120" x2="265" y2="75" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- Member -->
+  <rect x="20" y="215" width="130" height="68" rx="4" class="cb"/>
+  <rect x="20" y="215" width="130" height="22" rx="4" class="ch-b"/>
+  <text x="85" y="230" class="cn" style="font-size:11px">Member</text>
+  <line x1="20" y1="237" x2="150" y2="237" class="cd"/>
+  <text x="28" y="251" class="ca">- memberID: String</text>
+  <line x1="20" y1="259" x2="150" y2="259" class="cd"/>
+  <text x="28" y="273" class="cm" style="font-size:10px">+ borrowBook(): void</text>
+  <text x="28" y="281" class="cm" style="font-size:10px">+ returnBook(): void</text>
+  <!-- BorrowRecord (has composition Fine) -->
+  <rect x="190" y="200" width="130" height="62" rx="4" class="cb"/>
+  <rect x="190" y="200" width="130" height="22" rx="4" class="ch-g"/>
+  <text x="255" y="215" class="cn" style="font-size:11px">BorrowRecord</text>
+  <line x1="190" y1="222" x2="320" y2="222" class="cd"/>
+  <text x="198" y="236" class="ca">- borrowDate: Date</text>
+  <text x="198" y="250" class="ca">- dueDate: Date</text>
+  <line x1="190" y1="258" x2="320" y2="258" class="cd"/>
+  <text x="198" y="272" class="cm" style="font-size:10px">+ isOverdue(): bool</text>
+  <!-- Fine (Composition inside BorrowRecord) -->
+  <rect x="355" y="208" width="95" height="55" rx="4" class="cb"/>
+  <rect x="355" y="208" width="95" height="22" rx="4" class="ch-o"/>
+  <text x="402" y="223" class="cn" style="font-size:10px">Fine</text>
+  <line x1="355" y1="230" x2="450" y2="230" class="cd"/>
+  <text x="363" y="244" class="ca">- amount: Double</text>
+  <text x="363" y="258" class="ca">- paid: boolean</text>
+  <!-- Composition BorrowRecord ◆→ Fine -->
+  <line x1="334" y1="235" x2="353" y2="230" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <!-- Association Member → BorrowRecord -->
+  <line x1="150" y1="245" x2="188" y2="240" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="168" y="235" class="rm" style="font-size:9px">has *</text>
+</svg>
+</div>
+</div>
+
+<!-- Q35 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q35 — Full System: Hospital (mixed)</div>
+  <div class="qscene"><strong>Doctor</strong> (inherits from <strong>MedicalStaff</strong>) treats many <strong>Patients</strong> (Association). Each <strong>Patient</strong> has a composed <strong>MedicalRecord</strong> (Composition). <strong>Appointment</strong> depends on <strong>Schedule</strong> (Dependency).</div>
+  <div class="qtrick tr-mix">TRICK: MedicalRecord is composition because it cannot exist without the Patient — it IS the patient's data. Doctor-Patient is association because both exist independently (Doctor exists even with no patients, and patient data persists).</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="280" viewBox="0 0 460 280">
+  <!-- MedicalStaff abstract -->
+  <rect x="145" y="10" width="170" height="60" rx="4" class="cb"/>
+  <rect x="145" y="10" width="170" height="24" rx="4" class="ch-gr"/>
+  <text x="230" y="24" class="cst" style="font-size:9px">«abstract»</text>
+  <text x="230" y="34" class="cn" style="font-size:11px">MedicalStaff</text>
+  <line x1="145" y1="42" x2="315" y2="42" class="cd"/>
+  <text x="153" y="56" class="ca">- staffID: String  - name: String</text>
+  <line x1="145" y1="64" x2="315" y2="64" class="cd"/>
+  <text x="153" y="76" class="cm" style="font-size:10px">+ login(): bool</text>
+  <!-- Doctor -->
+  <rect x="20" y="115" width="140" height="68" rx="4" class="cb"/>
+  <rect x="20" y="115" width="140" height="22" rx="4" class="ch-t"/>
+  <text x="90" y="130" class="cn" style="font-size:11px">Doctor</text>
+  <line x1="20" y1="137" x2="160" y2="137" class="cd"/>
+  <text x="28" y="151" class="ca">- specialization: String</text>
+  <line x1="20" y1="159" x2="160" y2="159" class="cd"/>
+  <text x="28" y="173" class="cm" style="font-size:10px">+ treatPatient(): void</text>
+  <text x="28" y="183" class="cm" style="font-size:10px">+ writePrescription(): void</text>
+  <!-- Inheritance Doctor → MedicalStaff -->
+  <line x1="90" y1="115" x2="197" y2="70" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- Patient -->
+  <rect x="280" y="115" width="140" height="68" rx="4" class="cb"/>
+  <rect x="280" y="115" width="140" height="22" rx="4" class="ch-pk"/>
+  <text x="350" y="130" class="cn" style="font-size:11px">Patient</text>
+  <line x1="280" y1="137" x2="420" y2="137" class="cd"/>
+  <text x="288" y="151" class="ca">- patientID: String</text>
+  <text x="288" y="165" class="ca">- name: String</text>
+  <line x1="280" y1="173" x2="420" y2="173" class="cd"/>
+  <text x="288" y="187" class="cm" style="font-size:10px">+ bookAppointment(): void</text>
+  <!-- Association Doctor → Patient -->
+  <line x1="160" y1="145" x2="278" y2="145" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="219" y="135" class="rm" style="font-size:9px">treats</text>
+  <text x="162" y="158" class="rmult" style="font-size:9px">*</text><text x="268" y="158" class="rmult" style="font-size:9px">*</text>
+  <!-- MedicalRecord (Composition → Patient) -->
+  <rect x="280" y="220" width="140" height="58" rx="4" class="cb"/>
+  <rect x="280" y="220" width="140" height="22" rx="4" class="ch-o"/>
+  <text x="350" y="235" class="cn" style="font-size:11px">MedicalRecord</text>
+  <line x1="280" y1="242" x2="420" y2="242" class="cd"/>
+  <text x="288" y="256" class="ca">- diagnosis: String</text>
+  <text x="288" y="270" class="ca">- prescription: String</text>
+  <!-- Composition Patient ◆→ MedicalRecord -->
+  <line x1="364" y1="183" x2="350" y2="218" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <!-- Appointment + Schedule (Dependency) -->
+  <rect x="20" y="222" width="120" height="55" rx="4" class="cb"/>
+  <rect x="20" y="222" width="120" height="22" rx="4" class="ch-g"/>
+  <text x="80" y="237" class="cn" style="font-size:11px">Appointment</text>
+  <line x1="20" y1="244" x2="140" y2="244" class="cd"/>
+  <text x="28" y="258" class="ca">- date: Date</text>
+  <text x="28" y="272" class="cm" style="font-size:10px">+ schedule(s): void</text>
+  <rect x="180" y="222" width="85" height="55" rx="4" class="cb"/>
+  <rect x="180" y="222" width="85" height="22" rx="4" class="ch-cy"/>
+  <text x="222" y="237" class="cn" style="font-size:10px">Schedule</text>
+  <line x1="180" y1="244" x2="265" y2="244" class="cd"/>
+  <text x="188" y="258" class="ca">- slots: List</text>
+  <text x="188" y="272" class="cm" style="font-size:10px">+ isAvailable()</text>
+  <!-- Dependency Appointment ---→ Schedule -->
+  <line x1="140" y1="249" x2="178" y2="249" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="158" y="242" class="rm" style="fill:#c2410c;font-size:9px">«uses»</text>
+</svg>
+</div>
+</div>
+
+<!-- Q36 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q36 — All 4 main relationships in one diagram</div>
+  <div class="qscene">Show all four relationships together: <strong>Company</strong> aggregates <strong>Departments</strong>. Department composes <strong>Projects</strong>. <strong>Manager</strong> inherits from <strong>Employee</strong>. Manager depends on <strong>ReportTemplate</strong>.</div>
+  <div class="qtrick tr-mix">TRICK: When you see all 4 in one diagram — strength order: Composition strongest → Aggregation → Association → Dependency weakest. Inheritance is a separate category (is-a, not has-a). Use different line styles to distinguish clearly.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="280" viewBox="0 0 460 280">
+  <!-- Company -->
+  <rect x="10" y="10" width="125" height="65" rx="4" class="cb"/>
+  <rect x="10" y="10" width="125" height="24" rx="4" class="ch-b"/>
+  <text x="72" y="26" class="cn" style="font-size:11px">Company</text>
+  <line x1="10" y1="34" x2="135" y2="34" class="cd"/>
+  <text x="18" y="48" class="ca">- companyID: String</text>
+  <text x="18" y="62" class="ca">- name: String</text>
+  <line x1="10" y1="70" x2="135" y2="70" class="cd"/>
+  <text x="18" y="84" class="cm" style="font-size:10px">+ getDepts(): List</text>
+  <!-- Department -->
+  <rect x="195" y="10" width="130" height="65" rx="4" class="cb"/>
+  <rect x="195" y="10" width="130" height="24" rx="4" class="ch-g"/>
+  <text x="260" y="26" class="cn" style="font-size:11px">Department</text>
+  <line x1="195" y1="34" x2="325" y2="34" class="cd"/>
+  <text x="203" y="48" class="ca">- deptID: String</text>
+  <text x="203" y="62" class="ca">- budget: Double</text>
+  <line x1="195" y1="70" x2="325" y2="70" class="cd"/>
+  <text x="203" y="84" class="cm" style="font-size:10px">+ addProject(): void</text>
+  <!-- Aggregation Company ◇→ Department -->
+  <line x1="149" y1="42" x2="193" y2="42" class="rl-agg" marker-end="url(#arr-g)" marker-start="url(#diam-agg)"/>
+  <text x="168" y="35" class="rm" style="fill:#15803d;font-size:9px">◇ has</text>
+  <text x="149" y="55" class="rmult" style="fill:#15803d;font-size:9px">1</text><text x="183" y="55" class="rmult" style="fill:#15803d;font-size:9px">*</text>
+  <!-- Project (Composition in Department) -->
+  <rect x="355" y="10" width="95" height="65" rx="4" class="cb"/>
+  <rect x="355" y="10" width="95" height="24" rx="4" class="ch-pk"/>
+  <text x="402" y="26" class="cn" style="font-size:10px">Project</text>
+  <line x1="355" y1="34" x2="450" y2="34" class="cd"/>
+  <text x="363" y="48" class="ca">- projID: String</text>
+  <text x="363" y="62" class="ca">- deadline: Date</text>
+  <line x1="355" y1="70" x2="450" y2="70" class="cd"/>
+  <text x="363" y="84" class="cm" style="font-size:10px">+ getStatus(): String</text>
+  <!-- Composition Department ◆→ Project -->
+  <line x1="339" y1="42" x2="353" y2="42" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="344" y="35" class="rm" style="fill:#9d174d;font-size:9px">◆</text>
+  <!-- Employee -->
+  <rect x="100" y="155" width="145" height="65" rx="4" class="cb"/>
+  <rect x="100" y="155" width="145" height="24" rx="4" class="ch-gr"/>
+  <text x="172" y="171" class="cn" style="font-size:11px">Employee</text>
+  <line x1="100" y1="179" x2="245" y2="179" class="cd"/>
+  <text x="108" y="193" class="ca">- empID: String</text>
+  <text x="108" y="207" class="ca">- salary: Double</text>
+  <line x1="100" y1="215" x2="245" y2="215" class="cd"/>
+  <text x="108" y="229" class="cm" style="font-size:10px">+ work(): void</text>
+  <!-- Manager -->
+  <rect x="20" y="248" width="130" height="30" rx="4" class="cb"/>
+  <rect x="20" y="248" width="130" height="22" rx="4" class="ch-o"/>
+  <text x="85" y="263" class="cn" style="font-size:11px">Manager</text>
+  <text x="28" y="276" class="cm" style="font-size:10px">+ generateReport(): void</text>
+  <!-- Inheritance Manager → Employee -->
+  <line x1="85" y1="248" x2="155" y2="220" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- ReportTemplate (Dependency) -->
+  <rect x="310" y="155" width="130" height="55" rx="4" class="cb"/>
+  <rect x="310" y="155" width="130" height="22" rx="4" class="ch-cy"/>
+  <text x="375" y="170" class="cn" style="font-size:10px">ReportTemplate</text>
+  <line x1="310" y1="177" x2="440" y2="177" class="cd"/>
+  <text x="318" y="191" class="ca">- templateID: String</text>
+  <text x="318" y="205" class="cm" style="font-size:10px">+ render(): String</text>
+  <!-- Dependency Manager ---→ ReportTemplate -->
+  <line x1="150" y1="260" x2="308" y2="180" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="225" y="210" class="rm" style="fill:#c2410c;font-size:9px">«uses»</text>
+  <!-- Legend -->
+  <text x="10" y="135" style="fill:#15803d;font-size:9px">◇ Aggregation</text>
+  <text x="10" y="146" style="fill:#9d174d;font-size:9px">◆ Composition</text>
+  <text x="120" y="135" style="fill:#6d28d9;font-size:9px">──▷ Inheritance</text>
+  <text x="120" y="146" style="fill:#c2410c;font-size:9px">- - → Dependency</text>
+</svg>
+</div>
+</div>
+
+<!-- Q37 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q37 — Full System: E-Commerce (mixed)</div>
+  <div class="qscene"><strong>Customer</strong> places <strong>Orders</strong> (1..*). Order contains <strong>OrderItems</strong> (composition). <strong>Product</strong> is stocked by <strong>Seller</strong>. <strong>VisaPayment</strong> and <strong>CashPayment</strong> inherit from abstract <strong>Payment</strong>. Order depends on <strong>PaymentGateway</strong>.</div>
+  <div class="qtrick tr-mix">TRICK: E-Commerce is THE most common full system diagram exam question. Memorize this structure: Customer→Order (assoc), Order→OrderItem (comp), Payment→children (inh), Order→Gateway (dep).</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="290" viewBox="0 0 460 290">
+  <!-- Customer -->
+  <rect x="10" y="10" width="110" height="65" rx="4" class="cb"/>
+  <rect x="10" y="10" width="110" height="22" rx="4" class="ch-b"/>
+  <text x="65" y="25" class="cn" style="font-size:11px">Customer</text>
+  <line x1="10" y1="32" x2="120" y2="32" class="cd"/>
+  <text x="18" y="46" class="ca">- customerID</text>
+  <text x="18" y="60" class="ca">- email: String</text>
+  <line x1="10" y1="68" x2="120" y2="68" class="cd"/>
+  <text x="18" y="80" class="cm" style="font-size:10px">+ placeOrder(): void</text>
+  <!-- Order -->
+  <rect x="180" y="10" width="120" height="65" rx="4" class="cb"/>
+  <rect x="180" y="10" width="120" height="22" rx="4" class="ch-g"/>
+  <text x="240" y="25" class="cn" style="font-size:11px">Order</text>
+  <line x1="180" y1="32" x2="300" y2="32" class="cd"/>
+  <text x="188" y="46" class="ca">- orderID: String</text>
+  <text x="188" y="60" class="ca">- totalAmount: Double</text>
+  <line x1="180" y1="68" x2="300" y2="68" class="cd"/>
+  <text x="188" y="80" class="cm" style="font-size:10px">+ calculateTotal(): void</text>
+  <!-- Association Customer → Order -->
+  <line x1="120" y1="42" x2="178" y2="42" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="148" y="34" class="rm" style="font-size:9px">places</text>
+  <text x="122" y="54" class="rmult" style="font-size:9px">1</text><text x="168" y="54" class="rmult" style="font-size:9px">1..*</text>
+  <!-- OrderItem (Composition) -->
+  <rect x="355" y="10" width="100" height="65" rx="4" class="cb"/>
+  <rect x="355" y="10" width="100" height="22" rx="4" class="ch-pk"/>
+  <text x="405" y="25" class="cn" style="font-size:10px">OrderItem</text>
+  <line x1="355" y1="32" x2="455" y2="32" class="cd"/>
+  <text x="363" y="46" class="ca">- quantity: int</text>
+  <text x="363" y="60" class="ca">- price: Double</text>
+  <line x1="355" y1="68" x2="455" y2="68" class="cd"/>
+  <text x="363" y="80" class="cm" style="font-size:10px">+ getSubtotal()</text>
+  <!-- Composition Order ◆→ OrderItem -->
+  <line x1="314" y1="42" x2="353" y2="42" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <text x="331" y="35" class="rm" style="fill:#9d174d;font-size:9px">◆1..*</text>
+  <!-- Payment abstract -->
+  <rect x="120" y="145" width="160" height="65" rx="4" class="cb"/>
+  <rect x="120" y="145" width="160" height="22" rx="4" class="ch-p"/>
+  <text x="200" y="155" class="cst" style="font-size:9px">«abstract»</text>
+  <text x="200" y="165" class="cn" style="font-size:11px">Payment</text>
+  <line x1="120" y1="172" x2="280" y2="172" class="cd"/>
+  <text x="128" y="186" class="ca">- paymentID: String</text>
+  <text x="128" y="200" class="ca">- amount: Double</text>
+  <line x1="120" y1="208" x2="280" y2="208" class="cd"/>
+  <text x="128" y="220" style="fill:#1d4ed8;font-size:10px;font-style:italic">+ processPayment(): bool</text>
+  <!-- VisaPayment & CashPayment -->
+  <rect x="20" y="240" width="115" height="48" rx="4" class="cb"/>
+  <rect x="20" y="240" width="115" height="20" rx="4" class="ch-t"/>
+  <text x="77" y="253" class="cn" style="font-size:10px">VisaPayment</text>
+  <line x1="20" y1="260" x2="135" y2="260" class="cd"/>
+  <text x="28" y="274" class="ca">- cardNum: String</text>
+  <text x="28" y="286" class="cm" style="font-size:10px">+ processPayment()</text>
+  <rect x="175" y="240" width="120" height="48" rx="4" class="cb"/>
+  <rect x="175" y="240" width="120" height="20" rx="4" class="ch-o"/>
+  <text x="235" y="253" class="cn" style="font-size:10px">CashPayment</text>
+  <line x1="175" y1="260" x2="295" y2="260" class="cd"/>
+  <text x="183" y="274" class="ca">- cashierID: String</text>
+  <text x="183" y="286" class="cm" style="font-size:10px">+ processPayment()</text>
+  <!-- Inheritance -->
+  <line x1="77" y1="240" x2="174" y2="222" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="235" y1="240" x2="228" y2="222" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- PaymentGateway (Dependency from Order) -->
+  <rect x="355" y="145" width="100" height="55" rx="4" class="cb"/>
+  <rect x="355" y="145" width="100" height="22" rx="4" class="ch-cy"/>
+  <text x="405" y="160" class="cn" style="font-size:10px">PaymentGateway</text>
+  <line x1="355" y1="167" x2="455" y2="167" class="cd"/>
+  <text x="363" y="181" class="ca">- gatewayURL: String</text>
+  <text x="363" y="195" class="cm" style="font-size:10px">+ process(): bool</text>
+  <!-- Dependency Order ---→ PaymentGateway -->
+  <line x1="300" y1="55" x2="380" y2="143" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="348" y="98" class="rm" style="fill:#c2410c;font-size:9px">«uses»</text>
+</svg>
+</div>
+</div>
+
+<!-- Q38 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q38 — Identifying wrong relationships (Pitfall)</div>
+  <div class="qscene">A student wrote: "Window has-a Title" as Composition. "Library owns Books" as Dependency. "Dog is-a Animal" as Association. Identify all 3 ERRORS and show the correct relationships.</div>
+  <div class="qtrick tr-mix">TRICK: Wrong → Correct: 1) Window-Title = Composition ✓ (title destroyed with window). 2) Library-Book = Aggregation ✓ not Dependency (library stores books permanently). 3) Dog-Animal = Inheritance ✓ (IS-A, not association).</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="270" viewBox="0 0 460 270">
+  <!-- WRONG side -->
+  <rect x="0" y="10" width="215" height="250" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1"/>
+  <text x="107" y="30" style="fill:#991b1b;font-size:12px;font-weight:700;text-anchor:middle">WRONG</text>
+  <!-- Wrong 1: Window aggregates Title (should be composition) -->
+  <rect x="10" y="40" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="45" y="59" style="fill:#9d174d;font-size:10px;text-anchor:middle">Window</text>
+  <line x1="80" y1="55" x2="120" y2="55" stroke="#15803d" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <polygon points="82,51 88,47 94,51 88,55" fill="white" stroke="#15803d" stroke-width="1"/>
+  <rect x="122" y="40" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="157" y="59" style="fill:#9d174d;font-size:10px;text-anchor:middle">Title</text>
+  <text x="107" y="82" style="fill:#ef4444;font-size:9px;text-anchor:middle">✗ Used Aggregation — should be Composition</text>
+  <!-- Wrong 2: Library depends on Book (should be aggregation) -->
+  <rect x="10" y="100" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="45" y="119" style="fill:#9d174d;font-size:10px;text-anchor:middle">Library</text>
+  <line x1="80" y1="115" x2="120" y2="115" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr-dep)"/>
+  <rect x="122" y="100" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="157" y="119" style="fill:#9d174d;font-size:10px;text-anchor:middle">Book</text>
+  <text x="107" y="142" style="fill:#ef4444;font-size:9px;text-anchor:middle">✗ Used Dependency — should be Aggregation</text>
+  <!-- Wrong 3: Dog associates Animal (should be inheritance) -->
+  <rect x="10" y="160" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="45" y="179" style="fill:#9d174d;font-size:10px;text-anchor:middle">Dog</text>
+  <line x1="80" y1="175" x2="120" y2="175" stroke="#374151" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="122" y="160" width="70" height="30" rx="3" fill="#fce7f3" stroke="#9d174d" stroke-width="1"/>
+  <text x="157" y="179" style="fill:#9d174d;font-size:10px;text-anchor:middle">Animal</text>
+  <text x="107" y="202" style="fill:#ef4444;font-size:9px;text-anchor:middle">✗ Used Association — should be Inheritance</text>
+
+  <!-- CORRECT side -->
+  <rect x="230" y="10" width="220" height="250" rx="6" fill="#f0fdf4" stroke="#22c55e" stroke-width="1"/>
+  <text x="340" y="30" style="fill:#14532d;font-size:12px;font-weight:700;text-anchor:middle">CORRECT</text>
+  <!-- Correct 1 -->
+  <rect x="240" y="40" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="275" y="59" style="fill:#134e4a;font-size:10px;text-anchor:middle">Window</text>
+  <line x1="324" y1="55" x2="360" y2="55" stroke="#9d174d" stroke-width="1.5" marker-end="url(#arr-pk)"/>
+  <polygon points="326,51 332,47 338,51 332,55" fill="#9d174d" stroke="#9d174d" stroke-width="1"/>
+  <rect x="362" y="40" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="397" y="59" style="fill:#134e4a;font-size:10px;text-anchor:middle">Title</text>
+  <text x="340" y="82" style="fill:#15803d;font-size:9px;text-anchor:middle">✓ Composition ◆ (destroyed together)</text>
+  <!-- Correct 2 -->
+  <rect x="240" y="100" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="275" y="119" style="fill:#134e4a;font-size:10px;text-anchor:middle">Library</text>
+  <line x1="324" y1="115" x2="360" y2="115" stroke="#15803d" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <polygon points="326,111 332,107 338,111 332,115" fill="white" stroke="#15803d" stroke-width="1"/>
+  <rect x="362" y="100" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="397" y="119" style="fill:#134e4a;font-size:10px;text-anchor:middle">Book</text>
+  <text x="340" y="142" style="fill:#15803d;font-size:9px;text-anchor:middle">✓ Aggregation ◇ (books exist independently)</text>
+  <!-- Correct 3 -->
+  <rect x="240" y="160" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="275" y="179" style="fill:#134e4a;font-size:10px;text-anchor:middle">Dog</text>
+  <line x1="275" y1="160" x2="370" y2="132" stroke="#6d28d9" stroke-width="1.5" marker-end="url(#arr-inh)"/>
+  <rect x="340" y="110" width="70" height="30" rx="3" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1"/>
+  <text x="375" y="129" style="fill:#134e4a;font-size:10px;text-anchor:middle">Animal</text>
+  <text x="340" y="202" style="fill:#15803d;font-size:9px;text-anchor:middle">✓ Inheritance ──▷ (Dog IS-A Animal)</text>
+</svg>
+</div>
+</div>
+
+<!-- Q39 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q39 — Full System: Course Registration (mixed)</div>
+  <div class="qscene"><strong>Student</strong> registers for <strong>Courses</strong> through <strong>CourseRegistration</strong> (association class). Registration has composed <strong>Bill</strong>. <strong>Instructor</strong> and <strong>Student</strong> both inherit from <strong>Person</strong>. Bill depends on <strong>PaymentSystem</strong>.</div>
+  <div class="qtrick tr-mix">TRICK: Association class (CourseRegistration) appears when a many-to-many relationship has its own attributes (semester, status, grade). It becomes a class sitting on the association line with a dashed connector.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="285" viewBox="0 0 460 285">
+  <!-- Person (abstract) -->
+  <rect x="160" y="10" width="140" height="55" rx="4" class="cb"/>
+  <rect x="160" y="10" width="140" height="22" rx="4" class="ch-gr"/>
+  <text x="230" y="24" class="cst" style="font-size:9px">«abstract» Person</text>
+  <line x1="160" y1="32" x2="300" y2="32" class="cd"/>
+  <text x="168" y="46" class="ca">- name: String  - email: String</text>
+  <line x1="160" y1="54" x2="300" y2="54" class="cd"/>
+  <text x="168" y="68" class="cm" style="font-size:10px">+ login(): boolean</text>
+  <!-- Student & Instructor inherit from Person -->
+  <rect x="20" y="120" width="115" height="55" rx="4" class="cb"/>
+  <rect x="20" y="120" width="115" height="22" rx="4" class="ch-b"/>
+  <text x="77" y="135" class="cn" style="font-size:11px">Student</text>
+  <line x1="20" y1="142" x2="135" y2="142" class="cd"/>
+  <text x="28" y="156" class="ca">- studentID: String</text>
+  <text x="28" y="168" class="cm" style="font-size:10px">+ enroll(): void</text>
+  <rect x="325" y="120" width="120" height="55" rx="4" class="cb"/>
+  <rect x="325" y="120" width="120" height="22" rx="4" class="ch-t"/>
+  <text x="385" y="135" class="cn" style="font-size:11px">Instructor</text>
+  <line x1="325" y1="142" x2="445" y2="142" class="cd"/>
+  <text x="333" y="156" class="ca">- instructorID: String</text>
+  <text x="333" y="168" class="cm" style="font-size:10px">+ updateGrades(): void</text>
+  <!-- Inheritance -->
+  <line x1="77" y1="120" x2="200" y2="65" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="385" y1="120" x2="265" y2="65" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- Course -->
+  <rect x="200" y="115" width="115" height="60" rx="4" class="cb"/>
+  <rect x="200" y="115" width="115" height="22" rx="4" class="ch-p"/>
+  <text x="257" y="130" class="cn" style="font-size:11px">Course</text>
+  <line x1="200" y1="137" x2="315" y2="137" class="cd"/>
+  <text x="208" y="151" class="ca">- courseID: String</text>
+  <text x="208" y="165" class="ca">- creditHours: int</text>
+  <!-- Association Student - Course -->
+  <line x1="135" y1="148" x2="198" y2="148" class="rl-assoc"/>
+  <text x="165" y="140" class="rm" style="font-size:9px">enrols *</text>
+  <!-- CourseRegistration (association class) -->
+  <rect x="155" y="208" width="150" height="70" rx="4" class="cb" style="stroke:#374151;stroke-dasharray:4 2"/>
+  <rect x="155" y="208" width="150" height="22" rx="4" class="ch-gr"/>
+  <text x="230" y="218" class="cst" style="font-size:8px">«association class»</text>
+  <text x="230" y="228" class="cn" style="font-size:10px">CourseRegistration</text>
+  <line x1="155" y1="232" x2="305" y2="232" class="cd"/>
+  <text x="163" y="246" class="ca">- registrationID: String</text>
+  <text x="163" y="260" class="ca">- semester: String</text>
+  <text x="163" y="274" class="ca">- status: String</text>
+  <!-- Association class connector -->
+  <line x1="230" y1="148" x2="230" y2="206" stroke="#374151" stroke-width="1" stroke-dasharray="3 2"/>
+  <!-- Bill (composition) -->
+  <rect x="355" y="215" width="100" height="55" rx="4" class="cb"/>
+  <rect x="355" y="215" width="100" height="22" rx="4" class="ch-o"/>
+  <text x="405" y="230" class="cn" style="font-size:10px">Bill</text>
+  <line x1="355" y1="237" x2="455" y2="237" class="cd"/>
+  <text x="363" y="251" class="ca">- amount: Double</text>
+  <text x="363" y="265" class="ca">- status: String</text>
+  <!-- Composition Registration ◆→ Bill -->
+  <line x1="319" y1="244" x2="353" y2="237" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <!-- PaymentSystem (Dependency from Bill) -->
+  <text x="360" y="280" style="fill:#c2410c;font-size:9px">Bill - - → PaymentSystem</text>
+</svg>
+</div>
+</div>
+
+<!-- Q40 -->
+<div class="qcard">
+<div class="qcard-header">
+  <div class="qtag t-mix">Q40 — Relationships Quick Reference + Final Challenge</div>
+  <div class="qscene">The <strong>Hotel System</strong> final challenge: Guest (inherits Person) makes Reservations. Reservation composed-of Bill. Reservation associates Room. Receptionist (inherits Person) manages Room. Bill realizes Payable interface. Bill depends on PaymentGateway.</div>
+  <div class="qtrick tr-mix">TRICK: Final exam approach: (1) Find all classes. (2) For each pair: ask IS-A? HAS-A strong? HAS-A weak? USES-TEMP? IMPLEMENTS? → assign relationship. Draw inheritance tree first, then add other relationships.</div>
+</div>
+<div class="diagram-area">
+<svg width="460" height="290" viewBox="0 0 460 290">
+  <!-- Person -->
+  <rect x="155" y="8" width="150" height="50" rx="4" class="cb"/>
+  <rect x="155" y="8" width="150" height="22" rx="4" class="ch-gr"/>
+  <text x="230" y="21" class="cst" style="font-size:9px">«abstract» Person</text>
+  <line x1="155" y1="30" x2="305" y2="30" class="cd"/>
+  <text x="163" y="44" class="ca">- name: String  - contact: String</text>
+  <line x1="155" y1="52" x2="305" y2="52" class="cd"/>
+  <!-- Guest & Receptionist inherit Person -->
+  <rect x="20" y="100" width="115" height="55" rx="4" class="cb"/>
+  <rect x="20" y="100" width="115" height="22" rx="4" class="ch-b"/>
+  <text x="77" y="115" class="cn" style="font-size:11px">Guest</text>
+  <line x1="20" y1="122" x2="135" y2="122" class="cd"/>
+  <text x="28" y="136" class="ca">- guestID: String</text>
+  <text x="28" y="150" class="cm" style="font-size:10px">+ makeReservation()</text>
+  <rect x="325" y="100" width="125" height="55" rx="4" class="cb"/>
+  <rect x="325" y="100" width="125" height="22" rx="4" class="ch-t"/>
+  <text x="387" y="115" class="cn" style="font-size:11px">Receptionist</text>
+  <line x1="325" y1="122" x2="450" y2="122" class="cd"/>
+  <text x="333" y="136" class="ca">- shiftTime: String</text>
+  <text x="333" y="150" class="cm" style="font-size:10px">+ manageRoom(): void</text>
+  <!-- Inheritance arrows -->
+  <line x1="77" y1="100" x2="196" y2="58" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <line x1="387" y1="100" x2="270" y2="58" class="rl-inh" marker-end="url(#arr-inh)"/>
+  <!-- Reservation -->
+  <rect x="165" y="100" width="140" height="58" rx="4" class="cb"/>
+  <rect x="165" y="100" width="140" height="22" rx="4" class="ch-g"/>
+  <text x="235" y="115" class="cn" style="font-size:11px">Reservation</text>
+  <line x1="165" y1="122" x2="305" y2="122" class="cd"/>
+  <text x="173" y="136" class="ca">- checkIn/OutDate: Date</text>
+  <text x="173" y="150" class="ca">- status: String</text>
+  <!-- Guest → Reservation (association) -->
+  <line x1="135" y1="128" x2="163" y2="128" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="148" y="120" class="rm" style="font-size:9px">makes</text>
+  <!-- Room -->
+  <rect x="355" y="185" width="100" height="55" rx="4" class="cb"/>
+  <rect x="355" y="185" width="100" height="22" rx="4" class="ch-o"/>
+  <text x="405" y="200" class="cn" style="font-size:10px">Room</text>
+  <line x1="355" y1="207" x2="455" y2="207" class="cd"/>
+  <text x="363" y="221" class="ca">- roomID: String</text>
+  <text x="363" y="235" class="ca">- pricePerNight: Double</text>
+  <!-- Reservation → Room (association) -->
+  <line x1="305" y1="135" x2="353" y2="200" class="rl-assoc" marker-end="url(#arr)"/>
+  <text x="325" y="162" class="rm" style="font-size:9px">for</text>
+  <!-- Bill (Composition in Reservation) -->
+  <rect x="20" y="200" width="130" height="55" rx="4" class="cb"/>
+  <rect x="20" y="200" width="130" height="22" rx="4" class="ch-pk"/>
+  <text x="85" y="215" class="cn" style="font-size:11px">Bill</text>
+  <line x1="20" y1="222" x2="150" y2="222" class="cd"/>
+  <text x="28" y="236" class="ca">- billID: String</text>
+  <text x="28" y="250" class="ca">- amount: Double</text>
+  <!-- Composition Reservation ◆→ Bill -->
+  <line x1="179" y1="158" x2="152" y2="207" class="rl-comp" marker-end="url(#arr-pk)" marker-start="url(#diam-comp)"/>
+  <!-- Payable interface (Realization) -->
+  <rect x="20" y="263" width="130" height="26" rx="4" class="cb"/>
+  <rect x="20" y="263" width="130" height="22" rx="4" class="ch-t"/>
+  <text x="85" y="276" class="cst" style="font-size:9px">«interface» Payable</text>
+  <!-- Bill realizes Payable -->
+  <line x1="85" y1="255" x2="85" y2="261" class="rl-real" marker-end="url(#arr-real)"/>
+  <!-- PaymentGateway (Dependency) -->
+  <rect x="165" y="210" width="130" height="45" rx="4" class="cb"/>
+  <rect x="165" y="210" width="130" height="22" rx="4" class="ch-cy"/>
+  <text x="230" y="225" class="cn" style="font-size:10px">PaymentGateway</text>
+  <line x1="165" y1="232" x2="295" y2="232" class="cd"/>
+  <text x="173" y="246" class="cm" style="font-size:10px">+ process(amount): bool</text>
+  <!-- Dependency Bill ---→ PaymentGateway -->
+  <line x1="150" y1="228" x2="163" y2="228" class="rl-dep" marker-end="url(#arr-dep)"/>
+  <text x="155" y="220" class="rm" style="fill:#c2410c;font-size:9px">«uses»</text>
+  <!-- Legend inside -->
+  <text x="165" y="264" style="fill:#374151;font-size:8px">Summary: Inh ──▷  Comp ◆  Assoc →  Dep---→  Real- -▷</text>
+</svg>
+</div>
+</div>
+
+</div><!-- end grid -->
+
+<div class="footer">
+  Class Diagram — 40 Questions | Association · Aggregation · Composition · Inheritance · Dependency · Realization<br>
+  <span style="color:#93c5fd">Key rule: IS-A = Inheritance | Strong HAS-A = Composition | Weak HAS-A = Aggregation | USES-TEMP = Dependency | IMPLEMENTS = Realization</span>
+</div>
+
+</body>
+</html>

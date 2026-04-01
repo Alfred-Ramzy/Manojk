@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use Case & Class Diagrams — All 5 Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:radial-gradient(circle at 0% 0%,#dbeafe 0,transparent 35%),radial-gradient(circle at 100% 0%,#fce7f3 0,transparent 30%),#f4f4ee;color:#1e1e1e}
+.page-header{background:linear-gradient(135deg,#1e1e2e,#2d1b69);color:white;padding:28px 36px}
+.page-header h1{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;letter-spacing:.2px}
+.page-header p{font-size:14px;color:#c4b5fd}
+.toc{background:white;padding:16px 32px;border-bottom:1px solid #e5e7eb;display:flex;gap:12px;flex-wrap:wrap}
+.toc a{font-size:13px;font-weight:600;color:#1d4ed8;text-decoration:none;padding:6px 13px;border-radius:20px;border:1px solid #dbeafe;background:#eff6ff;transition:.2s ease}
+.toc a:hover{background:#dbeafe}
+.section{max-width:1200px;margin:28px auto;background:white;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.12);overflow:hidden;border:1px solid #e5e7eb}
+.sec-header{padding:20px 28px 16px;border-bottom:1px solid #f3f4f6;display:flex;align-items:flex-start;gap:16px}
+.sec-num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.n1{background:#dbeafe;color:#1d4ed8}.n2{background:#dcfce7;color:#15803d}
+.n3{background:#ede9fe;color:#6d28d9}.n4{background:#ffedd5;color:#c2410c}
+.n5{background:#fce7f3;color:#9d174d}
+.sec-title h2{font-family:'Manrope',sans-serif;font-size:18px;font-weight:700;color:#111;margin-bottom:4px}
+.sec-title p{font-size:13px;color:#6b7280;line-height:1.5}
+.question-block{margin:0 24px 16px;padding:14px 16px;border:1px solid #dbeafe;background:linear-gradient(180deg,#f8fbff,#eff6ff);border-radius:10px}
+.question-label{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#1e40af;background:#dbeafe;padding:4px 10px;border-radius:999px;margin-bottom:8px}
+.question-title{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:8px}
+.question-text{font-size:13px;line-height:1.65;color:#334155}
+.question-text + .question-text{margin-top:8px}
+.diagram-tabs{display:flex;border-bottom:1px solid #e5e7eb}
+.tab{padding:12px 24px;font-size:13px;font-weight:500;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent}
+.tab.active{color:#2563eb;border-bottom-color:#2563eb}
+.tab-content{display:none;padding:20px 24px 28px;overflow-x:auto}
+.tab-content.active{display:block}
+.assumptions{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#374151;line-height:1.7}
+.assumptions strong{color:#111;font-size:13px}
+svg{font-family:'Source Sans 3',sans-serif;display:block;min-width:980px;height:auto}
+/* Use case styles */
+.sys-rect{fill:none;stroke:#374151;stroke-width:1.8}
+.sys-lbl{fill:#6b7280;font-size:13px;font-weight:600}
+.act-h{fill:none;stroke:#374151;stroke-width:1.8}
+.act-b{stroke:#374151;stroke-width:1.8;fill:none}
+.act-n{fill:#111;font-size:12px;text-anchor:middle;font-weight:500}
+.act-t{fill:#6b7280;font-size:10px;text-anchor:middle}
+.pas-box{fill:#fff7ed;stroke:#f97316;stroke-width:1.2}
+.pas-l{fill:#92400e;font-size:11px;text-anchor:middle;font-weight:500}
+.uc-b{fill:#dbeafe;stroke:#3b82f6;stroke-width:1.5}
+.uc-g{fill:#dcfce7;stroke:#22c55e;stroke-width:1.5}
+.uc-p{fill:#ede9fe;stroke:#8b5cf6;stroke-width:1.5}
+.uc-o{fill:#ffedd5;stroke:#f97316;stroke-width:1.5}
+.uc-t{fill:#ccfbf1;stroke:#14b8a6;stroke-width:1.5}
+.uc-pk{fill:#fce7f3;stroke:#ec4899;stroke-width:1.5}
+.lb{fill:#1e3a8a;font-size:12px;font-weight:500;text-anchor:middle}
+.lg{fill:#14532d;font-size:12px;font-weight:500;text-anchor:middle}
+.lp{fill:#4c1d95;font-size:12px;font-weight:500;text-anchor:middle}
+.lo{fill:#7c2d12;font-size:12px;font-weight:500;text-anchor:middle}
+.lt{fill:#134e4a;font-size:12px;font-weight:500;text-anchor:middle}
+.lpk{fill:#831843;font-size:12px;font-weight:500;text-anchor:middle}
+.sm{font-size:11px}
+.asso{stroke:#374151;stroke-width:1.5;fill:none}
+.inc{stroke:#2563eb;stroke-width:1.8;stroke-dasharray:7 4;fill:none}
+.ext{stroke:#15803d;stroke-width:1.8;stroke-dasharray:7 4;fill:none}
+.gen{stroke:#7c3aed;stroke-width:1.8;fill:none}
+.li{fill:#1d4ed8;font-size:11px;font-weight:600;text-anchor:middle}
+.le{fill:#15803d;font-size:11px;font-weight:600;text-anchor:middle}
+.cond{fill:#fffbeb;stroke:#f59e0b;stroke-width:1}
+.cl{fill:#92400e;font-size:10px;text-anchor:middle}
+/* Class diagram styles */
+.cls-box{fill:#f8fafc;stroke:#374151;stroke-width:1.5}
+.cls-head{fill:#1e3a8a;stroke:#374151;stroke-width:1.5}
+.cls-head-g{fill:#14532d;stroke:#374151;stroke-width:1.5}
+.cls-head-p{fill:#4c1d95;stroke:#374151;stroke-width:1.5}
+.cls-head-o{fill:#7c2d12;stroke:#374151;stroke-width:1.5}
+.cls-head-t{fill:#134e4a;stroke:#374151;stroke-width:1.5}
+.cls-head-pk{fill:#831843;stroke:#374151;stroke-width:1.5}
+.cls-name{fill:white;font-size:13px;font-weight:700;text-anchor:middle}
+.cls-attr{fill:#1e1e1e;font-size:11px;text-anchor:start}
+.cls-method{fill:#2563eb;font-size:11px;text-anchor:start}
+.cls-div{stroke:#e5e7eb;stroke-width:1}
+.rel-line{stroke:#374151;stroke-width:1.5;fill:none}
+.rel-lbl{fill:#374151;font-size:10px;text-anchor:middle}
+.rel-type{fill:#6b7280;font-size:10px;text-anchor:middle;font-style:italic}
+.multi{fill:#374151;font-size:10px}
+.summary-wrap{max-width:1200px;margin:24px auto;background:#1e1e2e;border-radius:16px;padding:24px 32px;color:white}
+.summary-title{font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;color:#c4b5fd}
+.summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;font-size:11px}
+@media(max-width:980px){.summary-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+  .page-header{padding:22px 18px}
+  .toc{padding:12px 14px}
+  .section{margin:16px 10px}
+  .sec-header{padding:16px 14px 14px}
+  .question-block{margin:0 12px 14px}
+  .tab{padding:10px 12px}
+  .tab-content{padding:14px 10px 18px}
+  .summary-wrap{margin:16px 10px;padding:18px 14px}
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>Use Case &amp; Class Diagrams — All 5 Questions</h1>
+  <p>Library Management · Online Shopping · University Course Registration · Hotel Reservation · Clinic Appointment</p>
+</div>
+<div class="toc">
+  <a href="#q1">Q1 Library</a>
+  <a href="#q2">Q2 Online Shopping</a>
+  <a href="#q3">Q3 Course Registration</a>
+  <a href="#q4">Q4 Hotel Reservation</a>
+  <a href="#q5">Q5 Clinic Appointment</a>
+</div>
+
+<!-- ═══════════════════════ Q1 LIBRARY ═══════════════════════ -->
+<div class="section" id="q1">
+<div class="sec-header">
+  <div class="sec-num n1">1</div>
+  <div class="sec-title">
+    <h2>Library Management System</h2>
+    <p>Actors: Member (active), Librarian (active), Administrator (active), Online Payment Gateway (passive)</p>
+  </div>
+</div>
+<div class="question-block">
+  <div class="question-label">Question 1</div>
+  <div class="question-title">Library Management System</div>
+  <p class="question-text">Read the following case study and then draw the suggested Use Case diagram and Class diagram. Please mention any pre-conditions or assumptions that you want to consider.</p>
+  <p class="question-text">A university library needs an automated system to manage book records, member borrowing, reservations, fines, and librarian services. Members should be able to search for books, borrow available books, reserve unavailable books, view their borrowing history, and pay fines. To access the system, members should register for an account, in which each member is given: memberID, name, address, phoneNumber, email. Then, members can log on to the system and search for books by title, author, or category.</p>
+  <p class="question-text">Each borrowed book is recorded with borrowID, borrowDate, dueDate, returnDate, status. Members can return borrowed books, and if they delay returning a book, a fine is generated. Members can pay fines physically at the library desk or online through an online payment gateway.</p>
+  <p class="question-text">According to Librarians, they need access to book records and member borrowing activities. Each librarian has librarianID, name, contactInfo, shiftTime. Librarians log in to access their work dashboard in the system. Librarians can add new books, update book information, remove damaged books, and manage reservations. Each book has bookID, title, author, category, availabilityStatus.</p>
+  <p class="question-text">Furthermore, Administrators have adminID, name, role onto the system to manage employee records, generate reports about borrowed and overdue books, and manage fine policies. Reports should include information about book circulation and member activities.</p>
+</div>
+<div class="diagram-tabs">
+  <div class="tab active" onclick="switchTab(this,'uc1')">Use Case Diagram</div>
+  <div class="tab" onclick="switchTab(this,'cd1')">Class Diagram</div>
+</div>
+
+<div class="tab-content active" id="uc1">
+<div class="assumptions"><strong>Assumptions &amp; Pre-conditions:</strong> Members must register before accessing the system. Login is a pre-condition (not modeled as include). Fines are auto-generated when returnDate exceeds dueDate. Payment can be physical or online. Librarians and Admins have separate logins with different dashboards.</div>
+<svg width="1100" height="580" viewBox="0 0 1100 580">
+<defs>
+  <marker id="ia" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563eb"/></marker>
+  <marker id="ea" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="ga" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker>
+</defs>
+<!-- system boundary -->
+<rect x="155" y="10" width="800" height="560" rx="8" class="sys-rect"/>
+<text x="170" y="28" class="sys-lbl">Library Management System</text>
+<!-- MEMBER actor -->
+<circle cx="58" cy="120" r="13" class="act-h"/><line x1="58" y1="133" x2="58" y2="158" class="act-b"/><line x1="38" y1="143" x2="78" y2="143" class="act-b"/><line x1="58" y1="158" x2="42" y2="178" class="act-b"/><line x1="58" y1="158" x2="74" y2="178" class="act-b"/>
+<text x="58" y="192" class="act-n">Member</text><text x="58" y="204" class="act-t">(Active)</text>
+<!-- LIBRARIAN actor -->
+<circle cx="58" cy="340" r="13" class="act-h"/><line x1="58" y1="353" x2="58" y2="378" class="act-b"/><line x1="38" y1="363" x2="78" y2="363" class="act-b"/><line x1="58" y1="378" x2="42" y2="398" class="act-b"/><line x1="58" y1="378" x2="74" y2="398" class="act-b"/>
+<text x="58" y="412" class="act-n">Librarian</text><text x="58" y="424" class="act-t">(Active)</text>
+<!-- ADMIN actor -->
+<circle cx="1045" cy="200" r="13" class="act-h"/><line x1="1045" y1="213" x2="1045" y2="238" class="act-b"/><line x1="1025" y1="223" x2="1065" y2="223" class="act-b"/><line x1="1045" y1="238" x2="1029" y2="258" class="act-b"/><line x1="1045" y1="238" x2="1061" y2="258" class="act-b"/>
+<text x="1045" y="272" class="act-n">Admin</text><text x="1045" y="284" class="act-t">(Active)</text>
+<!-- PAYMENT GATEWAY passive -->
+<rect x="1018" y="390" width="74" height="52" rx="4" class="pas-box"/>
+<text x="1055" y="408" class="pas-l">«actor»</text><text x="1055" y="421" class="pas-l">Online</text><text x="1055" y="434" class="pas-l">Payment</text><text x="1055" y="445" class="act-t">(Passive)</text>
+
+<!-- MEMBER USE CASES -->
+<ellipse cx="310" cy="55" rx="90" ry="22" class="uc-b"/><text x="310" y="59" class="lb">Register Account</text>
+<ellipse cx="520" cy="55" rx="80" ry="22" class="uc-b"/><text x="520" y="59" class="lb">Login</text>
+<ellipse cx="310" cy="115" rx="80" ry="22" class="uc-b"/><text x="310" y="119" class="lb">Search Books</text>
+<ellipse cx="520" cy="115" rx="80" ry="22" class="uc-b"/><text x="520" y="119" class="lb">Borrow Book</text>
+<ellipse cx="310" cy="175" rx="80" ry="22" class="uc-b"/><text x="310" y="179" class="lb">Reserve Book</text>
+<ellipse cx="520" cy="175" rx="80" ry="22" class="uc-b"/><text x="520" y="179" class="lb">Return Book</text>
+<ellipse cx="310" cy="235" rx="95" ry="22" class="uc-b"/><text x="310" y="239" class="lb">View Borrow History</text>
+<ellipse cx="520" cy="235" rx="80" ry="22" class="uc-b"/><text x="520" y="239" class="lb">Pay Fine</text>
+<!-- Member assoc -->
+<line x1="71" y1="112" x2="218" y2="58" class="asso"/>
+<line x1="71" y1="116" x2="438" y2="58" class="asso"/>
+<line x1="71" y1="120" x2="228" y2="115" class="asso"/>
+<line x1="71" y1="124" x2="438" y2="115" class="asso"/>
+<line x1="71" y1="128" x2="228" y2="175" class="asso"/>
+<line x1="71" y1="132" x2="438" y2="175" class="asso"/>
+<line x1="71" y1="136" x2="213" y2="235" class="asso"/>
+<line x1="71" y1="140" x2="438" y2="235" class="asso"/>
+
+<!-- Pay Fine include: Pay Fine -> Process Payment -->
+<ellipse cx="780" cy="235" rx="90" ry="22" class="uc-o"/><text x="780" y="231" class="lo sm">Process Online</text><text x="780" y="243" class="lo sm">Payment</text>
+<line x1="600" y1="235" x2="688" y2="235" class="inc" marker-end="url(#ia)"/>
+<text x="642" y="225" class="li">«include»</text>
+<!-- Payment Gateway assoc -->
+<line x1="870" y1="240" x2="1016" y2="408" class="asso"/>
+
+<!-- Return Book -> Generate Fine (extend) -->
+<ellipse cx="760" cy="175" rx="85" ry="22" class="uc-g"/><text x="760" y="171" class="lg sm">Generate Fine</text><text x="760" y="183" class="lg sm">(Overdue)</text>
+<line x1="843" y1="175" x2="602" y2="175" class="ext" marker-end="url(#ea)"/>
+<text x="720" y="163" class="le">«extend»</text>
+<rect x="720" y="192" width="160" height="26" rx="3" class="cond"/>
+<text x="800" y="204" class="cl">Condition: {returnDate &gt; dueDate}</text>
+<line x1="800" y1="192" x2="785" y2="180" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+
+<!-- Search Books include: by title/author/category -->
+<ellipse cx="760" cy="115" rx="95" ry="22" class="uc-o"/><text x="760" y="111" class="lo sm">Search by Title /</text><text x="760" y="123" class="lo sm">Author / Category</text>
+<line x1="390" y1="115" x2="663" y2="115" class="inc" marker-end="url(#ia)"/>
+<text x="520" y="104" class="li">«include»</text>
+
+<!-- LIBRARIAN USE CASES -->
+<ellipse cx="310" cy="340" rx="80" ry="22" class="uc-t"/><text x="310" y="344" class="lt">Add New Book</text>
+<ellipse cx="510" cy="340" rx="90" ry="22" class="uc-t"/><text x="510" y="344" class="lt">Update Book Info</text>
+<ellipse cx="310" cy="400" rx="95" ry="22" class="uc-t"/><text x="310" y="404" class="lt">Remove Damaged Book</text>
+<ellipse cx="510" cy="400" rx="95" ry="22" class="uc-t"/><text x="510" y="404" class="lt">Manage Reservations</text>
+<ellipse cx="310" cy="460" rx="95" ry="22" class="uc-t"/><text x="310" y="464" class="lt">View Member Activity</text>
+<ellipse cx="510" cy="460" rx="95" ry="22" class="uc-t"/><text x="510" y="464" class="lt">Access Book Records</text>
+<!-- Librarian assoc -->
+<line x1="71" y1="345" x2="228" y2="342" class="asso"/>
+<line x1="71" y1="349" x2="418" y2="342" class="asso"/>
+<line x1="71" y1="353" x2="213" y2="400" class="asso"/>
+<line x1="71" y1="357" x2="413" y2="400" class="asso"/>
+<line x1="71" y1="361" x2="213" y2="460" class="asso"/>
+<line x1="71" y1="365" x2="413" y2="460" class="asso"/>
+
+<!-- ADMIN USE CASES -->
+<ellipse cx="780" cy="340" rx="90" ry="22" class="uc-pk"/><text x="780" y="344" class="lpk">Manage Employees</text>
+<ellipse cx="780" cy="400" rx="90" ry="22" class="uc-pk"/><text x="780" y="396" class="lpk sm">Generate Reports</text><text x="780" y="408" class="lpk sm">(Circulation)</text>
+<ellipse cx="780" cy="460" rx="90" ry="22" class="uc-pk"/><text x="780" y="464" class="lpk">Manage Fine Policy</text>
+<!-- Admin assoc -->
+<line x1="1032" y1="208" x2="872" y2="342" class="asso"/>
+<line x1="1032" y1="215" x2="872" y2="400" class="asso"/>
+<line x1="1032" y1="222" x2="872" y2="460" class="asso"/>
+
+<!-- Borrow Book include Check Availability -->
+<ellipse cx="760" cy="55" rx="90" ry="22" class="uc-o"/><text x="760" y="51" class="lo sm">Check Book</text><text x="760" y="63" class="lo sm">Availability</text>
+<line x1="600" y1="55" x2="668" y2="55" class="inc" marker-end="url(#ia)"/>
+<line x1="600" y1="118" x2="730" y2="62" class="inc" marker-end="url(#ia)"/>
+<text x="632" y="45" class="li">«include»</text>
+
+<!-- section labels -->
+<line x1="157" y1="295" x2="953" y2="295" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="162" y="314" style="fill:#9ca3af;font-size:11px;font-weight:600">LIBRARIAN &amp; ADMIN USE CASES</text>
+</svg>
+</div>
+
+<div class="tab-content" id="cd1">
+<div class="assumptions"><strong>Class Diagram Notes:</strong> Member can have many BorrowRecords and Fines. Librarian manages Books and Reservations. Admin manages system-wide settings. Payment can be OnlinePayment or PhysicalPayment (generalization).</div>
+<svg width="1100" height="720" viewBox="0 0 1100 720">
+<!-- MEMBER class -->
+<rect x="20" y="20" width="180" height="195" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="20" width="180" height="36" rx="4" class="cls-head"/>
+<text x="110" y="43" class="cls-name">Member</text>
+<line x1="20" y1="56" x2="200" y2="56" class="cls-div"/>
+<text x="28" y="72" class="cls-attr">- memberID: String</text>
+<text x="28" y="86" class="cls-attr">- name: String</text>
+<text x="28" y="100" class="cls-attr">- address: String</text>
+<text x="28" y="114" class="cls-attr">- phoneNumber: String</text>
+<text x="28" y="128" class="cls-attr">- email: String</text>
+<line x1="20" y1="136" x2="200" y2="136" class="cls-div"/>
+<text x="28" y="150" class="cls-method">+ register(): void</text>
+<text x="28" y="164" class="cls-method">+ login(): boolean</text>
+<text x="28" y="178" class="cls-method">+ searchBook(): List</text>
+<text x="28" y="192" class="cls-method">+ viewHistory(): List</text>
+<text x="28" y="206" class="cls-method">+ payFine(): void</text>
+
+<!-- BORROW_RECORD class -->
+<rect x="260" y="20" width="190" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="260" y="20" width="190" height="36" rx="4" class="cls-head"/>
+<text x="355" y="43" class="cls-name">BorrowRecord</text>
+<line x1="260" y1="56" x2="450" y2="56" class="cls-div"/>
+<text x="268" y="72" class="cls-attr">- borrowID: String</text>
+<text x="268" y="86" class="cls-attr">- borrowDate: Date</text>
+<text x="268" y="100" class="cls-attr">- dueDate: Date</text>
+<text x="268" y="114" class="cls-attr">- returnDate: Date</text>
+<text x="268" y="128" class="cls-attr">- status: String</text>
+<line x1="260" y1="136" x2="450" y2="136" class="cls-div"/>
+<text x="268" y="150" class="cls-method">+ borrowBook(): void</text>
+<text x="268" y="164" class="cls-method">+ returnBook(): void</text>
+<text x="268" y="178" class="cls-method">+ isOverdue(): boolean</text>
+<text x="268" y="192" class="cls-method">+ generateFine(): Fine</text>
+
+<!-- BOOK class -->
+<rect x="510" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="510" y="20" width="185" height="36" rx="4" class="cls-head-g"/>
+<text x="602" y="43" class="cls-name">Book</text>
+<line x1="510" y1="56" x2="695" y2="56" class="cls-div"/>
+<text x="518" y="72" class="cls-attr">- bookID: String</text>
+<text x="518" y="86" class="cls-attr">- title: String</text>
+<text x="518" y="100" class="cls-attr">- author: String</text>
+<text x="518" y="114" class="cls-attr">- category: String</text>
+<text x="518" y="128" class="cls-attr">- availabilityStatus: bool</text>
+<line x1="510" y1="136" x2="695" y2="136" class="cls-div"/>
+<text x="518" y="150" class="cls-method">+ updateInfo(): void</text>
+<text x="518" y="164" class="cls-method">+ checkAvailability(): bool</text>
+<text x="518" y="178" class="cls-method">+ reserve(): void</text>
+<text x="518" y="192" class="cls-method">+ remove(): void</text>
+
+<!-- RESERVATION class -->
+<rect x="760" y="20" width="175" height="155" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="760" y="20" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="847" y="43" class="cls-name">Reservation</text>
+<line x1="760" y1="56" x2="935" y2="56" class="cls-div"/>
+<text x="768" y="72" class="cls-attr">- reservationID: String</text>
+<text x="768" y="86" class="cls-attr">- reservationDate: Date</text>
+<text x="768" y="100" class="cls-attr">- status: String</text>
+<line x1="760" y1="108" x2="935" y2="108" class="cls-div"/>
+<text x="768" y="122" class="cls-method">+ create(): void</text>
+<text x="768" y="136" class="cls-method">+ cancel(): void</text>
+<text x="768" y="150" class="cls-method">+ confirm(): void</text>
+
+<!-- FINE class -->
+<rect x="20" y="280" width="175" height="155" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="280" width="175" height="36" rx="4" class="cls-head-o"/>
+<text x="107" y="303" class="cls-name">Fine</text>
+<line x1="20" y1="316" x2="195" y2="316" class="cls-div"/>
+<text x="28" y="332" class="cls-attr">- fineID: String</text>
+<text x="28" y="346" class="cls-attr">- amount: Double</text>
+<text x="28" y="360" class="cls-attr">- paymentStatus: String</text>
+<text x="28" y="374" class="cls-attr">- generatedDate: Date</text>
+<line x1="20" y1="382" x2="195" y2="382" class="cls-div"/>
+<text x="28" y="396" class="cls-method">+ calculate(): Double</text>
+<text x="28" y="410" class="cls-method">+ pay(): void</text>
+<text x="28" y="424" class="cls-method">+ getStatus(): String</text>
+
+<!-- PAYMENT abstract -->
+<rect x="260" y="280" width="175" height="135" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="260" y="280" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="347" y="295" class="cls-name" style="font-style:italic">«abstract»</text>
+<text x="347" y="310" class="cls-name">Payment</text>
+<line x1="260" y1="316" x2="435" y2="316" class="cls-div"/>
+<text x="268" y="332" class="cls-attr">- paymentID: String</text>
+<text x="268" y="346" class="cls-attr">- amount: Double</text>
+<text x="268" y="360" class="cls-attr">- paymentDate: Date</text>
+<line x1="260" y1="368" x2="435" y2="368" class="cls-div"/>
+<text x="268" y="382" class="cls-method">+ processPayment(): bool</text>
+<text x="268" y="396" class="cls-method">+ getReceipt(): String</text>
+
+<!-- OnlinePayment -->
+<rect x="180" y="490" width="170" height="100" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="180" y="490" width="170" height="36" rx="4" class="cls-head-t"/>
+<text x="265" y="513" class="cls-name">OnlinePayment</text>
+<line x1="180" y1="526" x2="350" y2="526" class="cls-div"/>
+<text x="188" y="542" class="cls-attr">- gatewayRef: String</text>
+<text x="188" y="556" class="cls-attr">- transactionID: String</text>
+<line x1="180" y1="564" x2="350" y2="564" class="cls-div"/>
+<text x="188" y="578" class="cls-method">+ processPayment(): bool</text>
+
+<!-- PhysicalPayment -->
+<rect x="380" y="490" width="170" height="100" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="380" y="490" width="170" height="36" rx="4" class="cls-head-t"/>
+<text x="465" y="513" class="cls-name">PhysicalPayment</text>
+<line x1="380" y1="526" x2="550" y2="526" class="cls-div"/>
+<text x="388" y="542" class="cls-attr">- cashierID: String</text>
+<text x="388" y="556" class="cls-attr">- receiptNumber: String</text>
+<line x1="380" y1="564" x2="550" y2="564" class="cls-div"/>
+<text x="388" y="578" class="cls-method">+ processPayment(): bool</text>
+
+<!-- LIBRARIAN class -->
+<rect x="510" y="280" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="510" y="280" width="185" height="36" rx="4" class="cls-head-t"/>
+<text x="602" y="303" class="cls-name">Librarian</text>
+<line x1="510" y1="316" x2="695" y2="316" class="cls-div"/>
+<text x="518" y="332" class="cls-attr">- librarianID: String</text>
+<text x="518" y="346" class="cls-attr">- name: String</text>
+<text x="518" y="360" class="cls-attr">- contactInfo: String</text>
+<text x="518" y="374" class="cls-attr">- shiftTime: String</text>
+<line x1="510" y1="382" x2="695" y2="382" class="cls-div"/>
+<text x="518" y="396" class="cls-method">+ addBook(): void</text>
+<text x="518" y="410" class="cls-method">+ updateBook(): void</text>
+<text x="518" y="424" class="cls-method">+ removeBook(): void</text>
+<text x="518" y="438" class="cls-method">+ manageReservation(): void</text>
+
+<!-- ADMIN class -->
+<rect x="760" y="280" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="760" y="280" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="852" y="303" class="cls-name">Administrator</text>
+<line x1="760" y1="316" x2="945" y2="316" class="cls-div"/>
+<text x="768" y="332" class="cls-attr">- adminID: String</text>
+<text x="768" y="346" class="cls-attr">- name: String</text>
+<text x="768" y="360" class="cls-attr">- role: String</text>
+<line x1="760" y1="368" x2="945" y2="368" class="cls-div"/>
+<text x="768" y="384" class="cls-method">+ manageEmployees(): void</text>
+<text x="768" y="398" class="cls-method">+ generateReport(): Report</text>
+<text x="768" y="412" class="cls-method">+ setFinePolicy(): void</text>
+<text x="768" y="426" class="cls-method">+ viewAllActivity(): void</text>
+
+<!-- RELATIONSHIPS -->
+<!-- Member 1 ---borrows--- * BorrowRecord -->
+<line x1="200" y1="110" x2="260" y2="80" class="rel-line"/>
+<text x="230" y="92" class="rel-type">borrows</text>
+<text x="202" y="108" class="multi">1</text><text x="252" y="80" class="multi">*</text>
+<!-- Member 1 ---has--- * Fine -->
+<line x1="110" y1="215" x2="110" y2="280" class="rel-line"/>
+<text x="116" y="252" class="rel-type">has</text>
+<text x="112" y="225" class="multi">1</text><text x="112" y="280" class="multi">*</text>
+<!-- BorrowRecord * ---for--- 1 Book -->
+<line x1="450" y1="80" x2="510" y2="80" class="rel-line"/>
+<text x="478" y="72" class="rel-type">for</text>
+<text x="452" y="80" class="multi">*</text><text x="500" y="80" class="multi">1</text>
+<!-- Member 1 ---makes--- * Reservation -->
+<line x1="200" y1="55" x2="760" y2="55" class="rel-line"/>
+<text x="470" y="47" class="rel-type">makes</text>
+<text x="202" y="55" class="multi">1</text><text x="752" y="55" class="multi">*</text>
+<!-- Reservation * ---for--- 1 Book -->
+<line x1="847" y1="175" x2="695" y2="100" class="rel-line"/>
+<text x="775" y="135" class="rel-type">for</text>
+<text x="840" y="172" class="multi">*</text><text x="695" y="100" class="multi">1</text>
+<!-- Fine 1 ---settledBy--- 1 Payment -->
+<line x1="195" y1="360" x2="260" y2="360" class="rel-line"/>
+<text x="225" y="352" class="rel-type">settledBy</text>
+<!-- Payment generalization -->
+<line x1="265" y1="490" x2="310" y2="415" class="gen" marker-end="url(#ga)"/>
+<line x1="465" y1="490" x2="400" y2="415" class="gen" marker-end="url(#ga)"/>
+<!-- Librarian manages Book -->
+<line x1="602" y1="280" x2="602" y2="205" class="rel-line"/>
+<text x="610" y="246" class="rel-type">manages</text>
+<!-- Admin oversees -->
+<line x1="852" y1="280" x2="852" y2="175" class="rel-line"/>
+<text x="860" y="230" class="rel-type">oversees</text>
+<!-- BorrowRecord generates Fine -->
+<line x1="260" y1="190" x2="107" y2="280" class="rel-line"/>
+<text x="168" y="240" class="rel-type">generates</text>
+</svg>
+</div>
+</div><!-- end q1 -->
+
+
+<!-- ═══════════════════════ Q2 ONLINE SHOPPING ═══════════════════════ -->
+<div class="section" id="q2">
+<div class="sec-header">
+  <div class="sec-num n2">2</div>
+  <div class="sec-title">
+    <h2>Online Shopping System</h2>
+    <p>Actors: Customer (active), Seller (active), Administrator (active), Visa Payment System (passive)</p>
+  </div>
+</div>
+<div class="question-block">
+  <div class="question-label">Question 2</div>
+  <div class="question-title">Online Shopping System</div>
+  <p class="question-text">Read the following case study and then draw the suggested Use Case diagram and Class diagram. Please mention any pre-conditions or assumptions that you want to consider.</p>
+  <p class="question-text">An online shopping company needs an automated system to manage customers, products, orders, payments, and inventory. Customers should be able to browse products, add items to a shopping cart, place orders, view order history, and pay for their purchases. To access the system, customers should register for an account, in which each customer is given: customerID, name, address, phoneNumber, email. Then, customers can log on to the system and shop for products.</p>
+  <p class="question-text">Each order is given orderID, orderDate, totalAmount, orderStatus. Customers may cancel an order before shipping. Customers can pay for their orders either by cash on delivery or online through a Visa payment system.</p>
+  <p class="question-text">According to Sellers, they need access to product records and order details. Each seller has sellerID, name, shopName, contactInfo. Sellers log in to access their dashboard in the system. Sellers can add products, update product prices, manage stock, and view customer orders. Each product has productID, productName, price, quantityInStock, category.</p>
+  <p class="question-text">Furthermore, Administrators have adminID, name, role onto the system to manage user accounts, approve sellers, generate reports on sales operations, and monitor product availability. Bills and invoices should be generated for each order and stored in the system.</p>
+</div>
+<div class="diagram-tabs">
+  <div class="tab active" onclick="switchTab(this,'uc2')">Use Case Diagram</div>
+  <div class="tab" onclick="switchTab(this,'cd2')">Class Diagram</div>
+</div>
+
+<div class="tab-content active" id="uc2">
+<div class="assumptions"><strong>Assumptions:</strong> Customers must register and login before shopping or placing orders. Unregistered users can only browse. Cancel Order only possible before shipping. Bills are auto-generated after each order.</div>
+<svg width="1100" height="560" viewBox="0 0 1100 560">
+<defs>
+  <marker id="ia2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563eb"/></marker>
+  <marker id="ea2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="ga2" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker>
+</defs>
+<rect x="155" y="10" width="800" height="540" rx="8" class="sys-rect"/>
+<text x="170" y="28" class="sys-lbl">Online Shopping System</text>
+<!-- Customer -->
+<circle cx="58" cy="140" r="13" class="act-h"/><line x1="58" y1="153" x2="58" y2="178" class="act-b"/><line x1="38" y1="163" x2="78" y2="163" class="act-b"/><line x1="58" y1="178" x2="42" y2="198" class="act-b"/><line x1="58" y1="178" x2="74" y2="198" class="act-b"/>
+<text x="58" y="212" class="act-n">Customer</text><text x="58" y="224" class="act-t">(Active)</text>
+<!-- Seller -->
+<circle cx="58" cy="370" r="13" class="act-h"/><line x1="58" y1="383" x2="58" y2="408" class="act-b"/><line x1="38" y1="393" x2="78" y2="393" class="act-b"/><line x1="58" y1="408" x2="42" y2="428" class="act-b"/><line x1="58" y1="408" x2="74" y2="428" class="act-b"/>
+<text x="58" y="442" class="act-n">Seller</text><text x="58" y="454" class="act-t">(Active)</text>
+<!-- Admin -->
+<circle cx="1045" cy="230" r="13" class="act-h"/><line x1="1045" y1="243" x2="1045" y2="268" class="act-b"/><line x1="1025" y1="253" x2="1065" y2="253" class="act-b"/><line x1="1045" y1="268" x2="1029" y2="288" class="act-b"/><line x1="1045" y1="268" x2="1061" y2="288" class="act-b"/>
+<text x="1045" y="302" class="act-n">Admin</text><text x="1045" y="314" class="act-t">(Active)</text>
+<!-- Visa Payment -->
+<rect x="1018" y="410" width="74" height="52" rx="4" class="pas-box"/>
+<text x="1055" y="428" class="pas-l">«actor»</text><text x="1055" y="441" class="pas-l">Visa</text><text x="1055" y="454" class="pas-l">Payment</text><text x="1055" y="465" class="act-t">(Passive)</text>
+
+<!-- Customer UCs -->
+<ellipse cx="300" cy="55" rx="85" ry="22" class="uc-b"/><text x="300" y="59" class="lb">Register Account</text>
+<ellipse cx="500" cy="55" rx="80" ry="22" class="uc-b"/><text x="500" y="59" class="lb">Login</text>
+<ellipse cx="300" cy="115" rx="85" ry="22" class="uc-b"/><text x="300" y="119" class="lb">Browse Products</text>
+<ellipse cx="500" cy="115" rx="80" ry="22" class="uc-b"/><text x="500" y="119" class="lb">Add to Cart</text>
+<ellipse cx="300" cy="175" rx="80" ry="22" class="uc-b"/><text x="300" y="179" class="lb">Place Order</text>
+<ellipse cx="500" cy="175" rx="80" ry="22" class="uc-b"/><text x="500" y="179" class="lb">Cancel Order</text>
+<ellipse cx="300" cy="235" rx="90" ry="22" class="uc-b"/><text x="300" y="239" class="lb">View Order History</text>
+<ellipse cx="500" cy="235" rx="80" ry="22" class="uc-b"/><text x="500" y="239" class="lb">Pay for Order</text>
+<!-- Customer assoc -->
+<line x1="71" y1="132" x2="213" y2="58" class="asso"/>
+<line x1="71" y1="136" x2="418" y2="58" class="asso"/>
+<line x1="71" y1="140" x2="213" y2="115" class="asso"/>
+<line x1="71" y1="144" x2="418" y2="115" class="asso"/>
+<line x1="71" y1="148" x2="218" y2="175" class="asso"/>
+<line x1="71" y1="152" x2="418" y2="175" class="asso"/>
+<line x1="71" y1="156" x2="208" y2="235" class="asso"/>
+<line x1="71" y1="160" x2="418" y2="235" class="asso"/>
+
+<!-- Pay includes: cash or online -->
+<ellipse cx="780" cy="235" rx="90" ry="22" class="uc-o"/><text x="780" y="231" class="lo sm">Process Visa</text><text x="780" y="243" class="lo sm">Payment</text>
+<ellipse cx="780" cy="175" rx="85" ry="22" class="uc-o"/><text x="780" y="179" class="lo sm">Generate Bill/Invoice</text>
+<!-- Pay Order include payment -->
+<line x1="580" y1="240" x2="688" y2="238" class="inc" marker-end="url(#ia2)"/>
+<text x="633" y="230" class="li">«include»</text>
+<!-- Place Order include generate bill -->
+<line x1="380" y1="180" x2="693" y2="178" class="inc" marker-end="url(#ia2)"/>
+<text x="535" y="168" class="li">«include»</text>
+<!-- Visa assoc -->
+<line x1="870" y1="240" x2="1016" y2="430" class="asso"/>
+
+<!-- Cancel Order extend (only before shipping) -->
+<rect x="640" y="140" width="165" height="26" rx="3" class="cond"/>
+<text x="722" y="152" class="cl">Condition: {order status = pending}</text>
+<line x1="702" y1="140" x2="582" y2="180" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+
+<!-- Seller UCs -->
+<ellipse cx="300" cy="360" rx="85" ry="22" class="uc-g"/><text x="300" y="364" class="lg">Add Products</text>
+<ellipse cx="500" cy="360" rx="90" ry="22" class="uc-g"/><text x="500" y="364" class="lg">Update Product Prices</text>
+<ellipse cx="300" cy="420" rx="80" ry="22" class="uc-g"/><text x="300" y="424" class="lg">Manage Stock</text>
+<ellipse cx="500" cy="420" rx="90" ry="22" class="uc-g"/><text x="500" y="424" class="lg">View Customer Orders</text>
+<ellipse cx="400" cy="490" rx="80" ry="22" class="uc-g"/><text x="400" y="494" class="lg">Access Dashboard</text>
+<line x1="71" y1="372" x2="213" y2="362" class="asso"/>
+<line x1="71" y1="376" x2="408" y2="362" class="asso"/>
+<line x1="71" y1="380" x2="218" y2="420" class="asso"/>
+<line x1="71" y1="384" x2="408" y2="420" class="asso"/>
+<line x1="71" y1="388" x2="318" y2="490" class="asso"/>
+
+<!-- Admin UCs -->
+<ellipse cx="780" cy="340" rx="90" ry="22" class="uc-pk"/><text x="780" y="344" class="lpk">Manage User Accounts</text>
+<ellipse cx="780" cy="400" rx="80" ry="22" class="uc-pk"/><text x="780" y="404" class="lpk">Approve Sellers</text>
+<ellipse cx="780" cy="460" rx="90" ry="22" class="uc-pk"/><text x="780" y="464" class="lpk">Generate Sales Reports</text>
+<line x1="1032" y1="238" x2="872" y2="342" class="asso"/>
+<line x1="1032" y1="245" x2="862" y2="400" class="asso"/>
+<line x1="1032" y1="252" x2="872" y2="460" class="asso"/>
+
+<!-- section divider -->
+<line x1="157" y1="300" x2="953" y2="300" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="162" y="320" style="fill:#9ca3af;font-size:11px;font-weight:600">SELLER &amp; ADMIN USE CASES</text>
+</svg>
+</div>
+
+<div class="tab-content" id="cd2">
+<svg width="1100" height="700" viewBox="0 0 1100 700">
+<!-- Customer -->
+<rect x="20" y="20" width="175" height="195" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="20" width="175" height="36" rx="4" class="cls-head"/>
+<text x="107" y="43" class="cls-name">Customer</text>
+<line x1="20" y1="56" x2="195" y2="56" class="cls-div"/>
+<text x="28" y="72" class="cls-attr">- customerID: String</text>
+<text x="28" y="86" class="cls-attr">- name: String</text>
+<text x="28" y="100" class="cls-attr">- address: String</text>
+<text x="28" y="114" class="cls-attr">- phoneNumber: String</text>
+<text x="28" y="128" class="cls-attr">- email: String</text>
+<line x1="20" y1="136" x2="195" y2="136" class="cls-div"/>
+<text x="28" y="150" class="cls-method">+ register(): void</text>
+<text x="28" y="164" class="cls-method">+ login(): boolean</text>
+<text x="28" y="178" class="cls-method">+ browseProducts(): List</text>
+<text x="28" y="192" class="cls-method">+ viewOrderHistory(): List</text>
+<text x="28" y="206" class="cls-method">+ cancelOrder(): void</text>
+
+<!-- Order -->
+<rect x="255" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="20" width="185" height="36" rx="4" class="cls-head-g"/>
+<text x="347" y="43" class="cls-name">Order</text>
+<line x1="255" y1="56" x2="440" y2="56" class="cls-div"/>
+<text x="263" y="72" class="cls-attr">- orderID: String</text>
+<text x="263" y="86" class="cls-attr">- orderDate: Date</text>
+<text x="263" y="100" class="cls-attr">- totalAmount: Double</text>
+<text x="263" y="114" class="cls-attr">- orderStatus: String</text>
+<line x1="255" y1="122" x2="440" y2="122" class="cls-div"/>
+<text x="263" y="138" class="cls-method">+ placeOrder(): void</text>
+<text x="263" y="152" class="cls-method">+ cancelOrder(): void</text>
+<text x="263" y="166" class="cls-method">+ calculateTotal(): Double</text>
+<text x="263" y="180" class="cls-method">+ generateBill(): Bill</text>
+<text x="263" y="194" class="cls-method">+ updateStatus(): void</text>
+
+<!-- Product -->
+<rect x="500" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="500" y="20" width="185" height="36" rx="4" class="cls-head-p"/>
+<text x="592" y="43" class="cls-name">Product</text>
+<line x1="500" y1="56" x2="685" y2="56" class="cls-div"/>
+<text x="508" y="72" class="cls-attr">- productID: String</text>
+<text x="508" y="86" class="cls-attr">- productName: String</text>
+<text x="508" y="100" class="cls-attr">- price: Double</text>
+<text x="508" y="114" class="cls-attr">- quantityInStock: int</text>
+<text x="508" y="128" class="cls-attr">- category: String</text>
+<line x1="500" y1="136" x2="685" y2="136" class="cls-div"/>
+<text x="508" y="152" class="cls-method">+ updatePrice(): void</text>
+<text x="508" y="166" class="cls-method">+ manageStock(): void</text>
+<text x="508" y="180" class="cls-method">+ checkAvailability(): bool</text>
+<text x="508" y="194" class="cls-method">+ addProduct(): void</text>
+
+<!-- Seller -->
+<rect x="745" y="20" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="20" width="185" height="36" rx="4" class="cls-head-t"/>
+<text x="837" y="43" class="cls-name">Seller</text>
+<line x1="745" y1="56" x2="930" y2="56" class="cls-div"/>
+<text x="753" y="72" class="cls-attr">- sellerID: String</text>
+<text x="753" y="86" class="cls-attr">- name: String</text>
+<text x="753" y="100" class="cls-attr">- shopName: String</text>
+<text x="753" y="114" class="cls-attr">- contactInfo: String</text>
+<line x1="745" y1="122" x2="930" y2="122" class="cls-div"/>
+<text x="753" y="138" class="cls-method">+ addProduct(): void</text>
+<text x="753" y="152" class="cls-method">+ updateProduct(): void</text>
+<text x="753" y="166" class="cls-method">+ viewOrders(): List</text>
+<text x="753" y="180" class="cls-method">+ manageInventory(): void</text>
+
+<!-- Cart -->
+<rect x="20" y="290" width="175" height="130" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="290" width="175" height="36" rx="4" class="cls-head-o"/>
+<text x="107" y="313" class="cls-name">ShoppingCart</text>
+<line x1="20" y1="326" x2="195" y2="326" class="cls-div"/>
+<text x="28" y="342" class="cls-attr">- cartID: String</text>
+<text x="28" y="356" class="cls-attr">- items: List&lt;Product&gt;</text>
+<line x1="20" y1="364" x2="195" y2="364" class="cls-div"/>
+<text x="28" y="378" class="cls-method">+ addItem(): void</text>
+<text x="28" y="392" class="cls-method">+ removeItem(): void</text>
+<text x="28" y="406" class="cls-method">+ checkout(): Order</text>
+
+<!-- Bill -->
+<rect x="255" y="280" width="175" height="145" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="280" width="175" height="36" rx="4" class="cls-head-pk"/>
+<text x="342" y="303" class="cls-name">Bill</text>
+<line x1="255" y1="316" x2="430" y2="316" class="cls-div"/>
+<text x="263" y="332" class="cls-attr">- billID: String</text>
+<text x="263" y="346" class="cls-attr">- amount: Double</text>
+<text x="263" y="360" class="cls-attr">- paymentStatus: String</text>
+<text x="263" y="374" class="cls-attr">- paymentDate: Date</text>
+<line x1="255" y1="382" x2="430" y2="382" class="cls-div"/>
+<text x="263" y="396" class="cls-method">+ generate(): void</text>
+<text x="263" y="410" class="cls-method">+ sendToEmail(): void</text>
+
+<!-- Payment abstract -->
+<rect x="500" y="280" width="175" height="130" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="500" y="280" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="587" y="295" class="cls-name" style="font-style:italic">«abstract»</text>
+<text x="587" y="309" class="cls-name">Payment</text>
+<line x1="500" y1="316" x2="675" y2="316" class="cls-div"/>
+<text x="508" y="332" class="cls-attr">- paymentID: String</text>
+<text x="508" y="346" class="cls-attr">- amount: Double</text>
+<text x="508" y="360" class="cls-attr">- paymentDate: Date</text>
+<line x1="500" y1="368" x2="675" y2="368" class="cls-div"/>
+<text x="508" y="382" class="cls-method">+ processPayment(): bool</text>
+<text x="508" y="396" class="cls-method">+ getReceipt(): String</text>
+
+<!-- VisaPayment -->
+<rect x="420" y="490" width="165" height="95" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="420" y="490" width="165" height="36" rx="4" class="cls-head-t"/>
+<text x="502" y="513" class="cls-name">VisaPayment</text>
+<line x1="420" y1="526" x2="585" y2="526" class="cls-div"/>
+<text x="428" y="542" class="cls-attr">- cardNumber: String</text>
+<text x="428" y="556" class="cls-attr">- transactionRef: String</text>
+<line x1="420" y1="564" x2="585" y2="564" class="cls-div"/>
+<text x="428" y="578" class="cls-method">+ processPayment(): bool</text>
+
+<!-- CashOnDelivery -->
+<rect x="610" y="490" width="165" height="95" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="610" y="490" width="165" height="36" rx="4" class="cls-head-t"/>
+<text x="692" y="513" class="cls-name">CashOnDelivery</text>
+<line x1="610" y1="526" x2="775" y2="526" class="cls-div"/>
+<text x="618" y="542" class="cls-attr">- deliveryAgentID: String</text>
+<line x1="610" y1="550" x2="775" y2="550" class="cls-div"/>
+<text x="618" y="566" class="cls-method">+ confirmReceipt(): void</text>
+<text x="618" y="580" class="cls-method">+ processPayment(): bool</text>
+
+<!-- Admin -->
+<rect x="745" y="280" width="185" height="165" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="280" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="837" y="303" class="cls-name">Administrator</text>
+<line x1="745" y1="316" x2="930" y2="316" class="cls-div"/>
+<text x="753" y="332" class="cls-attr">- adminID: String</text>
+<text x="753" y="346" class="cls-attr">- name: String</text>
+<text x="753" y="360" class="cls-attr">- role: String</text>
+<line x1="753" y1="368" x2="930" y2="368" class="cls-div" style="stroke:#374151;stroke-width:1"/>
+<text x="753" y="384" class="cls-method">+ approveSellerS(): void</text>
+<text x="753" y="398" class="cls-method">+ manageAccounts(): void</text>
+<text x="753" y="412" class="cls-method">+ generateReport(): Report</text>
+<text x="753" y="426" class="cls-method">+ monitorInventory(): void</text>
+
+<!-- RELATIONSHIPS -->
+<line x1="195" y1="100" x2="255" y2="90" class="rel-line"/>
+<text x="222" y="88" class="rel-type">places</text>
+<text x="197" y="98" class="multi">1</text><text x="248" y="90" class="multi">*</text>
+<line x1="347" y1="205" x2="347" y2="280" class="rel-line"/>
+<text x="353" y="246" class="rel-type">generates</text>
+<line x1="440" y1="80" x2="500" y2="80" class="rel-line"/>
+<text x="467" y="72" class="rel-type">contains</text>
+<text x="442" y="80" class="multi">*</text><text x="492" y="80" class="multi">*</text>
+<line x1="685" y1="80" x2="745" y2="80" class="rel-line"/>
+<text x="712" y="72" class="rel-type">sells</text>
+<text x="687" y="80" class="multi">*</text><text x="737" y="80" class="multi">1</text>
+<line x1="107" y1="215" x2="107" y2="290" class="rel-line"/>
+<text x="113" y="256" class="rel-type">has</text>
+<text x="109" y="225" class="multi">1</text><text x="109" y="290" class="multi">1</text>
+<line x1="430" y1="350" x2="500" y2="350" class="rel-line"/>
+<text x="462" y="342" class="rel-type">settledBy</text>
+<line x1="502" y1="490" x2="530" y2="410" class="gen" marker-end="url(#ga2)"/>
+<line x1="690" y1="490" x2="640" y2="410" class="gen" marker-end="url(#ga2)"/>
+<defs><marker id="ga2" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker></defs>
+</svg>
+</div>
+</div><!-- end q2 -->
+
+
+<!-- ═══════════════════════ Q3 COURSE REGISTRATION ═══════════════════════ -->
+<div class="section" id="q3">
+<div class="sec-header">
+  <div class="sec-num n3">3</div>
+  <div class="sec-title">
+    <h2>University Course Registration System</h2>
+    <p>Actors: Student (active), Instructor (active), Administrator (active), Online Payment System (passive)</p>
+  </div>
+</div>
+<div class="question-block">
+  <div class="question-label">Question 3</div>
+  <div class="question-title">University Course Registration System</div>
+  <p class="question-text">Read the following case study and then draw the suggested Use Case diagram and Class diagram. Please mention any pre-conditions or assumptions that you want to consider.</p>
+  <p class="question-text">A university needs an automated system to manage student registration, course enrollment, instructors, and fee payments. Students should be able to register for an account, log on to the system, enroll in courses, drop courses, view their schedules, and pay tuition fees. Each student is given: studentID, name, age, address, contactInfo.</p>
+  <p class="question-text">Each course registration is recorded with registrationID, semester, registrationDate, status. Students may cancel their registration within the allowed add/drop period. Students can pay their tuition fees physically at the finance office or online by Visa payment through an online payment system.</p>
+  <p class="question-text">According to Instructors, they need access to course rosters and student academic records. Each instructor has instructorID, name, specialization, contactInfo. Instructors log in to access their work dashboard in the system. Instructors can view course schedules, view enrolled students, and update grades for students. Each course has courseID, courseName, creditHours, schedule, classroom.</p>
+  <p class="question-text">Furthermore, Administrators have adminID, name, role onto the system to manage course offerings, assign instructors, manage departments, generate tuition bills, and generate reports on course enrollment and academic performance. Each bill has billID, amount, paymentStatus, paymentDate.</p>
+</div>
+<div class="diagram-tabs">
+  <div class="tab active" onclick="switchTab(this,'uc3')">Use Case Diagram</div>
+  <div class="tab" onclick="switchTab(this,'cd3')">Class Diagram</div>
+</div>
+
+<div class="tab-content active" id="uc3">
+<div class="assumptions"><strong>Assumptions:</strong> Students must register before accessing the system. Drop is only allowed within the add/drop period. Payment can be physical at finance office or online by Visa. Instructor grades are submitted per course per semester. Admin manages course offerings and instructor assignments.</div>
+<svg width="1100" height="560" viewBox="0 0 1100 560">
+<defs>
+  <marker id="ia3" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563eb"/></marker>
+  <marker id="ea3" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="ga3" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker>
+</defs>
+<rect x="155" y="10" width="800" height="540" rx="8" class="sys-rect"/>
+<text x="170" y="28" class="sys-lbl">University Course Registration System</text>
+<!-- Student -->
+<circle cx="58" cy="140" r="13" class="act-h"/><line x1="58" y1="153" x2="58" y2="178" class="act-b"/><line x1="38" y1="163" x2="78" y2="163" class="act-b"/><line x1="58" y1="178" x2="42" y2="198" class="act-b"/><line x1="58" y1="178" x2="74" y2="198" class="act-b"/>
+<text x="58" y="212" class="act-n">Student</text><text x="58" y="224" class="act-t">(Active)</text>
+<!-- Instructor -->
+<circle cx="58" cy="370" r="13" class="act-h"/><line x1="58" y1="383" x2="58" y2="408" class="act-b"/><line x1="38" y1="393" x2="78" y2="393" class="act-b"/><line x1="58" y1="408" x2="42" y2="428" class="act-b"/><line x1="58" y1="408" x2="74" y2="428" class="act-b"/>
+<text x="58" y="442" class="act-n">Instructor</text><text x="58" y="454" class="act-t">(Active)</text>
+<!-- Admin -->
+<circle cx="1045" cy="230" r="13" class="act-h"/><line x1="1045" y1="243" x2="1045" y2="268" class="act-b"/><line x1="1025" y1="253" x2="1065" y2="253" class="act-b"/><line x1="1045" y1="268" x2="1029" y2="288" class="act-b"/><line x1="1045" y1="268" x2="1061" y2="288" class="act-b"/>
+<text x="1045" y="302" class="act-n">Admin</text>
+<!-- Payment System passive -->
+<rect x="1018" y="400" width="74" height="52" rx="4" class="pas-box"/>
+<text x="1055" y="418" class="pas-l">«actor»</text><text x="1055" y="431" class="pas-l">Payment</text><text x="1055" y="444" class="pas-l">System</text><text x="1055" y="455" class="act-t">(Passive)</text>
+
+<!-- Student UCs -->
+<ellipse cx="300" cy="55" rx="80" ry="22" class="uc-b"/><text x="300" y="59" class="lb">Register Account</text>
+<ellipse cx="500" cy="55" rx="70" ry="22" class="uc-b"/><text x="500" y="59" class="lb">Login</text>
+<ellipse cx="300" cy="115" rx="80" ry="22" class="uc-b"/><text x="300" y="119" class="lb">Enroll in Course</text>
+<ellipse cx="500" cy="115" rx="75" ry="22" class="uc-b"/><text x="500" y="119" class="lb">Drop Course</text>
+<ellipse cx="300" cy="175" rx="80" ry="22" class="uc-b"/><text x="300" y="179" class="lb">View Schedule</text>
+<ellipse cx="500" cy="175" rx="80" ry="22" class="uc-b"/><text x="500" y="179" class="lb">Pay Tuition Fees</text>
+<ellipse cx="300" cy="235" rx="90" ry="22" class="uc-b"/><text x="300" y="239" class="lb">Cancel Registration</text>
+<!-- Student assoc -->
+<line x1="71" y1="132" x2="218" y2="58" class="asso"/>
+<line x1="71" y1="136" x2="428" y2="58" class="asso"/>
+<line x1="71" y1="140" x2="218" y2="115" class="asso"/>
+<line x1="71" y1="144" x2="423" y2="115" class="asso"/>
+<line x1="71" y1="148" x2="218" y2="175" class="asso"/>
+<line x1="71" y1="152" x2="418" y2="175" class="asso"/>
+<line x1="71" y1="156" x2="208" y2="235" class="asso"/>
+
+<!-- Pay include Visa -->
+<ellipse cx="780" cy="175" rx="90" ry="22" class="uc-o"/><text x="780" y="171" class="lo sm">Process Visa</text><text x="780" y="183" class="lo sm">Payment Online</text>
+<line x1="580" y1="178" x2="688" y2="178" class="inc" marker-end="url(#ia3)"/>
+<text x="633" y="168" class="li">«include»</text>
+<line x1="870" y1="183" x2="1016" y2="415" class="asso"/>
+
+<!-- Enroll include Check Prerequisites -->
+<ellipse cx="780" cy="115" rx="95" ry="22" class="uc-o"/><text x="780" y="111" class="lo sm">Check Course</text><text x="780" y="123" class="lo sm">Prerequisites</text>
+<line x1="380" y1="115" x2="683" y2="115" class="inc" marker-end="url(#ia3)"/>
+<text x="530" y="104" class="li">«include»</text>
+
+<!-- Cancel Registration extend (add/drop period) -->
+<ellipse cx="680" cy="235" rx="90" ry="22" class="uc-g"/><text x="680" y="231" class="lg sm">Send Withdrawal</text><text x="680" y="243" class="lg sm">Confirmation</text>
+<line x1="770" y1="235" x2="393" y2="235" class="ext" marker-end="url(#ea3)"/>
+<text x="584" y="225" class="le">«extend»</text>
+<rect x="600" y="250" width="185" height="26" rx="3" class="cond"/>
+<text x="692" y="262" class="cl">Condition: {within add/drop period}</text>
+<line x1="680" y1="250" x2="680" y2="246" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+
+<!-- Instructor UCs -->
+<ellipse cx="300" cy="370" rx="90" ry="22" class="uc-t"/><text x="300" y="374" class="lt">View Course Schedule</text>
+<ellipse cx="500" cy="370" rx="90" ry="22" class="uc-t"/><text x="500" y="374" class="lt">View Enrolled Students</text>
+<ellipse cx="300" cy="430" rx="85" ry="22" class="uc-t"/><text x="300" y="434" class="lt">Update Student Grades</text>
+<ellipse cx="500" cy="430" rx="90" ry="22" class="uc-t"/><text x="500" y="434" class="lt">Access Student Records</text>
+<ellipse cx="400" cy="500" rx="85" ry="22" class="uc-t"/><text x="400" y="504" class="lt">Access Dashboard</text>
+<line x1="71" y1="372" x2="208" y2="372" class="asso"/>
+<line x1="71" y1="376" x2="408" y2="372" class="asso"/>
+<line x1="71" y1="380" x2="213" y2="430" class="asso"/>
+<line x1="71" y1="384" x2="408" y2="430" class="asso"/>
+<line x1="71" y1="388" x2="313" y2="500" class="asso"/>
+
+<!-- Admin UCs -->
+<ellipse cx="780" cy="340" rx="95" ry="22" class="uc-pk"/><text x="780" y="344" class="lpk">Manage Course Offerings</text>
+<ellipse cx="780" cy="400" rx="90" ry="22" class="uc-pk"/><text x="780" y="404" class="lpk">Assign Instructors</text>
+<ellipse cx="780" cy="460" rx="95" ry="22" class="uc-pk"/><text x="780" y="464" class="lpk">Generate Tuition Bills</text>
+<ellipse cx="780" cy="520" rx="90" ry="22" class="uc-pk"/><text x="780" y="524" class="lpk">Generate Reports</text>
+<line x1="1032" y1="238" x2="877" y2="342" class="asso"/>
+<line x1="1032" y1="245" x2="872" y2="400" class="asso"/>
+<line x1="1032" y1="252" x2="877" y2="460" class="asso"/>
+<line x1="1032" y1="259" x2="872" y2="520" class="asso"/>
+<line x1="157" y1="300" x2="953" y2="300" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="162" y="320" style="fill:#9ca3af;font-size:11px;font-weight:600">INSTRUCTOR &amp; ADMIN USE CASES</text>
+</svg>
+</div>
+
+<div class="tab-content" id="cd3">
+<svg width="1100" height="700" viewBox="0 0 1100 700">
+<!-- Student -->
+<rect x="20" y="20" width="175" height="195" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="20" width="175" height="36" rx="4" class="cls-head"/>
+<text x="107" y="43" class="cls-name">Student</text>
+<line x1="20" y1="56" x2="195" y2="56" class="cls-div"/>
+<text x="28" y="72" class="cls-attr">- studentID: String</text>
+<text x="28" y="86" class="cls-attr">- name: String</text>
+<text x="28" y="100" class="cls-attr">- age: int</text>
+<text x="28" y="114" class="cls-attr">- address: String</text>
+<text x="28" y="128" class="cls-attr">- contactInfo: String</text>
+<line x1="20" y1="136" x2="195" y2="136" class="cls-div"/>
+<text x="28" y="150" class="cls-method">+ register(): void</text>
+<text x="28" y="164" class="cls-method">+ enrollCourse(): void</text>
+<text x="28" y="178" class="cls-method">+ dropCourse(): void</text>
+<text x="28" y="192" class="cls-method">+ viewSchedule(): List</text>
+<text x="28" y="206" class="cls-method">+ payFees(): void</text>
+<!-- CourseRegistration -->
+<rect x="255" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="20" width="185" height="36" rx="4" class="cls-head-g"/>
+<text x="347" y="43" class="cls-name">CourseRegistration</text>
+<line x1="255" y1="56" x2="440" y2="56" class="cls-div"/>
+<text x="263" y="72" class="cls-attr">- registrationID: String</text>
+<text x="263" y="86" class="cls-attr">- semester: String</text>
+<text x="263" y="100" class="cls-attr">- registrationDate: Date</text>
+<text x="263" y="114" class="cls-attr">- status: String</text>
+<line x1="263" y1="122" x2="440" y2="122" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="138" class="cls-method">+ enroll(): void</text>
+<text x="263" y="152" class="cls-method">+ cancel(): void</text>
+<text x="263" y="166" class="cls-method">+ getStatus(): String</text>
+<text x="263" y="180" class="cls-method">+ generateBill(): Bill</text>
+<!-- Course -->
+<rect x="500" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="500" y="20" width="185" height="36" rx="4" class="cls-head-p"/>
+<text x="592" y="43" class="cls-name">Course</text>
+<line x1="500" y1="56" x2="685" y2="56" class="cls-div"/>
+<text x="508" y="72" class="cls-attr">- courseID: String</text>
+<text x="508" y="86" class="cls-attr">- courseName: String</text>
+<text x="508" y="100" class="cls-attr">- creditHours: int</text>
+<text x="508" y="114" class="cls-attr">- schedule: String</text>
+<text x="508" y="128" class="cls-attr">- classroom: String</text>
+<line x1="508" y1="136" x2="685" y2="136" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="508" y="152" class="cls-method">+ viewEnrolled(): List</text>
+<text x="508" y="166" class="cls-method">+ checkCapacity(): bool</text>
+<text x="508" y="180" class="cls-method">+ updateSchedule(): void</text>
+<text x="508" y="194" class="cls-method">+ checkPrerequisites(): bool</text>
+<!-- Instructor -->
+<rect x="745" y="20" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="20" width="185" height="36" rx="4" class="cls-head-t"/>
+<text x="837" y="43" class="cls-name">Instructor</text>
+<line x1="745" y1="56" x2="930" y2="56" class="cls-div"/>
+<text x="753" y="72" class="cls-attr">- instructorID: String</text>
+<text x="753" y="86" class="cls-attr">- name: String</text>
+<text x="753" y="100" class="cls-attr">- specialization: String</text>
+<text x="753" y="114" class="cls-attr">- contactInfo: String</text>
+<line x1="753" y1="122" x2="930" y2="122" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="138" class="cls-method">+ viewCourseRoster(): List</text>
+<text x="753" y="152" class="cls-method">+ updateGrades(): void</text>
+<text x="753" y="166" class="cls-method">+ viewSchedule(): List</text>
+<text x="753" y="180" class="cls-method">+ accessRecords(): List</text>
+<!-- Bill -->
+<rect x="20" y="290" width="175" height="145" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="290" width="175" height="36" rx="4" class="cls-head-o"/>
+<text x="107" y="313" class="cls-name">Bill</text>
+<line x1="20" y1="326" x2="195" y2="326" class="cls-div"/>
+<text x="28" y="342" class="cls-attr">- billID: String</text>
+<text x="28" y="356" class="cls-attr">- amount: Double</text>
+<text x="28" y="370" class="cls-attr">- paymentStatus: String</text>
+<text x="28" y="384" class="cls-attr">- paymentDate: Date</text>
+<line x1="28" y1="392" x2="195" y2="392" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="28" y="406" class="cls-method">+ generate(): void</text>
+<text x="28" y="420" class="cls-method">+ pay(): void</text>
+<!-- Payment abstract -->
+<rect x="255" y="290" width="175" height="130" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="290" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="342" y="305" class="cls-name" style="font-style:italic">«abstract»</text>
+<text x="342" y="319" class="cls-name">Payment</text>
+<line x1="255" y1="326" x2="430" y2="326" class="cls-div"/>
+<text x="263" y="342" class="cls-attr">- paymentID: String</text>
+<text x="263" y="356" class="cls-attr">- amount: Double</text>
+<text x="263" y="370" class="cls-attr">- paymentDate: Date</text>
+<line x1="263" y1="378" x2="430" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="392" class="cls-method">+ processPayment(): bool</text>
+<text x="263" y="406" class="cls-method">+ getReceipt(): String</text>
+<!-- Visa -->
+<rect x="180" y="500" width="160" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="180" y="500" width="160" height="36" rx="4" class="cls-head-t"/>
+<text x="260" y="523" class="cls-name">VisaPayment</text>
+<line x1="180" y1="536" x2="340" y2="536" class="cls-div"/>
+<text x="188" y="552" class="cls-attr">- cardNumber: String</text>
+<line x1="188" y1="560" x2="340" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="188" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- Physical -->
+<rect x="365" y="500" width="165" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="365" y="500" width="165" height="36" rx="4" class="cls-head-t"/>
+<text x="447" y="523" class="cls-name">PhysicalPayment</text>
+<line x1="365" y1="536" x2="530" y2="536" class="cls-div"/>
+<text x="373" y="552" class="cls-attr">- receiptNumber: String</text>
+<line x1="373" y1="560" x2="530" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="373" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- Admin -->
+<rect x="745" y="290" width="185" height="165" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="290" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="837" y="313" class="cls-name">Administrator</text>
+<line x1="745" y1="326" x2="930" y2="326" class="cls-div"/>
+<text x="753" y="342" class="cls-attr">- adminID: String</text>
+<text x="753" y="356" class="cls-attr">- name: String</text>
+<text x="753" y="370" class="cls-attr">- role: String</text>
+<line x1="753" y1="378" x2="930" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="394" class="cls-method">+ manageCourses(): void</text>
+<text x="753" y="408" class="cls-method">+ assignInstructor(): void</text>
+<text x="753" y="422" class="cls-method">+ generateBill(): Bill</text>
+<text x="753" y="436" class="cls-method">+ generateReport(): Report</text>
+<text x="753" y="450" class="cls-method">+ manageDepartments(): void</text>
+<!-- RELATIONSHIPS -->
+<line x1="195" y1="100" x2="255" y2="80" class="rel-line"/>
+<text x="222" y="86" class="rel-type">has</text>
+<text x="197" y="98" class="multi">1</text><text x="248" y="80" class="multi">*</text>
+<line x1="440" y1="80" x2="500" y2="80" class="rel-line"/>
+<text x="467" y="72" class="rel-type">for</text>
+<text x="442" y="80" class="multi">*</text><text x="492" y="80" class="multi">1</text>
+<line x1="685" y1="80" x2="745" y2="80" class="rel-line"/>
+<text x="712" y="72" class="rel-type">taughtBy</text>
+<text x="687" y="80" class="multi">*</text><text x="737" y="80" class="multi">1</text>
+<line x1="347" y1="205" x2="347" y2="290" class="rel-line"/>
+<text x="355" y="252" class="rel-type">generates</text>
+<line x1="107" y1="215" x2="107" y2="290" class="rel-line"/>
+<text x="113" y="255" class="rel-type">hasDebt</text>
+<line x1="430" y1="360" x2="507" y2="360" class="rel-line" style="stroke-dasharray:none"/>
+<text x="465" y="352" class="rel-type">settledBy</text>
+<defs><marker id="ga3b" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker></defs>
+<line x1="260" y1="500" x2="310" y2="420" class="gen" marker-end="url(#ga3b)"/>
+<line x1="447" y1="500" x2="400" y2="420" class="gen" marker-end="url(#ga3b)"/>
+</svg>
+</div>
+</div><!-- end q3 -->
+
+
+<!-- ═══════════════════════ Q4 HOTEL RESERVATION ═══════════════════════ -->
+<div class="section" id="q4">
+<div class="sec-header">
+  <div class="sec-num n4">4</div>
+  <div class="sec-title">
+    <h2>Hotel Reservation System</h2>
+    <p>Actors: Guest (active), Receptionist (active), Hotel Administrator (active), Online Payment System (passive)</p>
+  </div>
+</div>
+<div class="question-block">
+  <div class="question-label">Question 4</div>
+  <div class="question-title">Hotel Reservation System</div>
+  <p class="question-text">Read the following case study and then draw the suggested Use Case diagram and Class diagram. Please mention any pre-conditions or assumptions that you want to consider.</p>
+  <p class="question-text">A hotel needs an automated system to manage guest records, room reservations, payments, and staff management. Guests should be able to register for an account, log on to the system, search for available rooms, reserve rooms, cancel reservations, view booking history, and pay bills. Each guest is given: guestID, name, address, contactInfo, nationality.</p>
+  <p class="question-text">Each reservation is given reservationID, checkInDate, checkOutDate, roomType, reservationStatus. Guests can cancel a reservation before the check-in date. Guests can pay for their bookings during their stay at the hotel or online through a Visa payment option connected to an online payment system.</p>
+  <p class="question-text">According to Receptionists, they need access to guest bookings and room availability schedules. Each receptionist has employeeID, name, shiftTime, contactInfo. Receptionists log in to access their work dashboard in the system. Receptionists can confirm reservations, check in guests, check out guests, and update room statuses. Each room has roomID, roomNumber, type, pricePerNight, availabilityStatus.</p>
+  <p class="question-text">Furthermore, Hotel Administrators have adminID, name, role onto the system to manage employee records, manage room categories, generate guest bills, and generate reports on hotel occupancy and revenue. Each bill has billID, amount, paymentStatus, paymentDate.</p>
+</div>
+<div class="diagram-tabs">
+  <div class="tab active" onclick="switchTab(this,'uc4')">Use Case Diagram</div>
+  <div class="tab" onclick="switchTab(this,'cd4')">Class Diagram</div>
+</div>
+
+<div class="tab-content active" id="uc4">
+<div class="assumptions"><strong>Assumptions:</strong> Guests register and login before reserving. Cancellation only before check-in date. Payment can be on-site or online via Visa. Receptionist confirms reservations and manages check-in/out. Admin manages room categories and generates bills.</div>
+<svg width="1100" height="560" viewBox="0 0 1100 560">
+<defs>
+  <marker id="ia4" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563eb"/></marker>
+  <marker id="ea4" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="ga4" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker>
+</defs>
+<rect x="155" y="10" width="800" height="540" rx="8" class="sys-rect"/>
+<text x="170" y="28" class="sys-lbl">Hotel Reservation System</text>
+<!-- Guest -->
+<circle cx="58" cy="150" r="13" class="act-h"/><line x1="58" y1="163" x2="58" y2="188" class="act-b"/><line x1="38" y1="173" x2="78" y2="173" class="act-b"/><line x1="58" y1="188" x2="42" y2="208" class="act-b"/><line x1="58" y1="188" x2="74" y2="208" class="act-b"/>
+<text x="58" y="222" class="act-n">Guest</text><text x="58" y="234" class="act-t">(Active)</text>
+<!-- Receptionist -->
+<circle cx="58" cy="380" r="13" class="act-h"/><line x1="58" y1="393" x2="58" y2="418" class="act-b"/><line x1="38" y1="403" x2="78" y2="403" class="act-b"/><line x1="58" y1="418" x2="42" y2="438" class="act-b"/><line x1="58" y1="418" x2="74" y2="438" class="act-b"/>
+<text x="58" y="452" class="act-n">Receptionist</text><text x="58" y="464" class="act-t">(Active)</text>
+<!-- Admin -->
+<circle cx="1045" cy="240" r="13" class="act-h"/><line x1="1045" y1="253" x2="1045" y2="278" class="act-b"/><line x1="1025" y1="263" x2="1065" y2="263" class="act-b"/><line x1="1045" y1="278" x2="1029" y2="298" class="act-b"/><line x1="1045" y1="278" x2="1061" y2="298" class="act-b"/>
+<text x="1045" y="312" class="act-n">Hotel Admin</text>
+<!-- Payment -->
+<rect x="1018" y="420" width="74" height="52" rx="4" class="pas-box"/>
+<text x="1055" y="438" class="pas-l">«actor»</text><text x="1055" y="451" class="pas-l">Online</text><text x="1055" y="464" class="pas-l">Payment</text><text x="1055" y="475" class="act-t">(Passive)</text>
+
+<!-- Guest UCs -->
+<ellipse cx="300" cy="55" rx="80" ry="22" class="uc-b"/><text x="300" y="59" class="lb">Register Account</text>
+<ellipse cx="500" cy="55" rx="65" ry="22" class="uc-b"/><text x="500" y="59" class="lb">Login</text>
+<ellipse cx="300" cy="115" rx="85" ry="22" class="uc-b"/><text x="300" y="119" class="lb">Search Available Rooms</text>
+<ellipse cx="500" cy="115" rx="75" ry="22" class="uc-b"/><text x="500" y="119" class="lb">Reserve Room</text>
+<ellipse cx="300" cy="175" rx="90" ry="22" class="uc-b"/><text x="300" y="179" class="lb">Cancel Reservation</text>
+<ellipse cx="500" cy="175" rx="85" ry="22" class="uc-b"/><text x="500" y="179" class="lb">View Booking History</text>
+<ellipse cx="300" cy="235" rx="75" ry="22" class="uc-b"/><text x="300" y="239" class="lb">Pay Bill</text>
+<!-- Guest assoc -->
+<line x1="71" y1="142" x2="218" y2="58" class="asso"/>
+<line x1="71" y1="146" x2="433" y2="58" class="asso"/>
+<line x1="71" y1="150" x2="213" y2="115" class="asso"/>
+<line x1="71" y1="154" x2="423" y2="115" class="asso"/>
+<line x1="71" y1="158" x2="208" y2="175" class="asso"/>
+<line x1="71" y1="162" x2="413" y2="175" class="asso"/>
+<line x1="71" y1="166" x2="223" y2="235" class="asso"/>
+
+<!-- Pay Bill include Visa -->
+<ellipse cx="700" cy="235" rx="90" ry="22" class="uc-o"/><text x="700" y="231" class="lo sm">Process Visa</text><text x="700" y="243" class="lo sm">Payment Online</text>
+<line x1="375" y1="235" x2="608" y2="235" class="inc" marker-end="url(#ia4)"/>
+<text x="492" y="225" class="li">«include»</text>
+<line x1="790" y1="240" x2="1016" y2="435" class="asso"/>
+
+<!-- Reserve Room include Check Availability -->
+<ellipse cx="750" cy="115" rx="90" ry="22" class="uc-o"/><text x="750" y="111" class="lo sm">Check Room</text><text x="750" y="123" class="lo sm">Availability</text>
+<line x1="575" y1="115" x2="658" y2="115" class="inc" marker-end="url(#ia4)"/>
+<text x="614" y="104" class="li">«include»</text>
+
+<!-- Cancel extend (before check-in) -->
+<rect x="440" y="192" width="175" height="26" rx="3" class="cond"/>
+<text x="527" y="204" class="cl">Condition: {before check-in date}</text>
+<line x1="480" y1="192" x2="393" y2="180" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+
+<!-- Receptionist UCs -->
+<ellipse cx="300" cy="375" rx="90" ry="22" class="uc-t"/><text x="300" y="379" class="lt">Confirm Reservation</text>
+<ellipse cx="510" cy="375" rx="80" ry="22" class="uc-t"/><text x="510" y="379" class="lt">Check In Guest</text>
+<ellipse cx="300" cy="435" rx="80" ry="22" class="uc-t"/><text x="300" y="439" class="lt">Check Out Guest</text>
+<ellipse cx="510" cy="435" rx="85" ry="22" class="uc-t"/><text x="510" y="439" class="lt">Update Room Status</text>
+<ellipse cx="400" cy="505" rx="95" ry="22" class="uc-t"/><text x="400" y="509" class="lt">View Room Availability</text>
+<line x1="71" y1="382" x2="208" y2="377" class="asso"/>
+<line x1="71" y1="386" x2="428" y2="377" class="asso"/>
+<line x1="71" y1="390" x2="218" y2="435" class="asso"/>
+<line x1="71" y1="394" x2="423" y2="435" class="asso"/>
+<line x1="71" y1="398" x2="303" y2="505" class="asso"/>
+
+<!-- Admin UCs -->
+<ellipse cx="780" cy="350" rx="95" ry="22" class="uc-pk"/><text x="780" y="354" class="lpk">Manage Employee Records</text>
+<ellipse cx="780" cy="410" rx="90" ry="22" class="uc-pk"/><text x="780" y="414" class="lpk">Manage Room Categories</text>
+<ellipse cx="780" cy="470" rx="85" ry="22" class="uc-pk"/><text x="780" y="474" class="lpk">Generate Guest Bills</text>
+<ellipse cx="780" cy="530" rx="85" ry="22" class="uc-pk"/><text x="780" y="534" class="lpk">Generate Reports</text>
+<line x1="1032" y1="248" x2="877" y2="352" class="asso"/>
+<line x1="1032" y1="255" x2="872" y2="410" class="asso"/>
+<line x1="1032" y1="262" x2="867" y2="470" class="asso"/>
+<line x1="1032" y1="269" x2="867" y2="530" class="asso"/>
+<line x1="157" y1="310" x2="953" y2="310" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="162" y="330" style="fill:#9ca3af;font-size:11px;font-weight:600">RECEPTIONIST &amp; ADMIN USE CASES</text>
+</svg>
+</div>
+
+<div class="tab-content" id="cd4">
+<svg width="1100" height="700" viewBox="0 0 1100 700">
+<!-- Guest -->
+<rect x="20" y="20" width="175" height="195" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="20" width="175" height="36" rx="4" class="cls-head"/>
+<text x="107" y="43" class="cls-name">Guest</text>
+<line x1="20" y1="56" x2="195" y2="56" class="cls-div"/>
+<text x="28" y="72" class="cls-attr">- guestID: String</text>
+<text x="28" y="86" class="cls-attr">- name: String</text>
+<text x="28" y="100" class="cls-attr">- address: String</text>
+<text x="28" y="114" class="cls-attr">- contactInfo: String</text>
+<text x="28" y="128" class="cls-attr">- nationality: String</text>
+<line x1="20" y1="136" x2="195" y2="136" class="cls-div"/>
+<text x="28" y="150" class="cls-method">+ register(): void</text>
+<text x="28" y="164" class="cls-method">+ login(): boolean</text>
+<text x="28" y="178" class="cls-method">+ searchRooms(): List</text>
+<text x="28" y="192" class="cls-method">+ viewHistory(): List</text>
+<text x="28" y="206" class="cls-method">+ payBill(): void</text>
+<!-- Reservation -->
+<rect x="255" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="20" width="185" height="36" rx="4" class="cls-head-g"/>
+<text x="347" y="43" class="cls-name">Reservation</text>
+<line x1="255" y1="56" x2="440" y2="56" class="cls-div"/>
+<text x="263" y="72" class="cls-attr">- reservationID: String</text>
+<text x="263" y="86" class="cls-attr">- checkInDate: Date</text>
+<text x="263" y="100" class="cls-attr">- checkOutDate: Date</text>
+<text x="263" y="114" class="cls-attr">- roomType: String</text>
+<text x="263" y="128" class="cls-attr">- reservationStatus: String</text>
+<line x1="263" y1="136" x2="440" y2="136" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="152" class="cls-method">+ create(): void</text>
+<text x="263" y="166" class="cls-method">+ cancel(): void</text>
+<text x="263" y="180" class="cls-method">+ confirm(): void</text>
+<text x="263" y="194" class="cls-method">+ generateBill(): Bill</text>
+<!-- Room -->
+<rect x="500" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="500" y="20" width="185" height="36" rx="4" class="cls-head-p"/>
+<text x="592" y="43" class="cls-name">Room</text>
+<line x1="500" y1="56" x2="685" y2="56" class="cls-div"/>
+<text x="508" y="72" class="cls-attr">- roomID: String</text>
+<text x="508" y="86" class="cls-attr">- roomNumber: String</text>
+<text x="508" y="100" class="cls-attr">- type: String</text>
+<text x="508" y="114" class="cls-attr">- pricePerNight: Double</text>
+<text x="508" y="128" class="cls-attr">- availabilityStatus: bool</text>
+<line x1="508" y1="136" x2="685" y2="136" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="508" y="152" class="cls-method">+ checkAvailability(): bool</text>
+<text x="508" y="166" class="cls-method">+ updateStatus(): void</text>
+<text x="508" y="180" class="cls-method">+ calculateCost(): Double</text>
+<text x="508" y="194" class="cls-method">+ reserve(): void</text>
+<!-- Receptionist -->
+<rect x="745" y="20" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="20" width="185" height="36" rx="4" class="cls-head-t"/>
+<text x="837" y="43" class="cls-name">Receptionist</text>
+<line x1="745" y1="56" x2="930" y2="56" class="cls-div"/>
+<text x="753" y="72" class="cls-attr">- employeeID: String</text>
+<text x="753" y="86" class="cls-attr">- name: String</text>
+<text x="753" y="100" class="cls-attr">- shiftTime: String</text>
+<text x="753" y="114" class="cls-attr">- contactInfo: String</text>
+<line x1="753" y1="122" x2="930" y2="122" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="138" class="cls-method">+ confirmReservation(): void</text>
+<text x="753" y="152" class="cls-method">+ checkInGuest(): void</text>
+<text x="753" y="166" class="cls-method">+ checkOutGuest(): void</text>
+<text x="753" y="180" class="cls-method">+ updateRoomStatus(): void</text>
+<!-- Bill -->
+<rect x="20" y="290" width="175" height="145" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="290" width="175" height="36" rx="4" class="cls-head-o"/>
+<text x="107" y="313" class="cls-name">Bill</text>
+<line x1="20" y1="326" x2="195" y2="326" class="cls-div"/>
+<text x="28" y="342" class="cls-attr">- billID: String</text>
+<text x="28" y="356" class="cls-attr">- amount: Double</text>
+<text x="28" y="370" class="cls-attr">- paymentStatus: String</text>
+<text x="28" y="384" class="cls-attr">- paymentDate: Date</text>
+<line x1="28" y1="392" x2="195" y2="392" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="28" y="406" class="cls-method">+ generate(): void</text>
+<text x="28" y="420" class="cls-method">+ pay(): void</text>
+<!-- Payment abstract -->
+<rect x="255" y="290" width="175" height="130" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="290" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="342" y="305" class="cls-name" style="font-style:italic">«abstract»</text>
+<text x="342" y="319" class="cls-name">Payment</text>
+<line x1="255" y1="326" x2="430" y2="326" class="cls-div"/>
+<text x="263" y="342" class="cls-attr">- paymentID: String</text>
+<text x="263" y="356" class="cls-attr">- amount: Double</text>
+<text x="263" y="370" class="cls-attr">- paymentDate: Date</text>
+<line x1="263" y1="378" x2="430" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="394" class="cls-method">+ processPayment(): bool</text>
+<text x="263" y="408" class="cls-method">+ getReceipt(): String</text>
+<!-- VisaPayment -->
+<rect x="180" y="500" width="160" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="180" y="500" width="160" height="36" rx="4" class="cls-head-t"/>
+<text x="260" y="523" class="cls-name">VisaPayment</text>
+<line x1="180" y1="536" x2="340" y2="536" class="cls-div"/>
+<text x="188" y="552" class="cls-attr">- cardNumber: String</text>
+<line x1="188" y1="560" x2="340" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="188" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- OnSitePayment -->
+<rect x="365" y="500" width="160" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="365" y="500" width="160" height="36" rx="4" class="cls-head-t"/>
+<text x="445" y="523" class="cls-name">OnSitePayment</text>
+<line x1="365" y1="536" x2="525" y2="536" class="cls-div"/>
+<text x="373" y="552" class="cls-attr">- receiptNumber: String</text>
+<line x1="373" y1="560" x2="525" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="373" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- Admin -->
+<rect x="745" y="290" width="185" height="165" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="290" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="837" y="313" class="cls-name">HotelAdministrator</text>
+<line x1="745" y1="326" x2="930" y2="326" class="cls-div"/>
+<text x="753" y="342" class="cls-attr">- adminID: String</text>
+<text x="753" y="356" class="cls-attr">- name: String</text>
+<text x="753" y="370" class="cls-attr">- role: String</text>
+<line x1="753" y1="378" x2="930" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="394" class="cls-method">+ manageEmployees(): void</text>
+<text x="753" y="408" class="cls-method">+ manageRoomCats(): void</text>
+<text x="753" y="422" class="cls-method">+ generateBill(): Bill</text>
+<text x="753" y="436" class="cls-method">+ generateReport(): Report</text>
+<text x="753" y="450" class="cls-method">+ viewOccupancy(): Report</text>
+<!-- RELATIONSHIPS -->
+<line x1="195" y1="100" x2="255" y2="80" class="rel-line"/>
+<text x="222" y="86" class="rel-type">makes</text>
+<text x="197" y="98" class="multi">1</text><text x="248" y="80" class="multi">*</text>
+<line x1="440" y1="80" x2="500" y2="80" class="rel-line"/>
+<text x="467" y="72" class="rel-type">for</text>
+<text x="442" y="80" class="multi">*</text><text x="492" y="80" class="multi">1</text>
+<line x1="347" y1="205" x2="347" y2="290" class="rel-line"/>
+<text x="355" y="252" class="rel-type">generates</text>
+<line x1="107" y1="215" x2="107" y2="290" class="rel-line"/>
+<text x="113" y="255" class="rel-type">owes</text>
+<line x1="430" y1="360" x2="507" y2="360" class="rel-line"/>
+<text x="465" y="352" class="rel-type">settledBy</text>
+<defs><marker id="ga4b" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker></defs>
+<line x1="260" y1="500" x2="310" y2="420" class="gen" marker-end="url(#ga4b)"/>
+<line x1="445" y1="500" x2="400" y2="420" class="gen" marker-end="url(#ga4b)"/>
+<line x1="837" y1="280" x2="592" y2="205" class="rel-line"/>
+<text x="718" y="238" class="rel-type">manages</text>
+</svg>
+</div>
+</div><!-- end q4 -->
+
+
+<!-- ═══════════════════════ Q5 CLINIC APPOINTMENT ═══════════════════════ -->
+<div class="section" id="q5">
+<div class="sec-header">
+  <div class="sec-num n5">5</div>
+  <div class="sec-title">
+    <h2>Clinic Appointment System</h2>
+    <p>Actors: Patient (active), Doctor (active), Reception Administrator (active), Online Payment System (passive)</p>
+  </div>
+</div>
+<div class="question-block">
+  <div class="question-label">Question 5</div>
+  <div class="question-title">Clinic Appointment System</div>
+  <p class="question-text">Read the following case study and then draw the suggested Use Case diagram and Class diagram. Please mention any pre-conditions or assumptions that you want to consider.</p>
+  <p class="question-text">A medical clinic needs an automated system to manage patient records, doctor appointments, prescriptions, and billing. Patients should be able to register for an account, log on to the system, schedule appointments with doctors, cancel appointments, view medical history, and pay consultation bills. Each patient is given: patientID, name, age, address, contactInfo.</p>
+  <p class="question-text">Each appointment is given appointmentID, date, time, status. Scheduled appointments can be cancelled before the appointment time. Patients can pay their consultation bills during their visit to the clinic or online through a Visa payment option using an online payment system.</p>
+  <p class="question-text">According to Doctors, they need access to patient medical records and daily appointment schedules. Each doctor has doctorID, name, specialization, contactInfo. Doctors log in to access their dashboard in the system. Doctors can view appointments, access patient records, write prescriptions, and update consultation notes. Each medical record has recordID, diagnosis, prescription, visitDate.</p>
+  <p class="question-text">Furthermore, Reception Administrators have adminID, name, role onto the system to manage doctor schedules, generate patient bills, manage clinic staff, and generate reports on clinic operations. Each bill has billID, amount, paymentStatus, paymentDate.</p>
+</div>
+<div class="diagram-tabs">
+  <div class="tab active" onclick="switchTab(this,'uc5')">Use Case Diagram</div>
+  <div class="tab" onclick="switchTab(this,'cd5')">Class Diagram</div>
+</div>
+
+<div class="tab-content active" id="uc5">
+<div class="assumptions"><strong>Assumptions:</strong> Patients must register and login before scheduling. Appointment cancellation only possible before appointment time. Payment can be during clinic visit or online via Visa. Doctors access patient records to write prescriptions. Admin manages doctor schedules and generates bills.</div>
+<svg width="1100" height="560" viewBox="0 0 1100 560">
+<defs>
+  <marker id="ia5" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#2563eb"/></marker>
+  <marker id="ea5" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#15803d"/></marker>
+  <marker id="ga5" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker>
+</defs>
+<rect x="155" y="10" width="800" height="540" rx="8" class="sys-rect"/>
+<text x="170" y="28" class="sys-lbl">Clinic Appointment System</text>
+<!-- Patient -->
+<circle cx="58" cy="150" r="13" class="act-h"/><line x1="58" y1="163" x2="58" y2="188" class="act-b"/><line x1="38" y1="173" x2="78" y2="173" class="act-b"/><line x1="58" y1="188" x2="42" y2="208" class="act-b"/><line x1="58" y1="188" x2="74" y2="208" class="act-b"/>
+<text x="58" y="222" class="act-n">Patient</text><text x="58" y="234" class="act-t">(Active)</text>
+<!-- Doctor -->
+<circle cx="58" cy="375" r="13" class="act-h"/><line x1="58" y1="388" x2="58" y2="413" class="act-b"/><line x1="38" y1="398" x2="78" y2="398" class="act-b"/><line x1="58" y1="413" x2="42" y2="433" class="act-b"/><line x1="58" y1="413" x2="74" y2="433" class="act-b"/>
+<text x="58" y="447" class="act-n">Doctor</text><text x="58" y="459" class="act-t">(Active)</text>
+<!-- Admin -->
+<circle cx="1045" cy="240" r="13" class="act-h"/><line x1="1045" y1="253" x2="1045" y2="278" class="act-b"/><line x1="1025" y1="263" x2="1065" y2="263" class="act-b"/><line x1="1045" y1="278" x2="1029" y2="298" class="act-b"/><line x1="1045" y1="278" x2="1061" y2="298" class="act-b"/>
+<text x="1045" y="312" class="act-n">Reception</text><text x="1045" y="324" class="act-n">Admin</text>
+<!-- Payment -->
+<rect x="1018" y="420" width="74" height="52" rx="4" class="pas-box"/>
+<text x="1055" y="438" class="pas-l">«actor»</text><text x="1055" y="451" class="pas-l">Online</text><text x="1055" y="464" class="pas-l">Payment</text><text x="1055" y="475" class="act-t">(Passive)</text>
+
+<!-- Patient UCs -->
+<ellipse cx="300" cy="55" rx="80" ry="22" class="uc-b"/><text x="300" y="59" class="lb">Register Account</text>
+<ellipse cx="500" cy="55" rx="65" ry="22" class="uc-b"/><text x="500" y="59" class="lb">Login</text>
+<ellipse cx="300" cy="115" rx="100" ry="22" class="uc-b"/><text x="300" y="119" class="lb">Schedule Appointment</text>
+<ellipse cx="500" cy="115" rx="100" ry="22" class="uc-b"/><text x="500" y="119" class="lb">Cancel Appointment</text>
+<ellipse cx="300" cy="175" rx="90" ry="22" class="uc-b"/><text x="300" y="179" class="lb">View Medical History</text>
+<ellipse cx="500" cy="175" rx="90" ry="22" class="uc-b"/><text x="500" y="179" class="lb">Pay Consultation Bill</text>
+<!-- Patient assoc -->
+<line x1="71" y1="142" x2="218" y2="58" class="asso"/>
+<line x1="71" y1="146" x2="433" y2="58" class="asso"/>
+<line x1="71" y1="150" x2="198" y2="115" class="asso"/>
+<line x1="71" y1="154" x2="398" y2="115" class="asso"/>
+<line x1="71" y1="158" x2="208" y2="175" class="asso"/>
+<line x1="71" y1="162" x2="408" y2="175" class="asso"/>
+
+<!-- Pay include Visa -->
+<ellipse cx="780" cy="175" rx="90" ry="22" class="uc-o"/><text x="780" y="171" class="lo sm">Process Visa</text><text x="780" y="183" class="lo sm">Payment Online</text>
+<line x1="590" y1="178" x2="688" y2="178" class="inc" marker-end="url(#ia5)"/>
+<text x="638" y="167" class="li">«include»</text>
+<line x1="870" y1="182" x2="1016" y2="435" class="asso"/>
+
+<!-- Schedule Appointment include Check Doctor Availability -->
+<ellipse cx="780" cy="115" rx="100" ry="22" class="uc-o"/><text x="780" y="111" class="lo sm">Check Doctor</text><text x="780" y="123" class="lo sm">Availability</text>
+<line x1="400" y1="115" x2="678" y2="115" class="inc" marker-end="url(#ia5)"/>
+<text x="538" y="104" class="li">«include»</text>
+
+<!-- Cancel extend: before appointment time -->
+<rect x="480" y="135" width="185" height="26" rx="3" class="cond"/>
+<text x="572" y="147" class="cl">Condition: {before appointment time}</text>
+<line x1="572" y1="135" x2="540" y2="122" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+
+<!-- Doctor UCs -->
+<ellipse cx="300" cy="375" rx="80" ry="22" class="uc-t"/><text x="300" y="379" class="lt">View Appointments</text>
+<ellipse cx="510" cy="375" rx="90" ry="22" class="uc-t"/><text x="510" y="379" class="lt">Access Patient Records</text>
+<ellipse cx="300" cy="435" rx="85" ry="22" class="uc-t"/><text x="300" y="439" class="lt">Write Prescriptions</text>
+<ellipse cx="510" cy="435" rx="95" ry="22" class="uc-t"/><text x="510" y="439" class="lt">Update Consultation Notes</text>
+<ellipse cx="400" cy="510" rx="95" ry="22" class="uc-t"/><text x="400" y="514" class="lt">Access Work Dashboard</text>
+<line x1="71" y1="377" x2="218" y2="377" class="asso"/>
+<line x1="71" y1="381" x2="418" y2="377" class="asso"/>
+<line x1="71" y1="385" x2="213" y2="435" class="asso"/>
+<line x1="71" y1="389" x2="413" y2="435" class="asso"/>
+<line x1="71" y1="393" x2="303" y2="510" class="asso"/>
+
+<!-- Admin UCs -->
+<ellipse cx="780" cy="340" rx="90" ry="22" class="uc-pk"/><text x="780" y="344" class="lpk">Manage Doctor Schedules</text>
+<ellipse cx="780" cy="400" rx="85" ry="22" class="uc-pk"/><text x="780" y="404" class="lpk">Generate Patient Bills</text>
+<ellipse cx="780" cy="460" rx="85" ry="22" class="uc-pk"/><text x="780" y="464" class="lpk">Manage Clinic Staff</text>
+<ellipse cx="780" cy="520" rx="90" ry="22" class="uc-pk"/><text x="780" y="524" class="lpk">Generate Clinic Reports</text>
+<line x1="1032" y1="248" x2="872" y2="342" class="asso"/>
+<line x1="1032" y1="255" x2="867" y2="400" class="asso"/>
+<line x1="1032" y1="262" x2="867" y2="460" class="asso"/>
+<line x1="1032" y1="269" x2="872" y2="520" class="asso"/>
+<line x1="157" y1="310" x2="953" y2="310" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="162" y="330" style="fill:#9ca3af;font-size:11px;font-weight:600">DOCTOR &amp; ADMIN USE CASES</text>
+
+<!-- Write Prescription include Create MedicalRecord -->
+<ellipse cx="680" cy="255" rx="95" ry="22" class="uc-o"/><text x="680" y="251" class="lo sm">Create / Update</text><text x="680" y="263" class="lo sm">Medical Record</text>
+<line x1="385" y1="435" x2="583" y2="262" class="inc" marker-end="url(#ia5)"/>
+<text x="460" y="350" class="li">«include»</text>
+</svg>
+</div>
+
+<div class="tab-content" id="cd5">
+<svg width="1100" height="720" viewBox="0 0 1100 720">
+<!-- Patient -->
+<rect x="20" y="20" width="175" height="195" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="20" width="175" height="36" rx="4" class="cls-head"/>
+<text x="107" y="43" class="cls-name">Patient</text>
+<line x1="20" y1="56" x2="195" y2="56" class="cls-div"/>
+<text x="28" y="72" class="cls-attr">- patientID: String</text>
+<text x="28" y="86" class="cls-attr">- name: String</text>
+<text x="28" y="100" class="cls-attr">- age: int</text>
+<text x="28" y="114" class="cls-attr">- address: String</text>
+<text x="28" y="128" class="cls-attr">- contactInfo: String</text>
+<line x1="20" y1="136" x2="195" y2="136" class="cls-div"/>
+<text x="28" y="150" class="cls-method">+ register(): void</text>
+<text x="28" y="164" class="cls-method">+ login(): boolean</text>
+<text x="28" y="178" class="cls-method">+ bookAppointment(): void</text>
+<text x="28" y="192" class="cls-method">+ cancelAppointment(): void</text>
+<text x="28" y="206" class="cls-method">+ viewHistory(): List</text>
+<!-- Appointment -->
+<rect x="255" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="20" width="185" height="36" rx="4" class="cls-head-g"/>
+<text x="347" y="43" class="cls-name">Appointment</text>
+<line x1="255" y1="56" x2="440" y2="56" class="cls-div"/>
+<text x="263" y="72" class="cls-attr">- appointmentID: String</text>
+<text x="263" y="86" class="cls-attr">- date: Date</text>
+<text x="263" y="100" class="cls-attr">- time: Time</text>
+<text x="263" y="114" class="cls-attr">- status: String</text>
+<line x1="263" y1="122" x2="440" y2="122" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="138" class="cls-method">+ schedule(): void</text>
+<text x="263" y="152" class="cls-method">+ cancel(): void</text>
+<text x="263" y="166" class="cls-method">+ confirm(): void</text>
+<text x="263" y="180" class="cls-method">+ generateBill(): Bill</text>
+<text x="263" y="194" class="cls-method">+ checkAvailability(): bool</text>
+<!-- Doctor -->
+<rect x="500" y="20" width="185" height="185" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="500" y="20" width="185" height="36" rx="4" class="cls-head-t"/>
+<text x="592" y="43" class="cls-name">Doctor</text>
+<line x1="500" y1="56" x2="685" y2="56" class="cls-div"/>
+<text x="508" y="72" class="cls-attr">- doctorID: String</text>
+<text x="508" y="86" class="cls-attr">- name: String</text>
+<text x="508" y="100" class="cls-attr">- specialization: String</text>
+<text x="508" y="114" class="cls-attr">- contactInfo: String</text>
+<line x1="508" y1="122" x2="685" y2="122" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="508" y="138" class="cls-method">+ viewAppointments(): List</text>
+<text x="508" y="152" class="cls-method">+ accessPatientRecord(): void</text>
+<text x="508" y="166" class="cls-method">+ writePrescription(): void</text>
+<text x="508" y="180" class="cls-method">+ updateNotes(): void</text>
+<text x="508" y="194" class="cls-method">+ viewSchedule(): List</text>
+<!-- MedicalRecord -->
+<rect x="745" y="20" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="20" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="837" y="43" class="cls-name">MedicalRecord</text>
+<line x1="745" y1="56" x2="930" y2="56" class="cls-div"/>
+<text x="753" y="72" class="cls-attr">- recordID: String</text>
+<text x="753" y="86" class="cls-attr">- diagnosis: String</text>
+<text x="753" y="100" class="cls-attr">- prescription: String</text>
+<text x="753" y="114" class="cls-attr">- visitDate: Date</text>
+<text x="753" y="128" class="cls-attr">- notes: String</text>
+<line x1="753" y1="136" x2="930" y2="136" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="152" class="cls-method">+ create(): void</text>
+<text x="753" y="166" class="cls-method">+ update(): void</text>
+<text x="753" y="180" class="cls-method">+ getHistory(): List</text>
+<!-- Bill -->
+<rect x="20" y="290" width="175" height="145" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="20" y="290" width="175" height="36" rx="4" class="cls-head-o"/>
+<text x="107" y="313" class="cls-name">Bill</text>
+<line x1="20" y1="326" x2="195" y2="326" class="cls-div"/>
+<text x="28" y="342" class="cls-attr">- billID: String</text>
+<text x="28" y="356" class="cls-attr">- amount: Double</text>
+<text x="28" y="370" class="cls-attr">- paymentStatus: String</text>
+<text x="28" y="384" class="cls-attr">- paymentDate: Date</text>
+<line x1="28" y1="392" x2="195" y2="392" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="28" y="406" class="cls-method">+ generate(): void</text>
+<text x="28" y="420" class="cls-method">+ pay(): void</text>
+<!-- Payment abstract -->
+<rect x="255" y="290" width="175" height="130" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="255" y="290" width="175" height="36" rx="4" class="cls-head-p"/>
+<text x="342" y="305" class="cls-name" style="font-style:italic">«abstract»</text>
+<text x="342" y="319" class="cls-name">Payment</text>
+<line x1="255" y1="326" x2="430" y2="326" class="cls-div"/>
+<text x="263" y="342" class="cls-attr">- paymentID: String</text>
+<text x="263" y="356" class="cls-attr">- amount: Double</text>
+<text x="263" y="370" class="cls-attr">- paymentDate: Date</text>
+<line x1="263" y1="378" x2="430" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="263" y="394" class="cls-method">+ processPayment(): bool</text>
+<text x="263" y="408" class="cls-method">+ getReceipt(): String</text>
+<!-- VisaPayment -->
+<rect x="180" y="500" width="160" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="180" y="500" width="160" height="36" rx="4" class="cls-head-t"/>
+<text x="260" y="523" class="cls-name">VisaPayment</text>
+<line x1="180" y1="536" x2="340" y2="536" class="cls-div"/>
+<text x="188" y="552" class="cls-attr">- cardNumber: String</text>
+<line x1="188" y1="560" x2="340" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="188" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- ClinicVisitPayment -->
+<rect x="365" y="500" width="175" height="90" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="365" y="500" width="175" height="36" rx="4" class="cls-head-t"/>
+<text x="452" y="523" class="cls-name">ClinicVisitPayment</text>
+<line x1="365" y1="536" x2="540" y2="536" class="cls-div"/>
+<text x="373" y="552" class="cls-attr">- cashierID: String</text>
+<line x1="373" y1="560" x2="540" y2="560" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="373" y="576" class="cls-method">+ processPayment(): bool</text>
+<!-- Admin -->
+<rect x="745" y="290" width="185" height="175" rx="4" class="cls-box" stroke="#374151"/>
+<rect x="745" y="290" width="185" height="36" rx="4" class="cls-head-pk"/>
+<text x="837" y="313" class="cls-name">ReceptionAdmin</text>
+<line x1="745" y1="326" x2="930" y2="326" class="cls-div"/>
+<text x="753" y="342" class="cls-attr">- adminID: String</text>
+<text x="753" y="356" class="cls-attr">- name: String</text>
+<text x="753" y="370" class="cls-attr">- role: String</text>
+<line x1="753" y1="378" x2="930" y2="378" class="cls-div" style="stroke:#e5e7eb"/>
+<text x="753" y="394" class="cls-method">+ manageDoctorSchedules(): void</text>
+<text x="753" y="408" class="cls-method">+ generatePatientBill(): Bill</text>
+<text x="753" y="422" class="cls-method">+ manageStaff(): void</text>
+<text x="753" y="436" class="cls-method">+ generateReport(): Report</text>
+<text x="753" y="450" class="cls-method">+ manageAppointments(): void</text>
+<!-- RELATIONSHIPS -->
+<line x1="195" y1="100" x2="255" y2="80" class="rel-line"/>
+<text x="222" y="86" class="rel-type">schedules</text>
+<text x="197" y="98" class="multi">1</text><text x="248" y="80" class="multi">*</text>
+<line x1="440" y1="80" x2="500" y2="80" class="rel-line"/>
+<text x="467" y="72" class="rel-type">with</text>
+<text x="442" y="80" class="multi">*</text><text x="492" y="80" class="multi">1</text>
+<line x1="685" y1="80" x2="745" y2="80" class="rel-line"/>
+<text x="712" y="72" class="rel-type">creates</text>
+<text x="687" y="80" class="multi">*</text><text x="737" y="80" class="multi">*</text>
+<line x1="347" y1="205" x2="347" y2="290" class="rel-line"/>
+<text x="355" y="252" class="rel-type">generates</text>
+<line x1="107" y1="215" x2="107" y2="290" class="rel-line"/>
+<text x="113" y="255" class="rel-type">hasDebt</text>
+<line x1="195" y1="110" x2="745" y2="100" class="rel-line"/>
+<text x="467" y="98" class="rel-type">hasRecord</text>
+<line x1="430" y1="360" x2="507" y2="360" class="rel-line"/>
+<text x="465" y="352" class="rel-type">settledBy</text>
+<defs><marker id="ga5b" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="white" stroke="#7c3aed" stroke-width="1.2"/></marker></defs>
+<line x1="260" y1="500" x2="310" y2="420" class="gen" marker-end="url(#ga5b)"/>
+<line x1="452" y1="500" x2="400" y2="420" class="gen" marker-end="url(#ga5b)"/>
+</svg>
+</div>
+</div><!-- end q5 -->
+
+<div class="summary-wrap">
+  <h3 class="summary-title">Summary — All 5 Systems</h3>
+  <div class="summary-grid">
+    <div style="background:#1d4ed822;border:1px solid #3b82f6;border-radius:8px;padding:10px"><div style="color:#93c5fd;font-weight:700;margin-bottom:4px">Q1 Library</div><div style="color:#dbeafe;line-height:1.6">Actors: Member, Librarian, Admin, PayGateway<br>Include: Search→Filter, Borrow→CheckAvail<br>Extend: Return→GenerateFine<br>Gen: Payment→Online/Physical</div></div>
+    <div style="background:#15803d22;border:1px solid #22c55e;border-radius:8px;padding:10px"><div style="color:#86efac;font-weight:700;margin-bottom:4px">Q2 Shopping</div><div style="color:#dcfce7;line-height:1.6">Actors: Customer, Seller, Admin, Visa<br>Include: PlaceOrder→GenerateBill, Pay→Visa<br>Extend: CancelOrder (before shipping)<br>Gen: Payment→Visa/COD</div></div>
+    <div style="background:#6d28d922;border:1px solid #8b5cf6;border-radius:8px;padding:10px"><div style="color:#c4b5fd;font-weight:700;margin-bottom:4px">Q3 Registration</div><div style="color:#ede9fe;line-height:1.6">Actors: Student, Instructor, Admin, Payment<br>Include: Enroll→CheckPrerequisites, Pay→Visa<br>Extend: Cancel (add/drop period)<br>Gen: Payment→Visa/Physical</div></div>
+    <div style="background:#c2410c22;border:1px solid #f97316;border-radius:8px;padding:10px"><div style="color:#fed7aa;font-weight:700;margin-bottom:4px">Q4 Hotel</div><div style="color:#ffedd5;line-height:1.6">Actors: Guest, Receptionist, Admin, Payment<br>Include: Reserve→CheckAvail, Pay→Visa<br>Extend: Cancel (before check-in)<br>Gen: Payment→Visa/OnSite</div></div>
+    <div style="background:#9d174d22;border:1px solid #ec4899;border-radius:8px;padding:10px"><div style="color:#fbcfe8;font-weight:700;margin-bottom:4px">Q5 Clinic</div><div style="color:#fce7f3;line-height:1.6">Actors: Patient, Doctor, Admin, Payment<br>Include: Schedule→CheckAvail, Prescribe→CreateRecord<br>Extend: Cancel (before appt)<br>Gen: Payment→Visa/ClinicVisit</div></div>
+  </div>
+</div>
+
+<script>
+function switchTab(tabEl, contentId) {
+  const section = tabEl.closest('.section');
+  section.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+</script>
+</body>
+</html>
